@@ -1,0 +1,2481 @@
+<div id="language.expressions" class="chapter"><hr />
+    <h1>Expressions</h1>
+ 
+    <p class="simpara">
+     Expressions are the most important building blocks of PHP.  In PHP,
+     almost anything you write is an expression.  The simplest yet
+     most accurate way to define an expression is &quot;anything that has a
+     value&quot;.
+    </p>
+    <p class="simpara">
+     The most basic forms of expressions are constants and variables.
+     When you type &quot;<var class="varname">$a</var> = 5&quot;, you&#039;re assigning &#039;5&#039; into
+     <var class="varname">$a</var>.  &#039;5&#039;, obviously,
+     has the value 5, or in other words &#039;5&#039; is an expression with the
+     value of 5 (in this case, &#039;5&#039; is an integer constant).
+    </p>
+    <p class="simpara">
+     After this assignment, you&#039;d expect <var class="varname">$a</var>&#039;s value to be 5 as
+     well, so if you wrote <var class="varname">$b</var> = <var class="varname">$a</var>, you&#039;d expect it to behave just as
+     if you wrote <var class="varname">$b</var> = 5.  In other words, <var class="varname">$a</var> is an expression with the
+     value of 5 as well.  If everything works right, this is exactly
+     what will happen.
+    </p>
+    <p class="para">
+     Slightly more complex examples for expressions are functions.  For
+     instance, consider the following function:
+     <div class="informalexample">
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">foo&nbsp;</span><span style="color: #007700">()<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+    <p class="simpara">
+     Assuming you&#039;re familiar with the concept of functions (if you&#039;re
+     not, take a look at the chapter about <a href="#language.functions" class="link">functions</a>), you&#039;d assume
+     that typing <code class="literal">$c = foo()</code> is essentially just like
+     writing <code class="literal">$c = 5</code>, and you&#039;re right.  Functions
+     are expressions with the value of their return value.  Since <code class="literal">foo()</code>
+     returns 5, the value of the expression &#039;<code class="literal">foo()</code>&#039; is 5.  Usually
+     functions don&#039;t just return a static value but compute something.
+    </p>
+    <p class="simpara">
+     Of course, values in PHP don&#039;t have to be integers, and very often
+     they aren&#039;t.  PHP supports four scalar value types: <span class="type"><a href="#language.types.integer" class="type integer">integer</a></span>
+     values, floating point values (<span class="type"><a href="#language.types.float" class="type float">float</a></span>), <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+     values and <span class="type"><a href="#language.types.boolean" class="type boolean">boolean</a></span> values (scalar values are values that you
+     can&#039;t &#039;break&#039; into smaller pieces, unlike arrays, for instance). PHP also 
+     supports two composite (non-scalar) types: arrays and objects. Each of
+     these value types can be assigned into variables or returned from functions.
+    </p>
+    <p class="simpara">
+     PHP takes expressions much further, in the same way many other languages
+     do.  PHP is an expression-oriented language, in the
+     sense that almost everything is an expression.  Consider the
+     example we&#039;ve already dealt with, &#039;<var class="varname">$a</var> = 5&#039;.  It&#039;s easy to see that
+     there are two values involved here, the value of the integer
+     constant &#039;5&#039;, and the value of <var class="varname">$a</var> which is being updated to 5 as
+     well.  But the truth is that there&#039;s one additional value involved
+     here, and that&#039;s the value of the assignment itself.  The
+     assignment itself evaluates to the assigned value, in this case 5.
+     In practice, it means that &#039;<var class="varname">$a</var> = 5&#039;, regardless of what it does,
+     is an expression with the value 5.  Thus, writing something like
+     &#039;<var class="varname">$b</var> = (<var class="varname">$a</var> = 5)&#039; is like writing
+     &#039;<var class="varname">$a</var> = 5; <var class="varname">$b</var> = 5;&#039; (a semicolon
+     marks the end of a statement).  Since assignments are parsed in a
+     right to left order, you can also write &#039;<var class="varname">$b</var> = <var class="varname">$a</var> = 5&#039;.
+    </p>
+    <p class="simpara">
+     Another good example of expression orientation is pre- and
+     post-increment and decrement.  Users of PHP and many other
+     languages may be familiar with the notation of <code class="literal">variable++</code> and
+     <code class="literal">variable--</code>.  These are <a href="#language.operators.increment" class="link">
+     increment and decrement operators</a>.  In PHP, like in C, there
+     are two types of increment - pre-increment and post-increment.
+     Both pre-increment and post-increment essentially increment the
+     variable, and the effect on the variable is identical.  The
+     difference is with the value of the increment expression.
+     Pre-increment, which is written &#039;++<var class="varname">$variable</var>&#039;, evaluates to the
+     incremented value (PHP increments the variable before reading its
+     value, thus the name &#039;pre-increment&#039;).  Post-increment, which is
+     written &#039;<var class="varname">$variable</var>++&#039; evaluates to the original value of
+     $variable, before it was incremented (PHP increments the variable
+     after reading its value, thus the name &#039;post-increment&#039;).
+    </p>
+    <p class="simpara">
+     A very common type of expressions are <a href="#language.operators.comparison" class="link">comparison</a>
+     expressions. These expressions evaluate to either  <strong><code>FALSE</code></strong> or <strong><code>TRUE</code></strong>. PHP
+     supports &gt; (bigger than), &gt;= (bigger than or equal to), == (equal),
+     != (not equal), &lt; (smaller than) and &lt;= (smaller than or equal to).
+     The language also supports a set of strict equivalence operators: ===
+     (equal to and same type) and !== (not equal to or not same type).
+     These expressions are most commonly used inside conditional execution,
+     such as <code class="literal">if</code> statements.
+    </p>
+    <p class="simpara">
+     The last example of expressions we&#039;ll deal with here is combined
+     operator-assignment expressions.  You already know that if you
+     want to increment <var class="varname">$a</var> by 1, you can simply write
+     &#039;<var class="varname">$a</var>++&#039; or &#039;++<var class="varname">$a</var>&#039;.
+     But what if you want to add more than one to it, for instance 3?
+     You could write &#039;<var class="varname">$a</var>++&#039; multiple times, but this
+     is obviously not a very efficient or comfortable way.  A much more
+     common practice is to write &#039;<var class="varname">$a</var> =
+     <var class="varname">$a</var> + 3&#039;.  &#039;<var class="varname">$a</var> + 3&#039; evaluates
+     to the value of <var class="varname">$a</var> plus 3, and is assigned back
+     into <var class="varname">$a</var>, which results in incrementing <var class="varname">$a</var>
+     by 3.  In PHP, as in several other languages like C, you can write this
+     in a shorter way, which with time would become clearer and quicker to
+     understand as well. Adding 3 to the current value of <var class="varname">$a</var>
+     can be written &#039;<var class="varname">$a</var> += 3&#039;.  This means exactly
+     &quot;take the value of <var class="varname">$a</var>, add 3 to it, and assign it
+     back into <var class="varname">$a</var>&quot;. In addition to being shorter and
+     clearer, this also results in faster execution.  The value of
+     &#039;<var class="varname">$a</var> += 3&#039;, like the value of a regular assignment, is
+     the assigned value. Notice that it is NOT 3, but the combined value
+     of <var class="varname">$a</var> plus 3 (this is the value that&#039;s
+     assigned into <var class="varname">$a</var>).  Any two-place operator can be used
+     in this operator-assignment mode, for example &#039;<var class="varname">$a</var> -= 5&#039;
+     (subtract 5 from the value of <var class="varname">$a</var>), &#039;<var class="varname">$b</var> *= 7&#039;
+     (multiply the value of <var class="varname">$b</var> by 7), etc.
+    </p>
+    <p class="para">
+     There is one more expression that may seem odd if you haven&#039;t seen
+     it in other languages, the ternary conditional operator:
+    </p>
+    <p class="para">
+     <div class="informalexample">
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br />$first&nbsp;</span><span style="color: #007700">?&nbsp;</span><span style="color: #0000BB">$second&nbsp;</span><span style="color: #007700">:&nbsp;</span><span style="color: #0000BB">$third<br />?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+    <p class="para">
+     If the value of the first subexpression is <strong><code>TRUE</code></strong> (non-zero), then
+     the second subexpression is evaluated, and that is the result of
+     the conditional expression. Otherwise, the third subexpression is
+     evaluated, and that is the value.
+    </p>
+    <p class="para">
+     The following example should help you understand pre- and
+     post-increment and expressions in general a bit better:
+    </p>
+    <p class="para">
+     <div class="informalexample">
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">double</span><span style="color: #007700">(</span><span style="color: #0000BB">$i</span><span style="color: #007700">)<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">*</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;assign&nbsp;the&nbsp;value&nbsp;five&nbsp;into&nbsp;the&nbsp;variable&nbsp;$a&nbsp;and&nbsp;$b&nbsp;*/<br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">++;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;post-increment,&nbsp;assign&nbsp;original&nbsp;value&nbsp;of&nbsp;$a&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(5)&nbsp;to&nbsp;$c&nbsp;*/<br /></span><span style="color: #0000BB">$e&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$d&nbsp;</span><span style="color: #007700">=&nbsp;++</span><span style="color: #0000BB">$b</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;pre-increment,&nbsp;assign&nbsp;the&nbsp;incremented&nbsp;value&nbsp;of&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$b&nbsp;(6)&nbsp;to&nbsp;$d&nbsp;and&nbsp;$e&nbsp;*/<br /><br />/*&nbsp;at&nbsp;this&nbsp;point,&nbsp;both&nbsp;$d&nbsp;and&nbsp;$e&nbsp;are&nbsp;equal&nbsp;to&nbsp;6&nbsp;*/<br /><br /></span><span style="color: #0000BB">$f&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">double</span><span style="color: #007700">(</span><span style="color: #0000BB">$d</span><span style="color: #007700">++);&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;assign&nbsp;twice&nbsp;the&nbsp;value&nbsp;of&nbsp;$d&nbsp;before<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;increment,&nbsp;2*6&nbsp;=&nbsp;12&nbsp;to&nbsp;$f&nbsp;*/<br /></span><span style="color: #0000BB">$g&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">double</span><span style="color: #007700">(++</span><span style="color: #0000BB">$e</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;assign&nbsp;twice&nbsp;the&nbsp;value&nbsp;of&nbsp;$e&nbsp;after<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;increment,&nbsp;2*7&nbsp;=&nbsp;14&nbsp;to&nbsp;$g&nbsp;*/<br /></span><span style="color: #0000BB">$h&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$g&nbsp;</span><span style="color: #007700">+=&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;first,&nbsp;$g&nbsp;is&nbsp;incremented&nbsp;by&nbsp;10&nbsp;and&nbsp;ends&nbsp;with&nbsp;the&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;of&nbsp;24.&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;assignment&nbsp;(24)&nbsp;is&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;then&nbsp;assigned&nbsp;into&nbsp;$h,&nbsp;and&nbsp;$h&nbsp;ends&nbsp;with&nbsp;the&nbsp;value&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;24&nbsp;as&nbsp;well.&nbsp;*/<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+    <p class="simpara">
+     Some expressions can be considered as statements. In
+     this case, a statement has the form of &#039;<code class="literal">expr ;</code>&#039; that is, an
+     expression followed by a semicolon.  In <code class="literal">&#039;$b = $a = 5;&#039;</code>,
+     <code class="literal">&#039;$a = 5&#039;</code> is a valid expression, but it&#039;s not a statement
+     by itself. <code class="literal">&#039;$b = $a = 5;&#039;</code> however is a valid statement.
+    </p>
+    <p class="simpara">
+     One last thing worth mentioning is the truth value of expressions.
+     In many events, mainly in conditional execution and loops, you&#039;re
+     not interested in the specific value of the expression, but only
+     care about whether it means <strong><code>TRUE</code></strong> or <strong><code>FALSE</code></strong>.
+     
+     
+     
+     The constants <strong><code>TRUE</code></strong> and <strong><code>FALSE</code></strong> (case-insensitive) are the two 
+     possible boolean values. When necessary, an expression is 
+     automatically converted to boolean. See the 
+     <a href="#language.types.typecasting" class="link">section about
+     type-casting</a> for details about how.
+    </p>
+    <p class="simpara">
+     PHP provides a full and powerful implementation of expressions, and
+     documenting it entirely goes beyond the scope of this manual. The
+     above examples should give you a good idea about what expressions
+     are and how you can construct useful expressions. Throughout the
+     rest of this manual we&#039;ll write <var class="varname">expr</var>
+     to indicate any valid PHP expression.
+    </p>
+   </div>
+ 
+ <hr />
+ 
+  
+ 
+ 
+   
+ 
+  <div id="language.operators" class="chapter"><hr />
+   <h1>Operators</h1>
+ <h2>Table of Contents</h2><ul class="chunklist chunklist_chapter"><li><a href="#language.operators.precedence">Operator Precedence</a></li><li><a href="#language.operators.arithmetic">Arithmetic Operators</a></li><li><a href="#language.operators.assignment">Assignment Operators</a></li><li><a href="#language.operators.bitwise">Bitwise Operators</a></li><li><a href="#language.operators.comparison">Comparison Operators</a></li><li><a href="#language.operators.errorcontrol">Error Control Operators</a></li><li><a href="#language.operators.execution">Execution Operators</a></li><li><a href="#language.operators.increment">Incrementing/Decrementing Operators</a></li><li><a href="#language.operators.logical">Logical Operators</a></li><li><a href="#language.operators.string">String Operators</a></li><li><a href="#language.operators.array">Array Operators</a></li><li><a href="#language.operators.type">Type Operators</a></li></ul>
+ 
+   <p class="simpara">
+    An operator is something that takes one or more values (or
+    expressions, in programming jargon) and yields another value (so that the
+    construction itself becomes an expression).
+   </p>
+   <p class="para">
+    Operators can be grouped according to the number of values they take. Unary
+    operators take only one value, for example <code class="literal">!</code> (the
+    <a href="#language.operators.logical" class="link">logical not operator</a>) or
+    <code class="literal">++</code> (the
+    <a href="#language.operators.increment" class="link">increment operator</a>).
+    Binary operators take two values, such as the familiar
+    <a href="#language.operators.arithmetic" class="link">arithmetical operators</a>
+    <code class="literal">+</code> (plus) and <code class="literal">-</code> (minus), and the
+    majority of PHP operators fall into this category. Finally, there is a
+    single <a href="#language.operators.comparison.ternary" class="link">ternary
+    operator</a>, <code class="literal">? :</code>, which takes three values; this is
+    usually referred to simply as &quot;the ternary operator&quot; (although it could
+    perhaps more properly be called the conditional operator).
+   </p>
+   <p class="para">
+    A full list of PHP operators follows in the section
+    <a href="#language.operators.precedence" class="link">Operator Precedence</a>.
+    The section also explains operator precedence and associativity, which govern
+    exactly how expressions containing several different operators are
+    evaluated.
+   </p>
+ 
+   <div id="language.operators.precedence" class="sect1"><hr />
+    <h2 class="title">Operator Precedence</h2>
+    <p class="para">
+     The precedence of an operator specifies how &quot;tightly&quot; it binds two
+     expressions together. For example, in the expression <code class="literal">1 +
+     5 * 3</code>, the answer is <code class="literal">16</code> and not
+     <code class="literal">18</code> because the multiplication (&quot;*&quot;) operator
+     has a higher precedence than the addition (&quot;+&quot;) operator.
+     Parentheses may be used to force precedence, if necessary. For
+     instance: <code class="literal">(1 + 5) * 3</code> evaluates to
+     <code class="literal">18</code>.
+    </p>
+    <p class="para">
+     When operators have equal precedence their associativity decides
+     how the operators are grouped. For example &quot;-&quot; is left-associative, so
+     <code class="literal">1 - 2 - 3</code> is grouped as <code class="literal">(1 - 2) - 3</code>
+     and evaluates to <code class="literal">-4</code>. &quot;=&quot; on the other hand is
+     right-associative, so <code class="literal">$a = $b = $c</code> is grouped as
+     <code class="literal">$a = ($b = $c)</code>.
+    </p>
+    <p class="para">
+     Operators of equal precedence that are non-associative cannot be used
+     next to each other, for example <code class="literal">1 &lt; 2 &gt; 1</code> is
+     illegal in PHP. The expression <code class="literal">1 &lt;= 1 == 1</code> on the
+     other hand is legal, because the <code class="literal">==</code> operator has lesser
+     precedence than the <code class="literal">&lt;=</code> operator.
+    </p>
+    <p class="para">
+     Use of parentheses, even when not strictly necessary, can often increase
+     readability of the code by making grouping explicit rather than relying
+     on the implicit operator precedence and associativity.
+    </p>
+    <p class="para">
+     The following table lists the operators in order of precedence, with
+     the highest-precedence ones at the top. Operators on the same line
+     have equal precedence, in which case associativity decides grouping.
+     <table class="doctable table">
+      <caption><strong>Operator Precedence</strong></caption>
+      
+       <thead>
+        <tr>
+         <th>Associativity</th>
+         <th>Operators</th>
+         <th>Additional Information</th>
+        </tr>
+ 
+       </thead>
+ 
+       <tbody class="tbody">
+        <tr>
+         <td>(n/a)</td>
+         <td>
+          <code class="literal">clone</code>
+          <code class="literal">new</code>
+         </td>
+         <td><a href="#language.oop5.cloning" class="link">clone</a> and <a href="#language.oop5.basic.new" class="link">new</a></td>
+        </tr>
+ 
+        <tr>
+         <td>right</td>
+         <td><code class="literal">**</code></td>
+         <td><a href="#language.operators.arithmetic" class="link">arithmetic</a></td>
+        </tr>
+ 
+        <tr>
+         <td>(n/a)</td>
+         <td>
+          <code class="literal">++</code> 
+          <code class="literal">--</code> 
+          <code class="literal">~</code> 
+          <code class="literal">(int)</code> 
+          <code class="literal">(float)</code> 
+          <code class="literal">(string)</code> 
+          <code class="literal">(array)</code>
+          <code class="literal">(object)</code> 
+          <code class="literal">(bool)</code> 
+          <code class="literal">@</code>
+         </td>
+         <td>
+          <a href="#language.types" class="link">types</a> and <a href="#language.operators.increment" class="link">increment/decrement</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>left</td>
+         <td><code class="literal">instanceof</code></td>
+         <td>
+          <a href="#language.types" class="link">types</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>(n/a)</td>
+         <td><code class="literal">!</code></td>
+         <td>
+          <a href="#language.operators.logical" class="link">logical</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>left</td>
+         <td>
+          <code class="literal">*</code>
+          <code class="literal">/</code>
+          <code class="literal">%</code>
+         </td>
+         <td>
+          <a href="#language.operators.arithmetic" class="link">arithmetic</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>left</td>
+         <td>
+          <code class="literal">+</code> 
+          <code class="literal">-</code> 
+          <code class="literal">.</code>
+         </td>
+         <td>
+          <a href="#language.operators.arithmetic" class="link">arithmetic</a> and
+          <a href="#language.operators.string" class="link">string</a></td>
+        </tr>
+ 
+        <tr>
+         <td>left</td>
+         <td>
+          <code class="literal">&lt;&lt;</code> 
+          <code class="literal">&gt;&gt;</code>
+         </td>
+         <td>
+          <a href="#language.operators.bitwise" class="link">bitwise</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>non-associative</td>
+         <td>
+          <code class="literal">&lt;</code> 
+          <code class="literal">&lt;=</code> 
+          <code class="literal">&gt;</code> 
+          <code class="literal">&gt;=</code>
+         </td>
+         <td>
+          <a href="#language.operators.comparison" class="link">comparison</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>non-associative</td>
+         <td>
+          <code class="literal">==</code>
+          <code class="literal">!=</code> 
+          <code class="literal">===</code> 
+          <code class="literal">!==</code> 
+          <code class="literal">&lt;&gt;</code>
+          <code class="literal">&lt;=&gt;</code>
+         </td>
+         <td>
+          <a href="#language.operators.comparison" class="link">comparison</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>left</td>
+         <td><code class="literal">&amp;</code></td>
+         <td>
+          <a href="#language.operators.bitwise" class="link">bitwise</a> and
+          <a href="#language.references" class="link">references</a></td>
+        </tr>
+ 
+        <tr>
+         <td>left</td>
+         <td><code class="literal">^</code></td>
+         <td>
+          <a href="#language.operators.bitwise" class="link">bitwise</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>left</td>
+         <td><code class="literal">|</code></td>
+         <td>
+          <a href="#language.operators.bitwise" class="link">bitwise</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>left</td>
+         <td><code class="literal">&amp;&amp;</code></td>
+         <td>
+          <a href="#language.operators.logical" class="link">logical</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>left</td>
+         <td><code class="literal">||</code></td>
+         <td>
+          <a href="#language.operators.logical" class="link">logical</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>right</td>
+         <td><code class="literal">??</code></td>
+         <td>
+          <a href="#language.operators.comparison.coalesce" class="link">null coalescing</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>left</td>
+         <td><code class="literal">? :</code></td>
+         <td>
+          <a href="#language.operators.comparison.ternary" class="link">ternary</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>right</td>
+         <td>
+          <code class="literal">=</code> 
+          <code class="literal">+=</code> 
+          <code class="literal">-=</code> 
+          <code class="literal">*=</code> 
+          <code class="literal">**=</code> 
+          <code class="literal">/=</code> 
+          <code class="literal">.=</code> 
+          <code class="literal">%=</code> 
+          <code class="literal">&amp;=</code> 
+          <code class="literal">|=</code> 
+          <code class="literal">^=</code> 
+          <code class="literal">&lt;&lt;=</code> 
+          <code class="literal">&gt;&gt;=</code>
+          <code class="literal">??=</code>
+         </td>
+         <td>
+          <a href="#language.operators.assignment" class="link">assignment</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>(n/a)</td>
+         <td><code class="literal">yield from</code></td>
+         <td>
+          <a href="#control-structures.yield.from" class="link">yield from</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>(n/a)</td>
+         <td><code class="literal">yield</code></td>
+         <td>
+          <a href="#control-structures.yield" class="link">yield</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>(n/a)</td>
+         <td><code class="literal">print</code></td>
+         <td><span class="function"><a href="#function.print" class="function">print</a></span></td>
+        </tr>
+ 
+        <tr>
+         <td>left</td>
+         <td><code class="literal">and</code></td>
+         <td>
+          <a href="#language.operators.logical" class="link">logical</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>left</td>
+         <td><code class="literal">xor</code></td>
+         <td>
+          <a href="#language.operators.logical" class="link">logical</a>
+         </td>
+        </tr>
+ 
+        <tr>
+         <td>left</td>
+         <td><code class="literal">or</code></td>
+         <td>
+          <a href="#language.operators.logical" class="link">logical</a>
+         </td>
+        </tr>
+ 
+       </tbody>
+      
+     </table>
+ 
+    </p>
+    <p class="para">
+     <div class="example" id="example-95">
+      <p><strong>Example #1 Associativity</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">3&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">3&nbsp;</span><span style="color: #007700">%&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;(3&nbsp;*&nbsp;3)&nbsp;%&nbsp;5&nbsp;=&nbsp;4<br />//&nbsp;ternary&nbsp;operator&nbsp;associativity&nbsp;differs&nbsp;from&nbsp;C/C++<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">true&nbsp;</span><span style="color: #007700">?&nbsp;</span><span style="color: #0000BB">0&nbsp;</span><span style="color: #007700">:&nbsp;</span><span style="color: #0000BB">true&nbsp;</span><span style="color: #007700">?&nbsp;</span><span style="color: #0000BB">1&nbsp;</span><span style="color: #007700">:&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;(true&nbsp;?&nbsp;0&nbsp;:&nbsp;true)&nbsp;?&nbsp;1&nbsp;:&nbsp;2&nbsp;=&nbsp;2<br /><br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">+=&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;$a&nbsp;=&nbsp;($b&nbsp;+=&nbsp;3)&nbsp;-&gt;&nbsp;$a&nbsp;=&nbsp;5,&nbsp;$b&nbsp;=&nbsp;5<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+    <p class="para">
+     Operator precedence and associativity only determine how expressions
+     are grouped, they do not specify an order of evaluation. PHP does not
+     (in the general case) specify in which order an expression is evaluated
+     and code that assumes a specific order of evaluation should be avoided,
+     because the behavior can change between versions of PHP or depending on
+     the surrounding code.
+     <div class="example" id="example-96">
+      <p><strong>Example #2 Undefined order of evaluation</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">++;&nbsp;</span><span style="color: #FF8000">//&nbsp;may&nbsp;print&nbsp;either&nbsp;2&nbsp;or&nbsp;3<br /><br /></span><span style="color: #0000BB">$i&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$array</span><span style="color: #007700">[</span><span style="color: #0000BB">$i</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">$i</span><span style="color: #007700">++;&nbsp;</span><span style="color: #FF8000">//&nbsp;may&nbsp;set&nbsp;either&nbsp;index&nbsp;1&nbsp;or&nbsp;2<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+     <div class="example" id="example-97">
+      <p><strong>Example #3 <code class="literal">+</code>, <code class="literal">-</code> and <code class="literal">.</code> have the same precedence</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br />$x&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #FF8000">//&nbsp;this&nbsp;line&nbsp;might&nbsp;result&nbsp;in&nbsp;unexpected&nbsp;output:<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"x&nbsp;minus&nbsp;one&nbsp;equals&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$x</span><span style="color: #007700">-</span><span style="color: #0000BB">1&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">",&nbsp;or&nbsp;so&nbsp;I&nbsp;hope\n"</span><span style="color: #007700">;<br /></span><span style="color: #FF8000">//&nbsp;because&nbsp;it&nbsp;is&nbsp;evaluated&nbsp;like&nbsp;this&nbsp;line:<br /></span><span style="color: #007700">echo&nbsp;((</span><span style="color: #DD0000">"x&nbsp;minus&nbsp;one&nbsp;equals&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$x</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">",&nbsp;or&nbsp;so&nbsp;I&nbsp;hope\n"</span><span style="color: #007700">;<br /></span><span style="color: #FF8000">//&nbsp;the&nbsp;desired&nbsp;precedence&nbsp;can&nbsp;be&nbsp;enforced&nbsp;by&nbsp;using&nbsp;parentheses:<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"x&nbsp;minus&nbsp;one&nbsp;equals&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;(</span><span style="color: #0000BB">$x</span><span style="color: #007700">-</span><span style="color: #0000BB">1</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">",&nbsp;or&nbsp;so&nbsp;I&nbsp;hope\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+      <div class="example-contents"><p>The above example will output:</p></div>
+      <div class="example-contents screen">
+ <div class="cdata"><pre>
+ -1, or so I hope
+ -1, or so I hope
+ x minus one equals 3, or so I hope
+ </pre></div>
+      </div>
+     </div>
+    </p>
+    <blockquote class="note"><p><strong class="note">Note</strong>: 
+     <p class="para">
+      Although <code class="literal">=</code> has a lower precedence than
+      most other operators, PHP will still allow expressions
+      similar to the following: <code class="literal">if (!$a = foo())</code>,
+      in which case the return value of <code class="literal">foo()</code> is
+      put into <var class="varname">$a</var>.
+     </p>
+    </p></blockquote>
+   </div>
+ <hr />
+ 
+ 
+   <div id="language.operators.arithmetic" class="sect1"><hr />
+    <h2 class="title">Arithmetic Operators</h2>
+    <p class="simpara">
+     Remember basic arithmetic from school? These work just
+     like those.
+    </p>
+    <table class="doctable table">
+     <caption><strong>Arithmetic Operators</strong></caption>
+     
+      <thead>
+       <tr>
+        <th>Example</th>
+        <th>Name</th>
+        <th>Result</th>
+       </tr>
+ 
+      </thead>
+ 
+      <tbody class="tbody">
+       <tr>
+        <td>+$a</td>
+        <td>Identity</td>
+        <td>
+         Conversion of <var class="varname">$a</var> to <span class="type"><a href="#language.types.integer" class="type int">int</a></span> or
+         <span class="type"><a href="#language.types.float" class="type float">float</a></span> as appropriate.
+        </td>
+       </tr>
+ 
+       <tr>
+        <td>-$a</td>
+        <td>Negation</td>
+        <td>Opposite of <var class="varname">$a</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a + $b</td>
+        <td>Addition</td>
+        <td>Sum of <var class="varname">$a</var> and <var class="varname">$b</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a - $b</td>
+        <td>Subtraction</td>
+        <td>Difference of <var class="varname">$a</var> and <var class="varname">$b</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a * $b</td>
+        <td>Multiplication</td>
+        <td>Product of <var class="varname">$a</var> and <var class="varname">$b</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a / $b</td>
+        <td>Division</td>
+        <td>Quotient of <var class="varname">$a</var> and <var class="varname">$b</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a % $b</td>
+        <td>Modulo</td>
+        <td>Remainder of <var class="varname">$a</var> divided by <var class="varname">$b</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a ** $b</td>
+        <td>Exponentiation</td>
+        <td>Result of raising <var class="varname">$a</var> to the <var class="varname">$b</var>&#039;th power. Introduced in PHP 5.6.</td>
+       </tr>
+ 
+      </tbody>
+     
+    </table>
+ 
+    <p class="simpara">
+     The division operator (&quot;/&quot;) returns a float value unless the two operands
+     are integers (or strings that get converted to integers) and the numbers
+     are evenly divisible, in which case an integer value will be returned. For
+     integer division, see <span class="function"><a href="#function.intdiv" class="function">intdiv()</a></span>.
+    </p>
+    <p class="simpara">
+     Operands of modulo are converted to integers (by stripping the decimal
+     part) before processing. For floating-point modulo, see
+     <span class="function"><a href="#function.fmod" class="function">fmod()</a></span>.
+    </p>
+    <p class="para">
+     The result of the modulo operator <code class="literal">%</code> has the same sign
+     as the dividend — that is, the result of <code class="literal">$a % $b</code>
+     will have the same sign as <var class="varname">$a</var>. For example:
+     <div class="informalexample">
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #007700">echo&nbsp;(</span><span style="color: #0000BB">5&nbsp;</span><span style="color: #007700">%&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">).</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;prints&nbsp;2<br /></span><span style="color: #007700">echo&nbsp;(</span><span style="color: #0000BB">5&nbsp;</span><span style="color: #007700">%&nbsp;-</span><span style="color: #0000BB">3</span><span style="color: #007700">).</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;prints&nbsp;2<br /></span><span style="color: #007700">echo&nbsp;(-</span><span style="color: #0000BB">5&nbsp;</span><span style="color: #007700">%&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">).</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;prints&nbsp;-2<br /></span><span style="color: #007700">echo&nbsp;(-</span><span style="color: #0000BB">5&nbsp;</span><span style="color: #007700">%&nbsp;-</span><span style="color: #0000BB">3</span><span style="color: #007700">).</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;prints&nbsp;-2<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+    <p class="simpara">
+     See also the manual page on
+     <a href="#ref.math" class="link">Math functions</a>.
+    </p>
+ 
+   </div>
+ <hr />
+ 
+ 
+   <div id="language.operators.assignment" class="sect1"><hr />
+    <h2 class="title">Assignment Operators</h2>
+    <p class="simpara">
+     The basic assignment operator is &quot;=&quot;. Your first inclination might
+     be to think of this as &quot;equal to&quot;. Don&#039;t. It really means that the
+     left operand gets set to the value of the expression on the
+     right (that is, &quot;gets set to&quot;).
+    </p>
+    <p class="para">
+     The value of an assignment expression is the value assigned. That
+     is, the value of &quot;<code class="literal">$a = 3</code>&quot; is 3. This allows you to do some tricky
+     things:
+     <div class="informalexample">
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /><br />$a&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">)&nbsp;+&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;$a&nbsp;is&nbsp;equal&nbsp;to&nbsp;9&nbsp;now,&nbsp;and&nbsp;$b&nbsp;has&nbsp;been&nbsp;set&nbsp;to&nbsp;4.<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+    <p class="para">
+     In addition to the basic assignment operator, there are &quot;combined
+     operators&quot; for all of the <a href="#language.operators" class="link">binary
+     arithmetic</a>, array union and string operators that allow you to use a value in an
+     expression and then set its value to the result of that expression. For
+     example:
+     <div class="informalexample">
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /><br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">+=&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;sets&nbsp;$a&nbsp;to&nbsp;8,&nbsp;as&nbsp;if&nbsp;we&nbsp;had&nbsp;said:&nbsp;$a&nbsp;=&nbsp;$a&nbsp;+&nbsp;5;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"Hello&nbsp;"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">"There!"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;sets&nbsp;$b&nbsp;to&nbsp;"Hello&nbsp;There!",&nbsp;just&nbsp;like&nbsp;$b&nbsp;=&nbsp;$b&nbsp;.&nbsp;"There!";<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+    <p class="para">
+     Note that the assignment copies the original variable to the new
+     one (assignment by value), so changes to one will not affect the
+     other. This may also have relevance if you need to copy something
+     like a large array inside a tight loop.
+    </p>
+    <p class="para">
+     An exception to the usual assignment by value behaviour within PHP occurs
+     with <span class="type"><a href="#language.types.object" class="type object">object</a></span>s, which are assigned by reference.
+     Objects may be explicitly copied via the <a href="#language.oop5.cloning" class="link">clone</a> keyword.
+    </p>
+ 
+    <div class="sect2" id="language.operators.assignment.reference">
+     <h3 class="title">Assignment by Reference</h3>
+     <p class="para">
+      Assignment by reference is also supported, using the
+      &quot;<span class="computeroutput">$var = &amp;$othervar;</span>&quot; syntax.
+      Assignment by reference means that both variables end up pointing at the
+      same data, and nothing is copied anywhere.
+     </p>
+     <p class="para">
+      <div class="example" id="example-98">
+       <p><strong>Example #1 Assigning by reference</strong></p>
+       <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;&amp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;$b&nbsp;is&nbsp;a&nbsp;reference&nbsp;to&nbsp;$a<br /><br /></span><span style="color: #007700">print&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$a</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;prints&nbsp;3<br /></span><span style="color: #007700">print&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$b</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;prints&nbsp;3<br /><br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;change&nbsp;$a<br /><br /></span><span style="color: #007700">print&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$a</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;prints&nbsp;4<br /></span><span style="color: #007700">print&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$b</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;prints&nbsp;4&nbsp;as&nbsp;well,&nbsp;since&nbsp;$b&nbsp;is&nbsp;a&nbsp;reference&nbsp;to&nbsp;$a,&nbsp;which&nbsp;has<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;been&nbsp;changed<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+       </div>
+ 
+      </div>
+     </p>
+     <p class="para">
+      The <a href="#language.oop5.basic.new" class="link">new</a>
+      operator returns a reference automatically, so assigning the result of
+      <a href="#language.oop5.basic.new" class="link">new</a> by reference
+      is not allowed as of PHP 7.0.0,
+      results in an <strong><code>E_DEPRECATED</code></strong> message as of PHP 5.3.0, and
+      an <strong><code>E_STRICT</code></strong> message in earlier versions.
+     </p>
+     <p class="para">
+      For example, this code will result in an error or warning:
+      <div class="informalexample">
+       <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">C&nbsp;</span><span style="color: #007700">{}<br /><br /></span><span style="color: #0000BB">$o&nbsp;</span><span style="color: #007700">=&nbsp;&amp;new&nbsp;</span><span style="color: #0000BB">C</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+       </div>
+ 
+       <p class="para">Output of the above example in PHP 7:</p>
+       <div class="example-contents screen">
+ <div class="cdata"><pre>
+ Parse error: syntax error, unexpected &#039;new&#039; (T_NEW) in …
+ </pre></div>
+       </div>
+       <p class="para">Output of the above example in PHP 5.3:</p>
+       <div class="example-contents screen">
+ <div class="cdata"><pre>
+ Deprecated: Assigning the return value of new by reference is deprecated in …
+ </pre></div>
+       </div>
+       <p class="para">Output of the above example in PHP 5:</p>
+       <div class="example-contents screen">
+ <div class="cdata"><pre>
+ Strict Standards: Assigning the return value of new by reference is deprecated in …
+ </pre></div>
+       </div>
+      </div>
+     </p>
+     <p class="para">
+      More information on references and their potential uses can be found in
+      the <a href="#language.references" class="link">References Explained</a>
+      section of the manual.
+     </p>
+    </div>
+ 
+    <div class="sect2" id="language.operators.assignment.arithmetic">
+     <h3 class="title">Arithmetic Assignment Operators</h3>
+     <table class="doctable informaltable">
+      
+       <thead>
+        <tr>
+         <th>Example</th>
+         <th>Equivalent</th>
+         <th>Operation</th>
+        </tr>
+ 
+       </thead>
+ 
+       <tbody class="tbody">
+        <tr>
+         <td>$a += $b</td>
+         <td>$a = $a + b</td>
+         <td>Addition</td>
+        </tr>
+ 
+        <tr>
+         <td>$a -= $b</td>
+         <td>$a = $a - $b</td>
+         <td>Subtraction</td>
+        </tr>
+ 
+        <tr>
+         <td>$a *= $b</td>
+         <td>$a = $a * $b</td>
+         <td>Multiplication</td>
+        </tr>
+ 
+        <tr>
+         <td>$a /= $b</td>
+         <td>$a = $a / $b</td>
+         <td>Division</td>
+        </tr>
+ 
+        <tr>
+         <td>$a %= $b</td>
+         <td>$a = $a % $b</td>
+         <td>Modulus</td>
+        </tr>
+ 
+       </tbody>
+      
+     </table>
+ 
+    </div>
+ 
+    <div class="sect2" id="language.operators.assignment.bitwise">
+     <h3 class="title">Bitwise Assignment Operators</h3>
+     <table class="doctable informaltable">
+      
+       <thead>
+        <tr>
+         <th>Example</th>
+         <th>Equivalent</th>
+         <th>Operation</th>
+        </tr>
+ 
+       </thead>
+ 
+       <tbody class="tbody">
+        <tr>
+         <td>$a &amp;= $b</td>
+         <td>$a = $a &amp; $b</td>
+         <td>Bitwise And</td>
+        </tr>
+ 
+        <tr>
+         <td>$a |= $b</td>
+         <td>$a = $a | $b</td>
+         <td>Bitwise Or</td>
+        </tr>
+ 
+        <tr>
+         <td>$a ^= $b</td>
+         <td>$a = $a ^ $b</td>
+         <td>Bitwise Xor</td>
+        </tr>
+ 
+        <tr>
+         <td>$a &lt;&lt;= $b</td>
+         <td>$a = $a &lt;&lt; $b</td>
+         <td>Left Shift</td>
+        </tr>
+ 
+        <tr>
+         <td>$a &gt;&gt;= $b</td>
+         <td>$a = $a &gt;&gt; $b</td>
+         <td>Right Shift</td>
+        </tr>
+ 
+       </tbody>
+      
+     </table>
+ 
+    </div>
+ 
+    <div class="sect2" id="language.operators.assignment.other">
+     <h3 class="title">Other Assignment Operators</h3>
+     <table class="doctable informaltable">
+      
+       <thead>
+        <tr>
+         <th>Example</th>
+         <th>Equivalent</th>
+         <th>Operation</th>
+        </tr>
+ 
+       </thead>
+ 
+       <tbody class="tbody">
+        <tr>
+         <td>$a .= $b</td>
+         <td>$a = $a . $b</td>
+         <td>String Concatenation</td>
+        </tr>
+ 
+        <tr>
+         <td>$a ??= $b</td>
+         <td>$a = $a ?? $b</td>
+         <td>Null Coalesce</td>
+        </tr>
+ 
+       </tbody>
+      
+     </table>
+ 
+    </div>
+    <div class="sect2" id="language.operators.assignment.see-also">
+     <p class="para">
+      See also the manual sections on <a href="#language.operators.arithmetic" class="link">
+      arithmetic operators</a>, <a href="#language.operators.bitwise" class="link">bitwise operators</a>, 
+      <a href="#language.operators.string" class="link">string operators</a>, and 
+      <a href="#language.operators.comparison.coalesce" class="link">null coalescing operator</a>.
+     </p>
+    </div>
+   </div>
+ <hr />
+ 
+ 
+   <div id="language.operators.bitwise" class="sect1"><hr />
+    <h2 class="title">Bitwise Operators</h2>
+    <p class="simpara">
+     Bitwise operators allow evaluation and manipulation of specific
+     bits within an integer.
+    </p>
+    <table class="doctable table">
+     <caption><strong>Bitwise Operators</strong></caption>
+     
+      <thead>
+       <tr>
+        <th>Example</th>
+        <th>Name</th>
+        <th>Result</th>
+       </tr>
+ 
+      </thead>
+ 
+      <tbody class="tbody">
+       <tr>
+        <td><strong class="userinput"><code>$a &amp; $b</code></strong></td>
+        <td>And</td>
+        <td>Bits that are set in both <var class="varname">$a</var> and <var class="varname">$b</var> are set.</td>
+       </tr>
+ 
+       <tr>
+        <td><strong class="userinput"><code>$a | $b</code></strong></td>
+        <td>Or (inclusive or)</td>
+        <td>Bits that are set in either <var class="varname">$a</var> or <var class="varname">$b</var> are set.</td>
+       </tr>
+ 
+       <tr>
+        <td><strong class="userinput"><code>$a ^ $b</code></strong></td>
+        <td>Xor (exclusive or)</td>
+        <td>
+         Bits that are set in <var class="varname">$a</var> or <var class="varname">$b</var> but not both are set.
+        </td>
+       </tr>
+ 
+       <tr>
+        <td><strong class="userinput"><code>~ $a</code></strong></td>
+        <td>Not</td>
+        <td>
+         Bits that are set in <var class="varname">$a</var> are not set, and vice versa.
+        </td>
+       </tr>
+ 
+       <tr>
+        <td><strong class="userinput"><code>$a &lt;&lt; $b</code></strong></td>
+        <td>Shift left</td>
+        <td>
+         Shift the bits of <var class="varname">$a</var> <var class="varname">$b</var> steps to the left (each step means
+         &quot;multiply by two&quot;)
+        </td>
+       </tr>
+ 
+       <tr>
+        <td><strong class="userinput"><code>$a &gt;&gt; $b</code></strong></td>
+        <td>Shift right</td>
+        <td>
+         Shift the bits of <var class="varname">$a</var> <var class="varname">$b</var> steps to the right (each step means
+         &quot;divide by two&quot;)
+        </td>
+       </tr>
+ 
+      </tbody>
+     
+    </table>
+ 
+    <p class="para">
+     Bit shifting in PHP is arithmetic.
+     Bits shifted off either end are discarded.
+     Left shifts have zeros shifted in on the right while the sign
+     bit is shifted out on the left, meaning the sign of an operand
+     is not preserved.
+     Right shifts have copies of the sign bit shifted in on the left,
+     meaning the sign of an operand is preserved.
+    </p>
+    <p class="para">
+     Use parentheses to ensure the desired
+     <a href="#language.operators.precedence" class="link">precedence</a>.
+     For example, <code class="literal">$a &amp; $b == true</code> evaluates
+     the equivalency then the bitwise and; while
+     <code class="literal">($a &amp; $b) == true</code> evaluates the bitwise and
+     then the equivalency.
+    </p>
+    <p class="para">
+     If both operands for the <code class="literal">&amp;</code>, <code class="literal">|</code> and
+     <code class="literal">^</code> operators are strings, then the operation will be
+     performed on the ASCII values of the characters that make up the strings and
+     the result will be a string. In all other cases, both operands will be
+     <a href="#language.types.integer.casting" class="link">converted to integers</a>
+     and the result will be an integer.
+    </p>
+    <p class="para">
+     If the operand for the <code class="literal">~</code> operator is a string, the
+     operation will be performed on the ASCII values of the characters that make
+     up the string and the result will be a string, otherwise the operand and the
+     result will be treated as integers.
+    </p>
+    <p class="para">
+     Both operands and the result for the <code class="literal">&lt;&lt;</code> and
+     <code class="literal">&gt;&gt;</code> operators are always treated as integers.
+    </p>
+    <p class="para">
+     <div class="informalexample">
+      <p class="para">
+       <pre class="literallayout">
+ PHP&#039;s error_reporting ini setting uses bitwise values,
+ providing a real-world demonstration of turning
+ bits off. To show all errors, except for notices,
+ the php.ini file instructions say to use:
+ <strong class="userinput"><code>E_ALL &amp; ~E_NOTICE</code></strong>
+       </pre>
+      </p>
+      <p class="para">
+       <pre class="literallayout">
+ This works by starting with E_ALL:
+ <span class="computeroutput">00000000000000000111011111111111</span>
+ Then taking the value of E_NOTICE...
+ <span class="computeroutput">00000000000000000000000000001000</span>
+ ... and inverting it via <code class="literal">~</code>:
+ <span class="computeroutput">11111111111111111111111111110111</span>
+ Finally, it uses AND (&amp;) to find the bits turned
+ on in both values:
+ <span class="computeroutput">00000000000000000111011111110111</span>
+       </pre>
+      </p>
+      <p class="para">
+       <pre class="literallayout">
+ Another way to accomplish that is using XOR (<code class="literal">^</code>)
+ to find bits that are on in only one value or the other:
+ <strong class="userinput"><code>E_ALL ^ E_NOTICE</code></strong>
+       </pre>
+      </p>
+     </div>
+    </p>
+    <p class="para">
+     <div class="informalexample">
+      <p class="para">
+       <pre class="literallayout">
+ error_reporting can also be used to demonstrate turning bits on.
+ The way to show just errors and recoverable errors is:
+ <strong class="userinput"><code>E_ERROR | E_RECOVERABLE_ERROR</code></strong>
+       </pre>
+      </p>
+      <p class="para">
+       <pre class="literallayout">
+ This process combines E_ERROR
+ <span class="computeroutput">00000000000000000000000000000001</span>
+ and
+ <span class="computeroutput">00000000000000000001000000000000</span>
+ using the OR (<code class="literal">|</code>) operator
+ to get the bits turned on in either value:
+ <span class="computeroutput">00000000000000000001000000000001</span>
+       </pre>
+      </p>
+     </div>
+    </p>
+    <p class="para">
+     <div class="example" id="example-99">
+      <p><strong>Example #1 Bitwise AND, OR and XOR operations on integers</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*<br />&nbsp;*&nbsp;Ignore&nbsp;the&nbsp;top&nbsp;section,<br />&nbsp;*&nbsp;it&nbsp;is&nbsp;just&nbsp;formatting&nbsp;to&nbsp;make&nbsp;output&nbsp;clearer.<br />&nbsp;*/<br /><br /></span><span style="color: #0000BB">$format&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'(%1$2d&nbsp;=&nbsp;%1$04b)&nbsp;=&nbsp;(%2$2d&nbsp;=&nbsp;%2$04b)'<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">'&nbsp;%3$s&nbsp;(%4$2d&nbsp;=&nbsp;%4$04b)'&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br />echo&nbsp;&lt;&lt;&lt;EOH<br /></span><span style="color: #DD0000">&nbsp;---------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---------&nbsp;&nbsp;--&nbsp;---------<br />&nbsp;result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op&nbsp;test<br />&nbsp;---------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---------&nbsp;&nbsp;--&nbsp;---------<br /></span><span style="color: #007700">EOH;<br /><br /><br /></span><span style="color: #FF8000">/*<br />&nbsp;*&nbsp;Here&nbsp;are&nbsp;the&nbsp;examples.<br />&nbsp;*/<br /><br /></span><span style="color: #0000BB">$values&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">0</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$test&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /><br />echo&nbsp;</span><span style="color: #DD0000">"\n&nbsp;Bitwise&nbsp;AND&nbsp;\n"</span><span style="color: #007700">;<br />foreach&nbsp;(</span><span style="color: #0000BB">$values&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$value</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$value&nbsp;</span><span style="color: #007700">&amp;&nbsp;</span><span style="color: #0000BB">$test</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #0000BB">$format</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$result</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$value</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&amp;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$test</span><span style="color: #007700">);<br />}<br /><br />echo&nbsp;</span><span style="color: #DD0000">"\n&nbsp;Bitwise&nbsp;Inclusive&nbsp;OR&nbsp;\n"</span><span style="color: #007700">;<br />foreach&nbsp;(</span><span style="color: #0000BB">$values&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$value</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$value&nbsp;</span><span style="color: #007700">|&nbsp;</span><span style="color: #0000BB">$test</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #0000BB">$format</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$result</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$value</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'|'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$test</span><span style="color: #007700">);<br />}<br /><br />echo&nbsp;</span><span style="color: #DD0000">"\n&nbsp;Bitwise&nbsp;Exclusive&nbsp;OR&nbsp;(XOR)&nbsp;\n"</span><span style="color: #007700">;<br />foreach&nbsp;(</span><span style="color: #0000BB">$values&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$value</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$value&nbsp;</span><span style="color: #007700">^&nbsp;</span><span style="color: #0000BB">$test</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #0000BB">$format</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$result</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$value</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'^'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$test</span><span style="color: #007700">);<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+      <div class="example-contents"><p>The above example will output:</p></div>
+      <div class="example-contents screen">
+ <div class="cdata"><pre>
+  ---------     ---------  -- ---------
+  result        value      op test
+  ---------     ---------  -- ---------
+  Bitwise AND
+ ( 0 = 0000) = ( 0 = 0000) &amp; ( 5 = 0101)
+ ( 1 = 0001) = ( 1 = 0001) &amp; ( 5 = 0101)
+ ( 0 = 0000) = ( 2 = 0010) &amp; ( 5 = 0101)
+ ( 4 = 0100) = ( 4 = 0100) &amp; ( 5 = 0101)
+ ( 0 = 0000) = ( 8 = 1000) &amp; ( 5 = 0101)
+ 
+  Bitwise Inclusive OR
+ ( 5 = 0101) = ( 0 = 0000) | ( 5 = 0101)
+ ( 5 = 0101) = ( 1 = 0001) | ( 5 = 0101)
+ ( 7 = 0111) = ( 2 = 0010) | ( 5 = 0101)
+ ( 5 = 0101) = ( 4 = 0100) | ( 5 = 0101)
+ (13 = 1101) = ( 8 = 1000) | ( 5 = 0101)
+ 
+  Bitwise Exclusive OR (XOR)
+ ( 5 = 0101) = ( 0 = 0000) ^ ( 5 = 0101)
+ ( 4 = 0100) = ( 1 = 0001) ^ ( 5 = 0101)
+ ( 7 = 0111) = ( 2 = 0010) ^ ( 5 = 0101)
+ ( 1 = 0001) = ( 4 = 0100) ^ ( 5 = 0101)
+ (13 = 1101) = ( 8 = 1000) ^ ( 5 = 0101)
+ </pre></div>
+      </div>
+     </div>
+    </p>
+    <p class="para">
+     <div class="example" id="example-100">
+      <p><strong>Example #2 Bitwise XOR operations on strings</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">12&nbsp;</span><span style="color: #007700">^&nbsp;</span><span style="color: #0000BB">9</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Outputs&nbsp;'5'<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"12"&nbsp;</span><span style="color: #007700">^&nbsp;</span><span style="color: #DD0000">"9"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Outputs&nbsp;the&nbsp;Backspace&nbsp;character&nbsp;(ascii&nbsp;8)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;('1'&nbsp;(ascii&nbsp;49))&nbsp;^&nbsp;('9'&nbsp;(ascii&nbsp;57))&nbsp;=&nbsp;#8<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"hallo"&nbsp;</span><span style="color: #007700">^&nbsp;</span><span style="color: #DD0000">"hello"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Outputs&nbsp;the&nbsp;ascii&nbsp;values&nbsp;#0&nbsp;#4&nbsp;#0&nbsp;#0&nbsp;#0<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;'a'&nbsp;^&nbsp;'e'&nbsp;=&nbsp;#4<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">2&nbsp;</span><span style="color: #007700">^&nbsp;</span><span style="color: #DD0000">"3"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Outputs&nbsp;1<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;2&nbsp;^&nbsp;((int)"3")&nbsp;==&nbsp;1<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"2"&nbsp;</span><span style="color: #007700">^&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Outputs&nbsp;1<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;((int)"2")&nbsp;^&nbsp;3&nbsp;==&nbsp;1<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+    <p class="para">
+     <div class="example" id="example-101">
+      <p><strong>Example #3 Bit shifting on integers</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*<br />&nbsp;*&nbsp;Here&nbsp;are&nbsp;the&nbsp;examples.<br />&nbsp;*/<br /><br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"\n---&nbsp;BIT&nbsp;SHIFT&nbsp;RIGHT&nbsp;ON&nbsp;POSITIVE&nbsp;INTEGERS&nbsp;---\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'copy&nbsp;of&nbsp;sign&nbsp;bit&nbsp;shifted&nbsp;into&nbsp;left&nbsp;side'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bits&nbsp;shift&nbsp;out&nbsp;right&nbsp;side'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'same&nbsp;result&nbsp;as&nbsp;above;&nbsp;can&nbsp;not&nbsp;shift&nbsp;beyond&nbsp;0'</span><span style="color: #007700">);<br /><br /><br />echo&nbsp;</span><span style="color: #DD0000">"\n---&nbsp;BIT&nbsp;SHIFT&nbsp;RIGHT&nbsp;ON&nbsp;NEGATIVE&nbsp;INTEGERS&nbsp;---\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;-</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'copy&nbsp;of&nbsp;sign&nbsp;bit&nbsp;shifted&nbsp;into&nbsp;left&nbsp;side'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;-</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bits&nbsp;shift&nbsp;out&nbsp;right&nbsp;side'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;-</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&gt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&gt;&gt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'same&nbsp;result&nbsp;as&nbsp;above;&nbsp;can&nbsp;not&nbsp;shift&nbsp;beyond&nbsp;-1'</span><span style="color: #007700">);<br /><br /><br />echo&nbsp;</span><span style="color: #DD0000">"\n---&nbsp;BIT&nbsp;SHIFT&nbsp;LEFT&nbsp;ON&nbsp;POSITIVE&nbsp;INTEGERS&nbsp;---\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'zeros&nbsp;fill&nbsp;in&nbsp;right&nbsp;side'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">PHP_INT_SIZE&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">PHP_INT_SIZE&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'sign&nbsp;bits&nbsp;get&nbsp;shifted&nbsp;out'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">PHP_INT_SIZE&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bits&nbsp;shift&nbsp;out&nbsp;left&nbsp;side'</span><span style="color: #007700">);<br /><br /><br />echo&nbsp;</span><span style="color: #DD0000">"\n---&nbsp;BIT&nbsp;SHIFT&nbsp;LEFT&nbsp;ON&nbsp;NEGATIVE&nbsp;INTEGERS&nbsp;---\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;-</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'zeros&nbsp;fill&nbsp;in&nbsp;right&nbsp;side'</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;-</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">PHP_INT_SIZE&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">=&nbsp;-</span><span style="color: #0000BB">4</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$places&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">PHP_INT_SIZE&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">)&nbsp;-&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$res&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&lt;&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'&lt;&lt;'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bits&nbsp;shift&nbsp;out&nbsp;left&nbsp;side,&nbsp;including&nbsp;sign&nbsp;bit'</span><span style="color: #007700">);<br /><br /><br /></span><span style="color: #FF8000">/*<br />&nbsp;*&nbsp;Ignore&nbsp;this&nbsp;bottom&nbsp;section,<br />&nbsp;*&nbsp;it&nbsp;is&nbsp;just&nbsp;formatting&nbsp;to&nbsp;make&nbsp;output&nbsp;clearer.<br />&nbsp;*/<br /><br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">p</span><span style="color: #007700">(</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$op</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$note&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">''</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$format&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'%0'&nbsp;</span><span style="color: #007700">.&nbsp;(</span><span style="color: #0000BB">PHP_INT_SIZE&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">8</span><span style="color: #007700">)&nbsp;.&nbsp;</span><span style="color: #DD0000">"b\n"</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"Expression:&nbsp;%d&nbsp;=&nbsp;%d&nbsp;%s&nbsp;%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$op</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$places</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&nbsp;Decimal:\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"&nbsp;&nbsp;val=%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">"&nbsp;&nbsp;res=%d\n"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&nbsp;Binary:\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">'&nbsp;&nbsp;val='&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$format</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">printf</span><span style="color: #007700">(</span><span style="color: #DD0000">'&nbsp;&nbsp;res='&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$format</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$res</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">$note</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"&nbsp;NOTE:&nbsp;</span><span style="color: #0000BB">$note</span><span style="color: #DD0000">\n"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+      <div class="example-contents"><p>Output of the above example on 32 bit machines:</p></div>
+      <div class="example-contents screen">
+ <div class="cdata"><pre>
+ 
+ --- BIT SHIFT RIGHT ON POSITIVE INTEGERS ---
+ Expression: 2 = 4 &gt;&gt; 1
+  Decimal:
+   val=4
+   res=2
+  Binary:
+   val=00000000000000000000000000000100
+   res=00000000000000000000000000000010
+  NOTE: copy of sign bit shifted into left side
+ 
+ Expression: 1 = 4 &gt;&gt; 2
+  Decimal:
+   val=4
+   res=1
+  Binary:
+   val=00000000000000000000000000000100
+   res=00000000000000000000000000000001
+ 
+ Expression: 0 = 4 &gt;&gt; 3
+  Decimal:
+   val=4
+   res=0
+  Binary:
+   val=00000000000000000000000000000100
+   res=00000000000000000000000000000000
+  NOTE: bits shift out right side
+ 
+ Expression: 0 = 4 &gt;&gt; 4
+  Decimal:
+   val=4
+   res=0
+  Binary:
+   val=00000000000000000000000000000100
+   res=00000000000000000000000000000000
+  NOTE: same result as above; can not shift beyond 0
+ 
+ 
+ --- BIT SHIFT RIGHT ON NEGATIVE INTEGERS ---
+ Expression: -2 = -4 &gt;&gt; 1
+  Decimal:
+   val=-4
+   res=-2
+  Binary:
+   val=11111111111111111111111111111100
+   res=11111111111111111111111111111110
+  NOTE: copy of sign bit shifted into left side
+ 
+ Expression: -1 = -4 &gt;&gt; 2
+  Decimal:
+   val=-4
+   res=-1
+  Binary:
+   val=11111111111111111111111111111100
+   res=11111111111111111111111111111111
+  NOTE: bits shift out right side
+ 
+ Expression: -1 = -4 &gt;&gt; 3
+  Decimal:
+   val=-4
+   res=-1
+  Binary:
+   val=11111111111111111111111111111100
+   res=11111111111111111111111111111111
+  NOTE: same result as above; can not shift beyond -1
+ 
+ 
+ --- BIT SHIFT LEFT ON POSITIVE INTEGERS ---
+ Expression: 8 = 4 &lt;&lt; 1
+  Decimal:
+   val=4
+   res=8
+  Binary:
+   val=00000000000000000000000000000100
+   res=00000000000000000000000000001000
+  NOTE: zeros fill in right side
+ 
+ Expression: 1073741824 = 4 &lt;&lt; 28
+  Decimal:
+   val=4
+   res=1073741824
+  Binary:
+   val=00000000000000000000000000000100
+   res=01000000000000000000000000000000
+ 
+ Expression: -2147483648 = 4 &lt;&lt; 29
+  Decimal:
+   val=4
+   res=-2147483648
+  Binary:
+   val=00000000000000000000000000000100
+   res=10000000000000000000000000000000
+  NOTE: sign bits get shifted out
+ 
+ Expression: 0 = 4 &lt;&lt; 30
+  Decimal:
+   val=4
+   res=0
+  Binary:
+   val=00000000000000000000000000000100
+   res=00000000000000000000000000000000
+  NOTE: bits shift out left side
+ 
+ 
+ --- BIT SHIFT LEFT ON NEGATIVE INTEGERS ---
+ Expression: -8 = -4 &lt;&lt; 1
+  Decimal:
+   val=-4
+   res=-8
+  Binary:
+   val=11111111111111111111111111111100
+   res=11111111111111111111111111111000
+  NOTE: zeros fill in right side
+ 
+ Expression: -2147483648 = -4 &lt;&lt; 29
+  Decimal:
+   val=-4
+   res=-2147483648
+  Binary:
+   val=11111111111111111111111111111100
+   res=10000000000000000000000000000000
+ 
+ Expression: 0 = -4 &lt;&lt; 30
+  Decimal:
+   val=-4
+   res=0
+  Binary:
+   val=11111111111111111111111111111100
+   res=00000000000000000000000000000000
+  NOTE: bits shift out left side, including sign bit
+ </pre></div>
+      </div>
+      <div class="example-contents"><p>Output of the above example on 64 bit machines:</p></div>
+      <div class="example-contents screen">
+ <div class="cdata"><pre>
+ 
+ --- BIT SHIFT RIGHT ON POSITIVE INTEGERS ---
+ Expression: 2 = 4 &gt;&gt; 1
+  Decimal:
+   val=4
+   res=2
+  Binary:
+   val=0000000000000000000000000000000000000000000000000000000000000100
+   res=0000000000000000000000000000000000000000000000000000000000000010
+  NOTE: copy of sign bit shifted into left side
+ 
+ Expression: 1 = 4 &gt;&gt; 2
+  Decimal:
+   val=4
+   res=1
+  Binary:
+   val=0000000000000000000000000000000000000000000000000000000000000100
+   res=0000000000000000000000000000000000000000000000000000000000000001
+ 
+ Expression: 0 = 4 &gt;&gt; 3
+  Decimal:
+   val=4
+   res=0
+  Binary:
+   val=0000000000000000000000000000000000000000000000000000000000000100
+   res=0000000000000000000000000000000000000000000000000000000000000000
+  NOTE: bits shift out right side
+ 
+ Expression: 0 = 4 &gt;&gt; 4
+  Decimal:
+   val=4
+   res=0
+  Binary:
+   val=0000000000000000000000000000000000000000000000000000000000000100
+   res=0000000000000000000000000000000000000000000000000000000000000000
+  NOTE: same result as above; can not shift beyond 0
+ 
+ 
+ --- BIT SHIFT RIGHT ON NEGATIVE INTEGERS ---
+ Expression: -2 = -4 &gt;&gt; 1
+  Decimal:
+   val=-4
+   res=-2
+  Binary:
+   val=1111111111111111111111111111111111111111111111111111111111111100
+   res=1111111111111111111111111111111111111111111111111111111111111110
+  NOTE: copy of sign bit shifted into left side
+ 
+ Expression: -1 = -4 &gt;&gt; 2
+  Decimal:
+   val=-4
+   res=-1
+  Binary:
+   val=1111111111111111111111111111111111111111111111111111111111111100
+   res=1111111111111111111111111111111111111111111111111111111111111111
+  NOTE: bits shift out right side
+ 
+ Expression: -1 = -4 &gt;&gt; 3
+  Decimal:
+   val=-4
+   res=-1
+  Binary:
+   val=1111111111111111111111111111111111111111111111111111111111111100
+   res=1111111111111111111111111111111111111111111111111111111111111111
+  NOTE: same result as above; can not shift beyond -1
+ 
+ 
+ --- BIT SHIFT LEFT ON POSITIVE INTEGERS ---
+ Expression: 8 = 4 &lt;&lt; 1
+  Decimal:
+   val=4
+   res=8
+  Binary:
+   val=0000000000000000000000000000000000000000000000000000000000000100
+   res=0000000000000000000000000000000000000000000000000000000000001000
+  NOTE: zeros fill in right side
+ 
+ Expression: 4611686018427387904 = 4 &lt;&lt; 60
+  Decimal:
+   val=4
+   res=4611686018427387904
+  Binary:
+   val=0000000000000000000000000000000000000000000000000000000000000100
+   res=0100000000000000000000000000000000000000000000000000000000000000
+ 
+ Expression: -9223372036854775808 = 4 &lt;&lt; 61
+  Decimal:
+   val=4
+   res=-9223372036854775808
+  Binary:
+   val=0000000000000000000000000000000000000000000000000000000000000100
+   res=1000000000000000000000000000000000000000000000000000000000000000
+  NOTE: sign bits get shifted out
+ 
+ Expression: 0 = 4 &lt;&lt; 62
+  Decimal:
+   val=4
+   res=0
+  Binary:
+   val=0000000000000000000000000000000000000000000000000000000000000100
+   res=0000000000000000000000000000000000000000000000000000000000000000
+  NOTE: bits shift out left side
+ 
+ 
+ --- BIT SHIFT LEFT ON NEGATIVE INTEGERS ---
+ Expression: -8 = -4 &lt;&lt; 1
+  Decimal:
+   val=-4
+   res=-8
+  Binary:
+   val=1111111111111111111111111111111111111111111111111111111111111100
+   res=1111111111111111111111111111111111111111111111111111111111111000
+  NOTE: zeros fill in right side
+ 
+ Expression: -9223372036854775808 = -4 &lt;&lt; 61
+  Decimal:
+   val=-4
+   res=-9223372036854775808
+  Binary:
+   val=1111111111111111111111111111111111111111111111111111111111111100
+   res=1000000000000000000000000000000000000000000000000000000000000000
+ 
+ Expression: 0 = -4 &lt;&lt; 62
+  Decimal:
+   val=-4
+   res=0
+  Binary:
+   val=1111111111111111111111111111111111111111111111111111111111111100
+   res=0000000000000000000000000000000000000000000000000000000000000000
+  NOTE: bits shift out left side, including sign bit
+ </pre></div>
+      </div>
+     </div>
+    </p>
+    <div class="warning"><strong class="warning">Warning</strong>
+     <p class="para">
+      Prior to PHP 7.0, shifting integers by values greater than or equal to the
+      system long integer width, or by negative numbers, results in undefined
+      behavior. In other words, if you&#039;re using PHP 5.x, don&#039;t shift more than 31
+      bits on a 32-bit system, and don&#039;t shift more than 63 bits on 64-bit
+      system. 
+     </p>
+     <p class="para">
+      Use functions from the <a href="#book.gmp" class="link">gmp</a> extension for
+      bitwise manipulation on numbers beyond <code class="literal">PHP_INT_MAX</code>.
+     </p>
+    </div>
+    <p class="para">
+     See also
+     <span class="function"><a href="#function.pack" class="function">pack()</a></span>,
+     <span class="function"><a href="#function.unpack" class="function">unpack()</a></span>,
+     <span class="function"><a href="#function.gmp-and" class="function">gmp_and()</a></span>,
+     <span class="function"><a href="#function.gmp-or" class="function">gmp_or()</a></span>,
+     <span class="function"><a href="#function.gmp-xor" class="function">gmp_xor()</a></span>,
+     <span class="function"><a href="#function.gmp-testbit" class="function">gmp_testbit()</a></span>,
+     <span class="function"><a href="#function.gmp-clrbit" class="function">gmp_clrbit()</a></span>
+    </p>
+   </div>
+ <hr />
+ 
+ 
+   <div id="language.operators.comparison" class="sect1"><hr />
+    <h2 class="title">Comparison Operators</h2>
+    <p class="simpara">
+     Comparison operators, as their name implies, allow you to compare
+     two values.  You may also be interested in viewing
+     <a href="#types.comparisons" class="link">the type comparison tables</a>,
+     as they show examples of various type related comparisons.
+    </p>
+    <table class="doctable table">
+     <caption><strong>Comparison Operators</strong></caption>
+     
+      <thead>
+       <tr>
+        <th>Example</th>
+        <th>Name</th>
+        <th>Result</th>
+       </tr>
+ 
+      </thead>
+ 
+      <tbody class="tbody">
+       <tr>
+        <td>$a == $b</td>
+        <td>Equal</td>
+        <td><strong><code>TRUE</code></strong> if <var class="varname">$a</var> is equal to <var class="varname">$b</var> after type juggling.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a === $b</td>
+        <td>Identical</td>
+        <td>
+         <strong><code>TRUE</code></strong> if <var class="varname">$a</var> is equal to <var class="varname">$b</var>, and they are of the same
+         type.
+        </td>
+       </tr>
+ 
+       <tr>
+        <td>$a != $b</td>
+        <td>Not equal</td>
+        <td><strong><code>TRUE</code></strong> if <var class="varname">$a</var> is not equal to <var class="varname">$b</var> after type juggling.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a &lt;&gt; $b</td>
+        <td>Not equal</td>
+        <td><strong><code>TRUE</code></strong> if <var class="varname">$a</var> is not equal to <var class="varname">$b</var> after type juggling.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a !== $b</td>
+        <td>Not identical</td>
+        <td>
+         <strong><code>TRUE</code></strong> if <var class="varname">$a</var> is not equal to <var class="varname">$b</var>, or they are not of the same
+         type.
+        </td>
+       </tr>
+ 
+       <tr>
+        <td>$a &lt; $b</td>
+        <td>Less than</td>
+        <td><strong><code>TRUE</code></strong> if <var class="varname">$a</var> is strictly less than <var class="varname">$b</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a &gt; $b</td>
+        <td>Greater than</td>
+        <td><strong><code>TRUE</code></strong> if <var class="varname">$a</var> is strictly greater than <var class="varname">$b</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a &lt;= $b</td>
+        <td>Less than or equal to </td>
+        <td><strong><code>TRUE</code></strong> if <var class="varname">$a</var> is less than or equal to <var class="varname">$b</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a &gt;= $b</td>
+        <td>Greater than or equal to </td>
+        <td><strong><code>TRUE</code></strong> if <var class="varname">$a</var> is greater than or equal to <var class="varname">$b</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a &lt;=&gt; $b</td>
+        <td>Spaceship</td>
+        <td>
+         An <span class="type"><a href="#language.types.integer" class="type integer">integer</a></span> less than, equal to, or greater than zero when
+         <var class="varname">$a</var> is less than, equal to, or greater than
+         <var class="varname">$b</var>, respectively. Available as of PHP 7.
+        </td>
+       </tr>
+ 
+      </tbody>
+     
+    </table>
+ 
+    <p class="para">
+     If you compare a number with a string or the comparison involves numerical
+     strings, then each string is
+     <a href="#language.types.string.conversion" class="link">converted to a number</a>
+     and the comparison performed numerically. These rules also apply to the
+     <a href="#control-structures.switch" class="link">switch</a> statement. The
+     type conversion does not take place when the comparison is === or !== as
+     this involves comparing the type as well as the value.
+     <div class="informalexample">
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br />var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">0&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #DD0000">"a"</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;0&nbsp;==&nbsp;0&nbsp;-&gt;&nbsp;true<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #DD0000">"1"&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #DD0000">"01"</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;1&nbsp;==&nbsp;1&nbsp;-&gt;&nbsp;true<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #DD0000">"10"&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #DD0000">"1e1"</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;10&nbsp;==&nbsp;10&nbsp;-&gt;&nbsp;true<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">100&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #DD0000">"1e2"</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;100&nbsp;==&nbsp;100&nbsp;-&gt;&nbsp;true<br /><br /></span><span style="color: #007700">switch&nbsp;(</span><span style="color: #DD0000">"a"</span><span style="color: #007700">)&nbsp;{<br />case&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">:<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">"0"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;break;<br />case&nbsp;</span><span style="color: #DD0000">"a"</span><span style="color: #007700">:&nbsp;</span><span style="color: #FF8000">//&nbsp;never&nbsp;reached&nbsp;because&nbsp;"a"&nbsp;is&nbsp;already&nbsp;matched&nbsp;with&nbsp;0<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"a"</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;break;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php&nbsp;&nbsp;<br /></span><span style="color: #FF8000">//&nbsp;Integers<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">1&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;0<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">1&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;-1<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">2&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;1<br />&nbsp;<br />//&nbsp;Floats<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">1.5&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #0000BB">1.5</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;0<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">1.5&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #0000BB">2.5</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;-1<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">2.5&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #0000BB">1.5</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;1<br />&nbsp;<br />//&nbsp;Strings<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #DD0000">"a"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;0<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #DD0000">"b"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;-1<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"b"&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #DD0000">"a"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;1<br />&nbsp;<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #DD0000">"aa"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;-1<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"zz"&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #DD0000">"aa"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;1<br />&nbsp;<br />//&nbsp;Arrays<br /></span><span style="color: #007700">echo&nbsp;[]&nbsp;&lt;=&gt;&nbsp;[];&nbsp;</span><span style="color: #FF8000">//&nbsp;0<br /></span><span style="color: #007700">echo&nbsp;[</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">]&nbsp;&lt;=&gt;&nbsp;[</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">];&nbsp;</span><span style="color: #FF8000">//&nbsp;0<br /></span><span style="color: #007700">echo&nbsp;[</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">]&nbsp;&lt;=&gt;&nbsp;[];&nbsp;</span><span style="color: #FF8000">//&nbsp;1<br /></span><span style="color: #007700">echo&nbsp;[</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">]&nbsp;&lt;=&gt;&nbsp;[</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">];&nbsp;</span><span style="color: #FF8000">//&nbsp;1<br /></span><span style="color: #007700">echo&nbsp;[</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">3</span><span style="color: #007700">]&nbsp;&lt;=&gt;&nbsp;[</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">];&nbsp;</span><span style="color: #FF8000">//&nbsp;-1<br />&nbsp;<br />//&nbsp;Objects<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;(object)&nbsp;[</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"b"</span><span style="color: #007700">];&nbsp;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;(object)&nbsp;[</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"b"</span><span style="color: #007700">];&nbsp;<br />echo&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;0<br />&nbsp;<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;(object)&nbsp;[</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"b"</span><span style="color: #007700">];&nbsp;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;(object)&nbsp;[</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"c"</span><span style="color: #007700">];&nbsp;<br />echo&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;-1<br />&nbsp;<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;(object)&nbsp;[</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"c"</span><span style="color: #007700">];&nbsp;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;(object)&nbsp;[</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"b"</span><span style="color: #007700">];&nbsp;<br />echo&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;1<br />&nbsp;<br />//&nbsp;not&nbsp;only&nbsp;values&nbsp;are&nbsp;compared;&nbsp;keys&nbsp;must&nbsp;match<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;(object)&nbsp;[</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"b"</span><span style="color: #007700">];&nbsp;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;(object)&nbsp;[</span><span style="color: #DD0000">"b"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"b"</span><span style="color: #007700">];&nbsp;<br />echo&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">&lt;=&gt;&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;1<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+       
+      </div>
+ 
+     </div>
+    </p>
+ 
+    <p class="para">
+     For various types, comparison is done according to the following
+     table (in order).
+    </p>
+    <table id="language.operators.comparison.types" class="doctable table">
+     <caption><strong>Comparison with Various Types</strong></caption>
+     
+      <thead>
+       <tr>
+        <th>Type of Operand 1</th>
+        <th>Type of Operand 2</th>
+        <th>Result</th>
+       </tr>
+ 
+      </thead>
+ 
+      <tbody class="tbody">
+       <tr>
+        <td><span class="type"><a href="#language.types.null" class="type null">null</a></span> or <span class="type"><a href="#language.types.string" class="type string">string</a></span></td>
+        <td><span class="type"><a href="#language.types.string" class="type string">string</a></span></td>
+        <td>Convert <strong><code>NULL</code></strong> to &quot;&quot;, numerical or lexical comparison</td>
+       </tr>
+ 
+       <tr>
+        <td><span class="type"><a href="#language.types.boolean" class="type bool">bool</a></span> or <span class="type"><a href="#language.types.null" class="type null">null</a></span></td>
+        <td>anything</td>
+        <td>Convert both sides to <span class="type"><a href="#language.types.boolean" class="type bool">bool</a></span>, <strong><code>FALSE</code></strong> &lt; <strong><code>TRUE</code></strong></td>
+       </tr>
+ 
+       <tr>
+        <td><span class="type"><a href="#language.types.object" class="type object">object</a></span></td>
+        <td><span class="type"><a href="#language.types.object" class="type object">object</a></span></td>
+        <td>Built-in classes can define its own comparison, different classes
+         are uncomparable, same class see <a href="#language.oop5.object-comparison" class="link">Object Comparison</a>
+        </td>
+       </tr>
+ 
+       <tr>
+        <td><span class="type"><a href="#language.types.string" class="type string">string</a></span>, <span class="type"><a href="#language.types.resource" class="type resource">resource</a></span> or <span class="type"><a href="#language.types.number" class="type number">number</a></span></td>
+        <td><span class="type"><a href="#language.types.string" class="type string">string</a></span>, <span class="type"><a href="#language.types.resource" class="type resource">resource</a></span> or <span class="type"><a href="#language.types.number" class="type number">number</a></span></td>
+        <td>Translate strings and resources to numbers, usual math</td>
+       </tr>
+ 
+       <tr>
+        <td><span class="type"><a href="#language.types.array" class="type array">array</a></span></td>
+        <td><span class="type"><a href="#language.types.array" class="type array">array</a></span></td>
+        <td>Array with fewer members is smaller, if key from operand 1 is not
+         found in operand 2 then arrays are uncomparable, otherwise - compare
+         value by value (see following example)</td>
+       </tr>
+ 
+       <tr>
+        <td><span class="type"><a href="#language.types.object" class="type object">object</a></span></td>
+        <td>anything</td>
+        <td><span class="type"><a href="#language.types.object" class="type object">object</a></span> is always greater</td>
+       </tr>
+ 
+       <tr>
+        <td><span class="type"><a href="#language.types.array" class="type array">array</a></span></td>
+        <td>anything</td>
+        <td><span class="type"><a href="#language.types.array" class="type array">array</a></span> is always greater</td>
+       </tr>
+ 
+      </tbody>
+     
+    </table>
+ 
+ 
+    <p class="para">
+     <div class="example" id="example-102">
+      <p><strong>Example #1 Boolean/null comparison</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Bool&nbsp;and&nbsp;null&nbsp;are&nbsp;compared&nbsp;as&nbsp;bool&nbsp;always<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">1&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #0000BB">TRUE</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;TRUE&nbsp;-&nbsp;same&nbsp;as&nbsp;(bool)1&nbsp;==&nbsp;TRUE<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">0&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #0000BB">FALSE</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;TRUE&nbsp;-&nbsp;same&nbsp;as&nbsp;(bool)0&nbsp;==&nbsp;FALSE<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">100&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">TRUE</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;FALSE&nbsp;-&nbsp;same&nbsp;as&nbsp;(bool)100&nbsp;&lt;&nbsp;TRUE<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(-</span><span style="color: #0000BB">10&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">FALSE</span><span style="color: #007700">);</span><span style="color: #FF8000">//&nbsp;FALSE&nbsp;-&nbsp;same&nbsp;as&nbsp;(bool)-10&nbsp;&lt;&nbsp;FALSE<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">min</span><span style="color: #007700">(-</span><span style="color: #0000BB">100</span><span style="color: #007700">,&nbsp;-</span><span style="color: #0000BB">10</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">100</span><span style="color: #007700">));&nbsp;</span><span style="color: #FF8000">//&nbsp;NULL&nbsp;-&nbsp;(bool)NULL&nbsp;&lt;&nbsp;(bool)-100&nbsp;is&nbsp;FALSE&nbsp;&lt;&nbsp;TRUE<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+ 
+ 
+    <p class="para">
+     <div class="example" id="example-103">
+      <p><strong>Example #2 Transcription of standard array comparison</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Arrays&nbsp;are&nbsp;compared&nbsp;like&nbsp;this&nbsp;with&nbsp;standard&nbsp;comparison&nbsp;operators<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">standard_array_compare</span><span style="color: #007700">(</span><span style="color: #0000BB">$op1</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$op2</span><span style="color: #007700">)<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">count</span><span style="color: #007700">(</span><span style="color: #0000BB">$op1</span><span style="color: #007700">)&nbsp;&lt;&nbsp;</span><span style="color: #0000BB">count</span><span style="color: #007700">(</span><span style="color: #0000BB">$op2</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;-</span><span style="color: #0000BB">1</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;$op1&nbsp;&lt;&nbsp;$op2<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">}&nbsp;elseif&nbsp;(</span><span style="color: #0000BB">count</span><span style="color: #007700">(</span><span style="color: #0000BB">$op1</span><span style="color: #007700">)&nbsp;&gt;&nbsp;</span><span style="color: #0000BB">count</span><span style="color: #007700">(</span><span style="color: #0000BB">$op2</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;$op1&nbsp;&gt;&nbsp;$op2<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">}<br />&nbsp;&nbsp;&nbsp;&nbsp;foreach&nbsp;(</span><span style="color: #0000BB">$op1&nbsp;</span><span style="color: #007700">as&nbsp;</span><span style="color: #0000BB">$key&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$val</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!</span><span style="color: #0000BB">array_key_exists</span><span style="color: #007700">(</span><span style="color: #0000BB">$key</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$op2</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">null</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;uncomparable<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">}&nbsp;elseif&nbsp;(</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">$op2</span><span style="color: #007700">[</span><span style="color: #0000BB">$key</span><span style="color: #007700">])&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;-</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;elseif&nbsp;(</span><span style="color: #0000BB">$val&nbsp;</span><span style="color: #007700">&gt;&nbsp;</span><span style="color: #0000BB">$op2</span><span style="color: #007700">[</span><span style="color: #0000BB">$key</span><span style="color: #007700">])&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;$op1&nbsp;==&nbsp;$op2<br /></span><span style="color: #007700">}<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+ 
+    <p class="para">
+     See also <span class="function"><a href="#function.strcasecmp" class="function">strcasecmp()</a></span>,
+     <span class="function"><a href="#function.strcmp" class="function">strcmp()</a></span>,
+     <a href="#language.operators.array" class="link">Array operators</a>,
+     and the manual section on
+     <a href="#language.types" class="link">Types</a>.
+    </p>
+ 
+    <div class="warning"><strong class="warning">Warning</strong>
+     <h1 class="title">Comparison of floating point numbers</h1>
+ 
+     <p class="para">
+      Because of the way <span class="type"><a href="#language.types.float" class="type float">float</a></span>s are represented internally, you
+      should not test two <span class="type"><a href="#language.types.float" class="type float">float</a></span>s for equality.
+     </p>
+ 
+     <p class="para">
+      See the documentation for <span class="type"><a href="#language.types.float" class="type float">float</a></span> for more information.
+     </p>
+    </div>
+ 
+    <div class="sect2" id="language.operators.comparison.ternary">
+     <h3 class="title">Ternary Operator</h3>
+     <p class="para">
+      Another conditional operator is the &quot;?:&quot; (or ternary) operator.
+      <div class="example" id="example-104">
+       <p><strong>Example #3 Assigning a default value</strong></p>
+       <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Example&nbsp;usage&nbsp;for:&nbsp;Ternary&nbsp;Operator<br /></span><span style="color: #0000BB">$action&nbsp;</span><span style="color: #007700">=&nbsp;(empty(</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">[</span><span style="color: #DD0000">'action'</span><span style="color: #007700">]))&nbsp;?&nbsp;</span><span style="color: #DD0000">'default'&nbsp;</span><span style="color: #007700">:&nbsp;</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">[</span><span style="color: #DD0000">'action'</span><span style="color: #007700">];<br /><br /></span><span style="color: #FF8000">//&nbsp;The&nbsp;above&nbsp;is&nbsp;identical&nbsp;to&nbsp;this&nbsp;if/else&nbsp;statement<br /></span><span style="color: #007700">if&nbsp;(empty(</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">[</span><span style="color: #DD0000">'action'</span><span style="color: #007700">]))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$action&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'default'</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$action&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">[</span><span style="color: #DD0000">'action'</span><span style="color: #007700">];<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+       </div>
+ 
+      </div>
+      The expression <code class="literal">(expr1) ? (expr2) : (expr3)</code>
+      evaluates to <span class="replaceable">expr2</span> if
+      <span class="replaceable">expr1</span> evaluates to <strong><code>TRUE</code></strong>, and
+      <span class="replaceable">expr3</span> if
+      <span class="replaceable">expr1</span> evaluates to <strong><code>FALSE</code></strong>.
+     </p>
+     <p class="para">
+      Since PHP 5.3, it is possible to leave out the middle part of the ternary
+      operator. Expression <code class="literal">expr1 ?: expr3</code> returns
+      <span class="replaceable">expr1</span> if <span class="replaceable">expr1</span>
+      evaluates to <strong><code>TRUE</code></strong>, and <span class="replaceable">expr3</span> otherwise.
+     </p>
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <span class="simpara">
+       Please note that the ternary operator is an expression, and that it
+       doesn&#039;t evaluate to a variable, but to the result of an expression. This
+       is important to know if you want to return a variable by reference.
+       The statement <code class="literal">return $var == 42 ? $a : $b;</code> in a
+       return-by-reference function will therefore not work and a warning is
+       issued.
+      </span>
+     </p></blockquote>
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <p class="para">
+       It is recommended that you avoid &quot;stacking&quot; ternary expressions. PHP&#039;s
+       behaviour when using more than one ternary operator within a single
+       statement is non-obvious:
+       <div class="example" id="example-105">
+        <p><strong>Example #4 Non-obvious Ternary Behaviour</strong></p>
+        <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;on&nbsp;first&nbsp;glance,&nbsp;the&nbsp;following&nbsp;appears&nbsp;to&nbsp;output&nbsp;'true'<br /></span><span style="color: #007700">echo&nbsp;(</span><span style="color: #0000BB">true</span><span style="color: #007700">?</span><span style="color: #DD0000">'true'</span><span style="color: #007700">:</span><span style="color: #0000BB">false</span><span style="color: #007700">?</span><span style="color: #DD0000">'t'</span><span style="color: #007700">:</span><span style="color: #DD0000">'f'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;however,&nbsp;the&nbsp;actual&nbsp;output&nbsp;of&nbsp;the&nbsp;above&nbsp;is&nbsp;'t'<br />//&nbsp;this&nbsp;is&nbsp;because&nbsp;ternary&nbsp;expressions&nbsp;are&nbsp;evaluated&nbsp;from&nbsp;left&nbsp;to&nbsp;right<br /><br />//&nbsp;the&nbsp;following&nbsp;is&nbsp;a&nbsp;more&nbsp;obvious&nbsp;version&nbsp;of&nbsp;the&nbsp;same&nbsp;code&nbsp;as&nbsp;above<br /></span><span style="color: #007700">echo&nbsp;((</span><span style="color: #0000BB">true&nbsp;</span><span style="color: #007700">?&nbsp;</span><span style="color: #DD0000">'true'&nbsp;</span><span style="color: #007700">:&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">)&nbsp;?&nbsp;</span><span style="color: #DD0000">'t'&nbsp;</span><span style="color: #007700">:&nbsp;</span><span style="color: #DD0000">'f'</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;here,&nbsp;you&nbsp;can&nbsp;see&nbsp;that&nbsp;the&nbsp;first&nbsp;expression&nbsp;is&nbsp;evaluated&nbsp;to&nbsp;'true',&nbsp;which<br />//&nbsp;in&nbsp;turn&nbsp;evaluates&nbsp;to&nbsp;(bool)true,&nbsp;thus&nbsp;returning&nbsp;the&nbsp;true&nbsp;branch&nbsp;of&nbsp;the<br />//&nbsp;second&nbsp;ternary&nbsp;expression.<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+        </div>
+ 
+       </div>
+      </p>
+     </p></blockquote>
+    </div>
+    
+    <div class="sect2" id="language.operators.comparison.coalesce">
+     <h3 class="title">Null Coalescing Operator</h3>
+     <p class="para">
+      Further exists the &quot;??&quot; (or null coalescing) operator, available as of PHP 7.
+      <div class="example" id="example-106">
+       <p><strong>Example #5 Assigning a default value</strong></p>
+       <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Example&nbsp;usage&nbsp;for:&nbsp;Null&nbsp;Coalesce&nbsp;Operator<br /></span><span style="color: #0000BB">$action&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">[</span><span style="color: #DD0000">'action'</span><span style="color: #007700">]&nbsp;??&nbsp;</span><span style="color: #DD0000">'default'</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;The&nbsp;above&nbsp;is&nbsp;identical&nbsp;to&nbsp;this&nbsp;if/else&nbsp;statement<br /></span><span style="color: #007700">if&nbsp;(isset(</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">[</span><span style="color: #DD0000">'action'</span><span style="color: #007700">]))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$action&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">[</span><span style="color: #DD0000">'action'</span><span style="color: #007700">];<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$action&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'default'</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+       </div>
+ 
+      </div>
+      The expression <code class="literal">(expr1) ?? (expr2)</code> evaluates to
+      <span class="replaceable">expr2</span> if <span class="replaceable">expr1</span> is
+      <strong><code>NULL</code></strong>, and <span class="replaceable">expr1</span> otherwise.
+     </p>
+     <p class="para">
+      In particular, this operator does not emit a notice if the left-hand side
+      value does not exist, just like <span class="function"><a href="#function.isset" class="function">isset()</a></span>. This is especially
+      useful on array keys.
+     </p>
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <span class="simpara">
+       Please note that the null coalescing operator is an expression, and that it
+       doesn&#039;t evaluate to a variable, but to the result of an expression. This
+       is important to know if you want to return a variable by reference.
+       The statement <code class="literal">return $foo ?? $bar;</code> in a
+       return-by-reference function will therefore not work and a warning is
+       issued.
+      </span>
+     </p></blockquote>
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <p class="para">
+       Please note that the null coalescing operator allows for simple nesting:
+       <div class="example" id="example-107">
+        <p><strong>Example #6 Nesting null coalescing operator</strong></p>
+        <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /><br />$foo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">null</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">null</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$baz&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$qux&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br /><br />echo&nbsp;</span><span style="color: #0000BB">$foo&nbsp;</span><span style="color: #007700">??&nbsp;</span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">??&nbsp;</span><span style="color: #0000BB">$baz&nbsp;</span><span style="color: #007700">??&nbsp;</span><span style="color: #0000BB">$qux</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;outputs&nbsp;1<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+        </div>
+ 
+       </div>
+      </p>
+     </p></blockquote>
+    </div> 
+   </div>
+ <hr />
+ 
+ 
+   <div id="language.operators.errorcontrol" class="sect1"><hr />
+    <h2 class="title">Error Control Operators</h2>
+    <p class="simpara">
+     PHP supports one error control operator: the at sign (@). When
+     prepended to an expression in PHP, any error messages that might
+     be generated by that expression will be ignored.
+    </p>
+    <p class="simpara">
+     If you have set a custom error handler function with
+     <span class="function"><a href="#function.set-error-handler" class="function">set_error_handler()</a></span> then it will still get
+     called, but this custom error handler can (and should) call <span class="function"><a href="#function.error-reporting" class="function">error_reporting()</a></span>
+     which will return 0 when the call that triggered the error was preceded by an @.
+    </p>
+    <p class="simpara">
+     If the <a href="#ini.track-errors" class="link"><strong class="option unknown">track_errors</strong></a>
+     feature is enabled, any error message generated by the expression
+     will be saved in the variable
+     <var class="varname"><a href="#reserved.variables.phperrormsg" class="classname">$php_errormsg</a></var>.
+     This variable will be overwritten on each error, so check early if you
+     want to use it.
+    </p>
+    <p class="para">
+     <div class="informalexample">
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">/*&nbsp;Intentional&nbsp;file&nbsp;error&nbsp;*/<br /></span><span style="color: #0000BB">$my_file&nbsp;</span><span style="color: #007700">=&nbsp;@</span><span style="color: #0000BB">file&nbsp;</span><span style="color: #007700">(</span><span style="color: #DD0000">'non_existent_file'</span><span style="color: #007700">)&nbsp;or<br />&nbsp;&nbsp;&nbsp;&nbsp;die&nbsp;(</span><span style="color: #DD0000">"Failed&nbsp;opening&nbsp;file:&nbsp;error&nbsp;was&nbsp;'</span><span style="color: #0000BB">$php_errormsg</span><span style="color: #DD0000">'"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;this&nbsp;works&nbsp;for&nbsp;any&nbsp;expression,&nbsp;not&nbsp;just&nbsp;functions:<br /></span><span style="color: #0000BB">$value&nbsp;</span><span style="color: #007700">=&nbsp;@</span><span style="color: #0000BB">$cache</span><span style="color: #007700">[</span><span style="color: #0000BB">$key</span><span style="color: #007700">];<br /></span><span style="color: #FF8000">//&nbsp;will&nbsp;not&nbsp;issue&nbsp;a&nbsp;notice&nbsp;if&nbsp;the&nbsp;index&nbsp;$key&nbsp;doesn't&nbsp;exist.<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+    <blockquote class="note"><p><strong class="note">Note</strong>: 
+     <span class="simpara">
+      The @-operator works only on
+      <a href="#language.expressions" class="link">expressions</a>. A simple rule
+      of thumb is: if you can take the value of something, you can prepend
+      the @ operator to it. For instance, you can prepend it to variables,
+      function and <span class="function"><a href="#function.include" class="function">include</a></span> calls, constants, and
+      so forth. You cannot prepend it to function or class definitions,
+      or conditional structures such as <code class="literal">if</code> and
+      <a href="#control-structures.foreach" class="link">foreach</a>, and so forth.
+     </span>
+    </p></blockquote>
+    <p class="simpara">
+     See also <span class="function"><a href="#function.error-reporting" class="function">error_reporting()</a></span> and the manual section for
+     <a href="#ref.errorfunc" class="link">Error Handling and Logging functions</a>.
+    </p>
+    <div class="warning"><strong class="warning">Warning</strong>
+     <p class="para">
+      Currently the &quot;@&quot; error-control operator prefix will even disable
+      error reporting for critical errors that will terminate script
+      execution. Among other things, this means that if you use &quot;@&quot; to
+      suppress errors from a certain function and either it isn&#039;t
+      available or has been mistyped, the script will die right there
+      with no indication as to why.
+     </p>
+    </div>
+   </div>
+ <hr />
+ 
+ 
+   <div id="language.operators.execution" class="sect1"><hr />
+    <h2 class="title">Execution Operators</h2>
+    <p class="para">
+     PHP supports one execution operator: backticks (``). Note that
+     these are not single-quotes! PHP will attempt to execute the
+     contents of the backticks as a shell command; the output will be
+     returned (i.e., it won&#039;t simply be dumped to output; it can be
+     assigned to a variable).  Use of the backtick operator is identical
+     to <span class="function"><a href="#function.shell-exec" class="function">shell_exec()</a></span>.
+     <div class="informalexample">
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br />$output&nbsp;</span><span style="color: #007700">=&nbsp;`</span><span style="color: #DD0000">ls&nbsp;-al</span><span style="color: #007700">`;<br />echo&nbsp;</span><span style="color: #DD0000">"&lt;pre&gt;</span><span style="color: #0000BB">$output</span><span style="color: #DD0000">&lt;/pre&gt;"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+    <blockquote class="note"><p><strong class="note">Note</strong>: 
+     <p class="para">
+      The backtick operator is disabled when <a href="#ini.safe-mode" class="link">safe mode</a> is enabled
+      or <span class="function"><a href="#function.shell-exec" class="function">shell_exec()</a></span> is disabled.
+     </p>
+    </p></blockquote>
+    <blockquote class="note"><p><strong class="note">Note</strong>: 
+     <p class="para">
+      Unlike some other languages, backticks have no special meaning
+      within double-quoted strings.
+     </p>
+    </p></blockquote>
+    <p class="para">
+     See also the manual section on <a href="#ref.exec" class="link">Program
+     Execution functions</a>, <span class="function"><a href="#function.popen" class="function">popen()</a></span>
+     <span class="function"><a href="#function.proc-open" class="function">proc_open()</a></span>, and
+     <a href="#features.commandline" class="link">Using PHP from the
+     commandline</a>.
+    </p>
+   </div>
+ <hr />
+ 
+ 
+   <div id="language.operators.increment" class="sect1"><hr />
+    <h2 class="title">Incrementing/Decrementing Operators</h2>
+    <p class="para">
+     PHP supports C-style pre- and post-increment and decrement
+     operators.
+    </p>
+    <blockquote class="note"><p><strong class="note">Note</strong>: 
+     <span class="simpara">
+      The increment/decrement operators only affect numbers and strings.
+      Arrays, objects, booleans and resources are not affected.
+      Decrementing <strong><code>NULL</code></strong> values has no effect too, but incrementing them
+      results in <code class="literal">1</code>.
+     </span>
+    </p></blockquote>
+    <table class="doctable table">
+     <caption><strong>Increment/decrement Operators</strong></caption>
+     
+      <thead>
+       <tr>
+        <th>Example</th>
+        <th>Name</th>
+        <th>Effect</th>
+       </tr>
+ 
+      </thead>
+ 
+      <tbody class="tbody">
+       <tr>
+        <td>++$a</td>
+        <td>Pre-increment</td>
+        <td>Increments <var class="varname">$a</var> by one, then returns <var class="varname">$a</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a++</td>
+        <td>Post-increment</td>
+        <td>Returns <var class="varname">$a</var>, then increments <var class="varname">$a</var> by one.</td>
+       </tr>
+ 
+       <tr>
+        <td>--$a</td>
+        <td>Pre-decrement</td>
+        <td>Decrements <var class="varname">$a</var> by one, then returns <var class="varname">$a</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a--</td>
+        <td>Post-decrement</td>
+        <td>Returns <var class="varname">$a</var>, then decrements <var class="varname">$a</var> by one.</td>
+       </tr>
+ 
+      </tbody>
+     
+    </table>
+ 
+    <p class="para">
+     Here&#039;s a simple example script:
+     <div class="informalexample">
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"&lt;h3&gt;Postincrement&lt;/h3&gt;"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #DD0000">"Should&nbsp;be&nbsp;5:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">++&nbsp;.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #DD0000">"Should&nbsp;be&nbsp;6:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br /><br />echo&nbsp;</span><span style="color: #DD0000">"&lt;h3&gt;Preincrement&lt;/h3&gt;"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #DD0000">"Should&nbsp;be&nbsp;6:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;++</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #DD0000">"Should&nbsp;be&nbsp;6:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br /><br />echo&nbsp;</span><span style="color: #DD0000">"&lt;h3&gt;Postdecrement&lt;/h3&gt;"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #DD0000">"Should&nbsp;be&nbsp;5:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">--&nbsp;.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #DD0000">"Should&nbsp;be&nbsp;4:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br /><br />echo&nbsp;</span><span style="color: #DD0000">"&lt;h3&gt;Predecrement&lt;/h3&gt;"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #DD0000">"Should&nbsp;be&nbsp;4:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;--</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #DD0000">"Should&nbsp;be&nbsp;4:&nbsp;"&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"&lt;br&nbsp;/&gt;\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+    <p class="para">
+     PHP follows Perl&#039;s convention when dealing with arithmetic operations
+     on character variables and not C&#039;s.  For example, in PHP and Perl
+     <code class="literal">$a = &#039;Z&#039;; $a++;</code> turns <code class="literal">$a</code> into <code class="literal">&#039;AA&#039;</code>, while in C
+     <code class="literal">a = &#039;Z&#039;; a++;</code> turns <code class="literal">a</code> into <code class="literal">&#039;[&#039;</code>
+     (ASCII value of <code class="literal">&#039;Z&#039;</code> is 90, ASCII value of <code class="literal">&#039;[&#039;</code> is 91).
+     Note that character variables can be incremented but not decremented and
+     even so only plain ASCII alphabets and digits (a-z, A-Z and 0-9) are supported.
+     Incrementing/decrementing other character variables has no effect, the
+     original string is unchanged.
+     <div class="example" id="example-108">
+      <p><strong>Example #1 Arithmetic Operations on Character Variables</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">'==&nbsp;Alphabets&nbsp;=='&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">PHP_EOL</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$s&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'W'</span><span style="color: #007700">;<br />for&nbsp;(</span><span style="color: #0000BB">$n</span><span style="color: #007700">=</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$n</span><span style="color: #007700">&lt;</span><span style="color: #0000BB">6</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$n</span><span style="color: #007700">++)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;++</span><span style="color: #0000BB">$s&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">PHP_EOL</span><span style="color: #007700">;<br />}<br /></span><span style="color: #FF8000">//&nbsp;Digit&nbsp;characters&nbsp;behave&nbsp;differently<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">'==&nbsp;Digits&nbsp;=='&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">PHP_EOL</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$d&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'A8'</span><span style="color: #007700">;<br />for&nbsp;(</span><span style="color: #0000BB">$n</span><span style="color: #007700">=</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$n</span><span style="color: #007700">&lt;</span><span style="color: #0000BB">6</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$n</span><span style="color: #007700">++)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;++</span><span style="color: #0000BB">$d&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">PHP_EOL</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">$d&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'A08'</span><span style="color: #007700">;<br />for&nbsp;(</span><span style="color: #0000BB">$n</span><span style="color: #007700">=</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$n</span><span style="color: #007700">&lt;</span><span style="color: #0000BB">6</span><span style="color: #007700">;&nbsp;</span><span style="color: #0000BB">$n</span><span style="color: #007700">++)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;++</span><span style="color: #0000BB">$d&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">PHP_EOL</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+      <div class="example-contents"><p>The above example will output:</p></div>
+      <div class="example-contents screen">
+ <div class="cdata"><pre>
+ == Characters ==
+ X
+ Y
+ Z
+ AA
+ AB
+ AC
+ == Digits ==
+ A9
+ B0
+ B1
+ B2
+ B3
+ B4
+ A09
+ A10
+ A11
+ A12
+ A13
+ A14
+ </pre></div>
+      </div>
+     </div>
+    </p>
+    <p class="para">
+     Incrementing or decrementing booleans has no effect.
+    </p>
+   </div>
+ <hr />
+ 
+ 
+   <div id="language.operators.logical" class="sect1"><hr />
+    <h2 class="title">Logical Operators</h2>
+ 
+    <table class="doctable table">
+     <caption><strong>Logical Operators</strong></caption>
+     
+      <thead>
+       <tr>
+        <th>Example</th>
+        <th>Name</th>
+        <th>Result</th>
+       </tr>
+ 
+      </thead>
+ 
+      <tbody class="tbody">
+       <tr>
+        <td>$a and $b</td>
+        <td>And</td>
+        <td><strong><code>TRUE</code></strong> if both <var class="varname">$a</var> and <var class="varname">$b</var> are <strong><code>TRUE</code></strong>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a or $b</td>
+        <td>Or</td>
+        <td><strong><code>TRUE</code></strong> if either <var class="varname">$a</var> or <var class="varname">$b</var> is <strong><code>TRUE</code></strong>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a xor $b</td>
+        <td>Xor</td>
+        <td><strong><code>TRUE</code></strong> if either <var class="varname">$a</var> or <var class="varname">$b</var> is <strong><code>TRUE</code></strong>, but not both.</td>
+       </tr>
+ 
+       <tr>
+        <td>! $a</td>
+        <td>Not</td>
+        <td><strong><code>TRUE</code></strong> if <var class="varname">$a</var> is not <strong><code>TRUE</code></strong>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a &amp;&amp; $b</td>
+        <td>And</td>
+        <td><strong><code>TRUE</code></strong> if both <var class="varname">$a</var> and <var class="varname">$b</var> are <strong><code>TRUE</code></strong>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a || $b</td>
+        <td>Or</td>
+        <td><strong><code>TRUE</code></strong> if either <var class="varname">$a</var> or <var class="varname">$b</var> is <strong><code>TRUE</code></strong>.</td>
+       </tr>
+ 
+      </tbody>
+     
+    </table>
+ 
+    <p class="simpara">
+     The reason for the two different variations of &quot;and&quot; and &quot;or&quot;
+     operators is that they operate at different precedences. (See
+     <a href="#language.operators.precedence" class="link">Operator
+     Precedence</a>.)
+    </p>
+    <div class="example" id="example-109">
+     <p><strong>Example #1 Logical operators illustrated</strong></p>
+     <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;--------------------<br />//&nbsp;foo()&nbsp;will&nbsp;never&nbsp;get&nbsp;called&nbsp;as&nbsp;those&nbsp;operators&nbsp;are&nbsp;short-circuit<br /><br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">&amp;&amp;&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">true&nbsp;&nbsp;</span><span style="color: #007700">||&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">and&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">());<br /></span><span style="color: #0000BB">$d&nbsp;</span><span style="color: #007700">=&nbsp;(</span><span style="color: #0000BB">true&nbsp;&nbsp;</span><span style="color: #007700">or&nbsp;&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">());<br /><br /></span><span style="color: #FF8000">//&nbsp;--------------------<br />//&nbsp;"||"&nbsp;has&nbsp;a&nbsp;greater&nbsp;precedence&nbsp;than&nbsp;"or"<br /><br />//&nbsp;The&nbsp;result&nbsp;of&nbsp;the&nbsp;expression&nbsp;(false&nbsp;||&nbsp;true)&nbsp;is&nbsp;assigned&nbsp;to&nbsp;$e<br />//&nbsp;Acts&nbsp;like:&nbsp;($e&nbsp;=&nbsp;(false&nbsp;||&nbsp;true))<br /></span><span style="color: #0000BB">$e&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">||&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;The&nbsp;constant&nbsp;false&nbsp;is&nbsp;assigned&nbsp;to&nbsp;$f&nbsp;before&nbsp;the&nbsp;"or"&nbsp;operation&nbsp;occurs<br />//&nbsp;Acts&nbsp;like:&nbsp;(($f&nbsp;=&nbsp;false)&nbsp;or&nbsp;true)<br /></span><span style="color: #0000BB">$f&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">false&nbsp;</span><span style="color: #007700">or&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$e</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$f</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;--------------------<br />//&nbsp;"&amp;&amp;"&nbsp;has&nbsp;a&nbsp;greater&nbsp;precedence&nbsp;than&nbsp;"and"<br /><br />//&nbsp;The&nbsp;result&nbsp;of&nbsp;the&nbsp;expression&nbsp;(true&nbsp;&amp;&amp;&nbsp;false)&nbsp;is&nbsp;assigned&nbsp;to&nbsp;$g<br />//&nbsp;Acts&nbsp;like:&nbsp;($g&nbsp;=&nbsp;(true&nbsp;&amp;&amp;&nbsp;false))<br /></span><span style="color: #0000BB">$g&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">true&nbsp;</span><span style="color: #007700">&amp;&amp;&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;The&nbsp;constant&nbsp;true&nbsp;is&nbsp;assigned&nbsp;to&nbsp;$h&nbsp;before&nbsp;the&nbsp;"and"&nbsp;operation&nbsp;occurs<br />//&nbsp;Acts&nbsp;like:&nbsp;(($h&nbsp;=&nbsp;true)&nbsp;and&nbsp;false)<br /></span><span style="color: #0000BB">$h&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">true&nbsp;</span><span style="color: #007700">and&nbsp;</span><span style="color: #0000BB">false</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$g</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$h</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+     </div>
+ 
+     <div class="example-contents"><p>The above example will output
+ something similar to:</p></div>
+     <div class="example-contents screen">
+ <div class="cdata"><pre>
+ bool(true)
+ bool(false)
+ bool(false)
+ bool(true)
+ </pre></div>
+     </div>
+    </div>
+   </div>
+ <hr />
+ 
+ 
+   <div id="language.operators.string" class="sect1"><hr />
+    <h2 class="title">String Operators</h2>
+    <p class="simpara">
+     There are two <span class="type"><a href="#language.types.string" class="type string">string</a></span> operators. The first is the
+     concatenation operator (&#039;.&#039;), which returns the concatenation of its
+     right and left arguments. The second is the concatenating assignment
+     operator (&#039;<code class="literal">.=</code>&#039;), which appends the argument on the right side to
+     the argument on the left side. Please read <a href="#language.operators.assignment" class="link">Assignment
+     Operators</a> for more information.
+    </p>
+ 
+    <p class="para">
+     <div class="informalexample">
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"Hello&nbsp;"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"World!"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;now&nbsp;$b&nbsp;contains&nbsp;"Hello&nbsp;World!"<br /><br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"Hello&nbsp;"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">"World!"</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;now&nbsp;$a&nbsp;contains&nbsp;"Hello&nbsp;World!"<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+    <p class="para">
+     See also the manual sections on the
+     <a href="#language.types.string" class="link">String type</a> and
+     <a href="#ref.strings" class="link">String functions</a>.
+    </p>
+   </div>
+ <hr />
+ 
+ 
+   <div id="language.operators.array" class="sect1"><hr />
+    <h2 class="title">Array Operators</h2>
+    <table class="doctable table">
+     <caption><strong>Array Operators</strong></caption>
+     
+      <thead>
+       <tr>
+        <th>Example</th>
+        <th>Name</th>
+        <th>Result</th>
+       </tr>
+ 
+      </thead>
+ 
+      <tbody class="tbody">
+       <tr>
+        <td>$a + $b</td>
+        <td>Union</td>
+        <td>Union of <var class="varname">$a</var> and <var class="varname">$b</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a == $b</td>
+        <td>Equality</td>
+        <td><strong><code>TRUE</code></strong> if <var class="varname">$a</var> and <var class="varname">$b</var> have the same key/value pairs.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a === $b</td>
+        <td>Identity</td>
+        <td><strong><code>TRUE</code></strong> if <var class="varname">$a</var> and <var class="varname">$b</var> have the same key/value pairs in the same
+         order and of the same types.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a != $b</td>
+        <td>Inequality</td>
+        <td><strong><code>TRUE</code></strong> if <var class="varname">$a</var> is not equal to <var class="varname">$b</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a &lt;&gt; $b</td>
+        <td>Inequality</td>
+        <td><strong><code>TRUE</code></strong> if <var class="varname">$a</var> is not equal to <var class="varname">$b</var>.</td>
+       </tr>
+ 
+       <tr>
+        <td>$a !== $b</td>
+        <td>Non-identity</td>
+        <td><strong><code>TRUE</code></strong> if <var class="varname">$a</var> is not identical to <var class="varname">$b</var>.</td>
+       </tr>
+ 
+      </tbody>
+     
+    </table>
+ 
+    <p class="para">
+     The <code class="literal">+</code> operator returns the right-hand array appended
+     to the left-hand array; for keys that exist in both arrays, the elements
+     from the left-hand array will be used, and the matching elements from the
+     right-hand array will be ignored.
+    </p>
+    <p class="para">
+     <div class="informalexample">
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"apple"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"b"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"banana"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"a"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"pear"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"b"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"strawberry"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"c"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"cherry"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Union&nbsp;of&nbsp;$a&nbsp;and&nbsp;$b<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"Union&nbsp;of&nbsp;\$a&nbsp;and&nbsp;\$b:&nbsp;\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$c</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Union&nbsp;of&nbsp;$b&nbsp;and&nbsp;$a<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"Union&nbsp;of&nbsp;\$b&nbsp;and&nbsp;\$a:&nbsp;\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$c</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">+=&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;Union&nbsp;of&nbsp;$a&nbsp;+=&nbsp;$b&nbsp;is&nbsp;$a&nbsp;and&nbsp;$b<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"Union&nbsp;of&nbsp;\$a&nbsp;+=&nbsp;\$b:&nbsp;\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+     When executed, this script will print the following:
+     <div class="example-contents screen">
+ <div class="cdata"><pre>
+ Union of $a and $b:
+ array(3) {
+   [&quot;a&quot;]=&gt;
+   string(5) &quot;apple&quot;
+   [&quot;b&quot;]=&gt;
+   string(6) &quot;banana&quot;
+   [&quot;c&quot;]=&gt;
+   string(6) &quot;cherry&quot;
+ }
+ Union of $b and $a:
+ array(3) {
+   [&quot;a&quot;]=&gt;
+   string(4) &quot;pear&quot;
+   [&quot;b&quot;]=&gt;
+   string(10) &quot;strawberry&quot;
+   [&quot;c&quot;]=&gt;
+   string(6) &quot;cherry&quot;
+ }
+ Union of $a += $b:
+ array(3) {
+   [&quot;a&quot;]=&gt;
+   string(5) &quot;apple&quot;
+   [&quot;b&quot;]=&gt;
+   string(6) &quot;banana&quot;
+   [&quot;c&quot;]=&gt;
+   string(6) &quot;cherry&quot;
+ }
+ </pre></div>
+     </div>
+    </p>
+    <p class="para">
+     Elements of arrays are equal for the comparison if they have the
+     same key and value.
+    </p>
+    <p class="para">
+     <div class="example" id="example-110">
+      <p><strong>Example #1 Comparing arrays</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"apple"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"banana"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #0000BB">1&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"banana"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"0"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #DD0000">"apple"</span><span style="color: #007700">);<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">==&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;bool(true)<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">===&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;bool(false)<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     </div>
+    </p>
+    <p class="para">
+     See also the manual sections on the
+     <a href="#language.types.array" class="link">Array type</a> and
+     <a href="#ref.array" class="link">Array functions</a>.
+    </p>
+   </div>
+ <hr />
+ 
+   <div id="language.operators.type" class="sect1"><hr />
+    <h2 class="title">Type Operators</h2>
+    <p class="para">
+     <code class="literal">instanceof</code> is used to determine whether a PHP variable
+     is an instantiated object of a certain
+     <a href="#language.oop5.basic.class" class="link">class</a>:
+     <div class="example" id="example-111">
+      <p><strong>Example #1 Using <code class="literal">instanceof</code> with classes</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">MyClass<br /></span><span style="color: #007700">{<br />}<br /><br />class&nbsp;</span><span style="color: #0000BB">NotMyClass<br /></span><span style="color: #007700">{<br />}<br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MyClass</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">MyClass</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">NotMyClass</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+      <div class="example-contents"><p>The above example will output:</p></div>
+      <div class="example-contents screen">
+ <div class="cdata"><pre>
+ bool(true)
+ bool(false)
+ </pre></div>
+      </div>
+     </div>
+    </p>
+    <p class="para">
+     <code class="literal">instanceof</code> can also be used to determine whether a variable
+     is an instantiated object of a class that inherits from a parent class:
+     <div class="example" id="example-112">
+      <p><strong>Example #2 Using <code class="literal">instanceof</code> with inherited classes</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">ParentClass<br /></span><span style="color: #007700">{<br />}<br /><br />class&nbsp;</span><span style="color: #0000BB">MyClass&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">ParentClass<br /></span><span style="color: #007700">{<br />}<br /><br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MyClass</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">MyClass</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">ParentClass</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+      <div class="example-contents"><p>The above example will output:</p></div>
+      <div class="example-contents screen">
+ <div class="cdata"><pre>
+ bool(true)
+ bool(true)
+ </pre></div>
+      </div>
+     </div>
+    </p>
+    <p class="para">
+     To check if an object is <em class="emphasis">not</em> an instanceof a class, the
+     <a href="#language.operators.logical" class="link">logical <code class="literal">not</code>
+     operator</a> can be used.
+     <div class="example" id="example-113">
+      <p><strong>Example #3 Using <code class="literal">instanceof</code> to check if object is <em class="emphasis">not</em> an
+       instanceof a class</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">MyClass<br /></span><span style="color: #007700">{<br />}<br /><br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MyClass</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(!(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">stdClass</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+     <div class="example-contents"><p>The above example will output:</p></div>
+     <div class="example-contents screen">
+ <div class="cdata"><pre>
+ bool(true)
+ </pre></div>
+      </div>
+     </div>
+    </p>
+    <p class="para">
+     Lastly, <code class="literal">instanceof</code> can also be used to determine whether
+     a variable is an instantiated object of a class that implements an
+     <a href="#language.oop5.interfaces" class="link">interface</a>:
+     <div class="example" id="example-114">
+      <p><strong>Example #4 Using <code class="literal">instanceof</code> with interfaces</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">interface&nbsp;</span><span style="color: #0000BB">MyInterface<br /></span><span style="color: #007700">{<br />}<br /><br />class&nbsp;</span><span style="color: #0000BB">MyClass&nbsp;</span><span style="color: #007700">implements&nbsp;</span><span style="color: #0000BB">MyInterface<br /></span><span style="color: #007700">{<br />}<br /><br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MyClass</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">MyClass</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">MyInterface</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+      </div>
+ 
+      <div class="example-contents"><p>The above example will output:</p></div>
+      <div class="example-contents screen">
+ <div class="cdata"><pre>
+ bool(true)
+ bool(true)
+ </pre></div>
+      </div>
+     </div>
+    </p>
+    <p class="para">
+     Although <code class="literal">instanceof</code> is usually used with a literal classname,
+     it can also be used with another object or a string variable:
+     <div class="example" id="example-115">
+      <p><strong>Example #5 Using <code class="literal">instanceof</code> with other variables</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">interface&nbsp;</span><span style="color: #0000BB">MyInterface<br /></span><span style="color: #007700">{<br />}<br /><br />class&nbsp;</span><span style="color: #0000BB">MyClass&nbsp;</span><span style="color: #007700">implements&nbsp;</span><span style="color: #0000BB">MyInterface<br /></span><span style="color: #007700">{<br />}<br /><br /></span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MyClass</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">MyClass</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'MyClass'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$d&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'NotMyClass'</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;$b&nbsp;is&nbsp;an&nbsp;object&nbsp;of&nbsp;class&nbsp;MyClass<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">$c</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;$c&nbsp;is&nbsp;a&nbsp;string&nbsp;'MyClass'<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">$d</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;$d&nbsp;is&nbsp;a&nbsp;string&nbsp;'NotMyClass'<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+     </div>
+ 
+     <div class="example-contents"><p>The above example will output:</p></div>
+     <div class="example-contents screen">
+ <div class="cdata"><pre>
+ bool(true)
+ bool(true)
+ bool(false)
+ </pre></div>
+      </div>
+     </div>
+    </p>
+    <p class="para">
+     instanceof does not throw any error if the variable being tested is not
+     an object, it simply returns <strong><code>FALSE</code></strong>. Constants, however, were not allowed
+     prior to PHP 7.3.0.
+     <div class="example" id="example-116">
+      <p><strong>Example #6 Using <code class="literal">instanceof</code> to test other variables</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">NULL</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">imagecreate</span><span style="color: #007700">(</span><span style="color: #0000BB">5</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">5</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">stdClass</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;$a&nbsp;is&nbsp;an&nbsp;integer<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">stdClass</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;$b&nbsp;is&nbsp;NULL<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$c&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">stdClass</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;$c&nbsp;is&nbsp;a&nbsp;resource<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">FALSE&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">stdClass</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+     </div>
+ 
+     <div class="example-contents"><p>The above example will output:</p></div>
+     <div class="example-contents screen">
+ <div class="cdata"><pre>
+ bool(false)
+ bool(false)
+ bool(false)
+ PHP Fatal error:  instanceof expects an object instance, constant given
+ </pre></div>
+      </div>
+     </div>
+    </p>
+    <p class="para">
+     As of PHP 7.3.0, constants are allowed on the left-hand-side of the
+     <code class="literal">instanceof</code> operator.
+     <div class="example" id="example-117">
+      <p><strong>Example #7 Using <code class="literal">instanceof</code> to test constants</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br />var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">FALSE&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">stdClass</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+     </div>
+ 
+     <div class="example-contents"><p>Output of the above example in PHP 7.3:</p></div>
+     <div class="example-contents screen">
+ <div class="cdata"><pre>
+ bool(false)
+ </pre></div>
+      </div>
+     </div>
+    </p>
+    <p class="para">
+     There are a few pitfalls to be aware of.  Before PHP version 5.1.0,
+     <code class="literal">instanceof</code> would call <span class="function"><a href="#function.autoload" class="function">__autoload()</a></span>
+     if the class name did not exist.  In addition, if the class was not loaded,
+     a fatal error would occur.  This can be worked around by using a dynamic
+     class reference, or a string variable containing the class name:
+     <div class="example" id="example-118">
+      <p><strong>Example #8 Avoiding classname lookups and fatal errors with <code class="literal">instanceof</code> in PHP 5.0</strong></p>
+      <div class="example-contents">
+ <div class="phpcode"><code><span style="color: #000000">
+ <span style="color: #0000BB">&lt;?php<br />$d&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'NotMyClass'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">$d</span><span style="color: #007700">);&nbsp;</span><span style="color: #FF8000">//&nbsp;no&nbsp;fatal&nbsp;error&nbsp;here<br /></span><span style="color: #0000BB">?&gt;</span>
+ </span>
+ </code></div>
+     </div>
+ 
+     <div class="example-contents"><p>The above example will output:</p></div>
+     <div class="example-contents screen">
+ <div class="cdata"><pre>
+ bool(false)
+ </pre></div>
+      </div>
+     </div>
+    </p>
+    <p class="simpara">
+     The <code class="literal">instanceof</code> operator was introduced in PHP 5.
+     Before this time <span class="function"><a href="#function.is-a" class="function">is_a()</a></span> was used but
+     <span class="function"><a href="#function.is-a" class="function">is_a()</a></span> has since been deprecated in favor of
+     <code class="literal">instanceof</code>. Note that as of PHP 5.3.0,
+     <span class="function"><a href="#function.is-a" class="function">is_a()</a></span> is no longer deprecated.
+    </p>
+    <p class="para">
+     See also <span class="function"><a href="#function.get-class" class="function">get_class()</a></span> and
+     <span class="function"><a href="#function.is-a" class="function">is_a()</a></span>.
+    </p>
+   </div>
+ <hr />
+ 
+  </div>
+ 
+ <hr />

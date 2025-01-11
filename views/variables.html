@@ -1,0 +1,1301 @@
+
+<div id="language.variables" class="chapter"><hr />
+    <h1>Variables</h1>
+  <h2>Table of Contents</h2><ul class="chunklist chunklist_chapter"><li><a href="#language.variables.basics">Basics</a></li><li><a href="#language.variables.predefined">Predefined Variables</a></li><li><a href="#language.variables.scope">Variable scope</a></li><li><a href="#language.variables.variable">Variable variables</a></li><li><a href="#language.variables.external">Variables From External Sources</a></li></ul>
+  
+    
+    <div id="language.variables.basics" class="sect1"><hr />
+     <h2 class="title">Basics</h2>
+  
+     <p class="simpara">
+      Variables in PHP are represented by a dollar sign followed by the
+      name of the variable. The variable name is case-sensitive.
+     </p>
+  
+     <p class="para">
+      Variable names follow the same rules as other labels in PHP. A
+      valid variable name starts with a letter or underscore, followed
+      by any number of letters, numbers, or underscores. As a regular
+      expression, it would be expressed thus:
+      <code class="code">^[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$</code>
+     </p>
+     
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <span class="simpara">
+       For our purposes here, a letter is a-z, A-Z, and the bytes
+       from 128 through 255 (<code class="literal">0x80-0xff</code>).
+      </span>
+     </p></blockquote>
+  
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <span class="simpara">
+       <code class="literal">$this</code> is a special variable that can&#039;t be
+       assigned.
+      </span>
+     </p></blockquote>
+  
+     <div class="tip"><strong class="tip">Tip</strong><p class="simpara">See also the
+  <a href="#userlandnaming" class="xref">Userland Naming Guide</a>.</p></div>
+  
+     <p class="para">
+      For information on variable related functions, see the
+      <a href="#ref.var" class="link">Variable Functions Reference</a>.
+     </p>
+  
+     <p class="para">
+      <div class="informalexample">
+       <div class="example-contents"> 
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br />$var&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Bob'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$Var&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Joe'</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$var</span><span style="color: #DD0000">,&nbsp;</span><span style="color: #0000BB">$Var</span><span style="color: #DD0000">"</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;outputs&nbsp;"Bob,&nbsp;Joe"<br /><br /></span><span style="color: #007700">$</span><span style="color: #0000BB">4site&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'not&nbsp;yet'</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;invalid;&nbsp;starts&nbsp;with&nbsp;a&nbsp;number<br /></span><span style="color: #0000BB">$_4site&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'not&nbsp;yet'</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;valid;&nbsp;starts&nbsp;with&nbsp;an&nbsp;underscore<br /></span><span style="color: #0000BB">$täyte&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'mansikka'</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;valid;&nbsp;'ä'&nbsp;is&nbsp;(Extended)&nbsp;ASCII&nbsp;228.<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+      </div>
+     </p>
+  
+     <p class="para">
+      By default, variables are always assigned by value. That is to say,
+      when you assign an expression to a variable, the entire value of
+      the original expression is copied into the destination
+      variable. This means, for instance, that after assigning one
+      variable&#039;s value to another, changing one of those variables will
+      have no effect on the other. For more information on this kind of
+      assignment, see the chapter on <a href="#language.expressions" class="link">Expressions</a>.
+     </p>
+     <p class="para">
+      PHP also offers another way to assign values to variables:
+      <a href="#language.references" class="link">assign by reference</a>. 
+      This means that the new variable simply references (in other words, 
+      &quot;becomes an alias for&quot; or &quot;points to&quot;) the original variable. 
+      Changes to the new variable affect the original, and vice versa. 
+     </p>
+     <p class="para">
+      To assign by reference, simply prepend an ampersand (&amp;) to the
+      beginning of the variable which is being assigned (the source
+      variable). For instance, the following code snippet outputs &#039;<code class="literal">My
+      name is Bob</code>&#039; twice:
+  
+      <div class="informalexample">
+       <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br />$foo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Bob'</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Assign&nbsp;the&nbsp;value&nbsp;'Bob'&nbsp;to&nbsp;$foo<br /></span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;&amp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Reference&nbsp;$foo&nbsp;via&nbsp;$bar.<br /></span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">"My&nbsp;name&nbsp;is&nbsp;</span><span style="color: #0000BB">$bar</span><span style="color: #DD0000">"</span><span style="color: #007700">;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Alter&nbsp;$bar...<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$bar</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;$foo&nbsp;is&nbsp;altered&nbsp;too.<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+      </div>
+     </p>
+  
+     <p class="para">
+      One important thing to note is that only named variables may be
+      assigned by reference.
+      <div class="informalexample">
+       <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br />$foo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">25</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;&amp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;This&nbsp;is&nbsp;a&nbsp;valid&nbsp;assignment.<br /></span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;&amp;(</span><span style="color: #0000BB">24&nbsp;</span><span style="color: #007700">*&nbsp;</span><span style="color: #0000BB">7</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Invalid;&nbsp;references&nbsp;an&nbsp;unnamed&nbsp;expression.<br /><br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">test</span><span style="color: #007700">()<br />{<br />&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">25</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;&amp;</span><span style="color: #0000BB">test</span><span style="color: #007700">();&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Invalid.<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+      </div>
+     </p>
+     
+     <p class="para">
+      It is not necessary to initialize variables in PHP however it is a very
+      good practice. Uninitialized variables have a default value of their type depending on the context in which they are used
+      - booleans default to <strong><code>FALSE</code></strong>, integers and floats default to zero, strings (e.g. used in <span class="function"><a href="#function.echo" class="function">echo</a></span>) are 
+      set as an empty string and arrays become to an empty array.
+     </p>
+     <p class="para">
+      <div class="example" id="example-78">
+       <p><strong>Example #1 Default values of uninitialized variables</strong></p>
+       <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Unset&nbsp;AND&nbsp;unreferenced&nbsp;(no&nbsp;use&nbsp;context)&nbsp;variable;&nbsp;outputs&nbsp;NULL<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$unset_var</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Boolean&nbsp;usage;&nbsp;outputs&nbsp;'false'&nbsp;(See&nbsp;ternary&nbsp;operators&nbsp;for&nbsp;more&nbsp;on&nbsp;this&nbsp;syntax)<br /></span><span style="color: #007700">echo(</span><span style="color: #0000BB">$unset_bool&nbsp;</span><span style="color: #007700">?&nbsp;</span><span style="color: #DD0000">"true\n"&nbsp;</span><span style="color: #007700">:&nbsp;</span><span style="color: #DD0000">"false\n"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;String&nbsp;usage;&nbsp;outputs&nbsp;'string(3)&nbsp;"abc"'<br /></span><span style="color: #0000BB">$unset_str&nbsp;</span><span style="color: #007700">.=&nbsp;</span><span style="color: #DD0000">'abc'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$unset_str</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Integer&nbsp;usage;&nbsp;outputs&nbsp;'int(25)'<br /></span><span style="color: #0000BB">$unset_int&nbsp;</span><span style="color: #007700">+=&nbsp;</span><span style="color: #0000BB">25</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;0&nbsp;+&nbsp;25&nbsp;=&gt;&nbsp;25<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$unset_int</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Float/double&nbsp;usage;&nbsp;outputs&nbsp;'float(1.25)'<br /></span><span style="color: #0000BB">$unset_float&nbsp;</span><span style="color: #007700">+=&nbsp;</span><span style="color: #0000BB">1.25</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$unset_float</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Array&nbsp;usage;&nbsp;outputs&nbsp;array(1)&nbsp;{&nbsp;&nbsp;[3]=&gt;&nbsp;&nbsp;string(3)&nbsp;"def"&nbsp;}<br /></span><span style="color: #0000BB">$unset_arr</span><span style="color: #007700">[</span><span style="color: #0000BB">3</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #DD0000">"def"</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;array()&nbsp;+&nbsp;array(3&nbsp;=&gt;&nbsp;"def")&nbsp;=&gt;&nbsp;array(3&nbsp;=&gt;&nbsp;"def")<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$unset_arr</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Object&nbsp;usage;&nbsp;creates&nbsp;new&nbsp;stdClass&nbsp;object&nbsp;(see&nbsp;http://www.php.net/manual/en/reserved.classes.php)<br />//&nbsp;Outputs:&nbsp;object(stdClass)#1&nbsp;(1)&nbsp;{&nbsp;&nbsp;["foo"]=&gt;&nbsp;&nbsp;string(3)&nbsp;"bar"&nbsp;}<br /></span><span style="color: #0000BB">$unset_obj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">foo&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'bar'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$unset_obj</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+      </div>
+     </p>
+     <p class="para">
+      Relying on the default value of an uninitialized variable is problematic
+      in the case of including one file into another which uses the same
+      variable name. It is also a major <a href="#security.globals" class="link">security risk</a> with <a href="#ini.register-globals" class="link">register_globals</a> turned on. <a href="#errorfunc.constants.errorlevels.e-notice" class="link">E_NOTICE</a> level error is issued in case of
+      working with uninitialized variables, however not in the case of appending
+      elements to the uninitialized array. <span class="function"><a href="#function.isset" class="function">isset()</a></span> language
+      construct can be used to detect if a variable has been already initialized.
+     </p>
+    </div>
+  <hr />
+  
+  
+    <div id="language.variables.predefined" class="sect1"><hr />
+     <h2 class="title">Predefined Variables</h2>
+     
+     <p class="para">
+      PHP provides a large number of predefined variables to any script
+      which it runs. Many of these variables, however, cannot be fully
+      documented as they are dependent upon which server is running, the
+      version and setup of the server, and other factors. Some of these
+      variables will not be available when PHP is run on the 
+      <a href="#features.commandline" class="link">command line</a>. 
+      For a listing of these variables, please see the section on 
+      <a href="#reserved.variables" class="link">Reserved Predefined Variables</a>.
+     </p>
+  
+     <p class="para">
+      PHP also provides an additional set of predefined arrays
+      containing variables from the web server (if applicable), the
+      environment, and user input. These arrays are rather special
+      in that they are automatically global - i.e., automatically
+      available in every scope. For this reason, they are often known as
+      &quot;superglobals&quot;. (There is no mechanism in PHP for
+      user-defined superglobals.) The superglobals can be found
+      <a href="#language.variables.superglobals" class="link">here</a>;
+      however, for a listing of their contents and further discussion on
+      PHP predefined variables and their natures, please see the section
+      <a href="#reserved.variables" class="link">Reserved Predefined Variables</a>.
+     </p>
+  
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <p class="para">
+       Prior to PHP 5.4, the old way of retrieving information
+       related to the HTTP request with the <code class="literal">HTTP_*_VARS</code>
+       variables instead of superglobals was still possible.
+       This feature could be disabled as of PHP 5.0.0 with the
+       <a href="#ini.register-long-arrays" class="link">register_long_arrays</a>
+       directive.
+      </p>
+     </p></blockquote>
+     
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <strong>Variable variables</strong><br />
+      <p class="para">
+       Superglobals cannot be used as 
+       <a href="#language.variables.variable" class="link">variable variables</a>
+       inside functions or class methods.
+      </p>
+     </p></blockquote>
+  
+     <p class="para">
+      If certain variables in <a href="#ini.variables-order" class="link">variables_order</a> are not set, their
+      appropriate PHP predefined arrays are also left empty.
+     </p>
+    </div>
+  <hr />
+  
+  
+  
+    <div id="language.variables.scope" class="sect1"><hr />
+     <h2 class="title">Variable scope</h2>
+  
+     <p class="simpara">
+      The scope of a variable is the context within which it is defined.
+      For the most part all PHP variables only have a single scope.
+      This single scope spans included and required files as well.  For
+      example:
+     </p>
+     <div class="informalexample">
+      <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />include&nbsp;</span><span style="color: #DD0000">'b.inc'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+      </div>
+  
+     </div>
+     <p class="simpara">
+      Here the <var class="varname">$a</var> variable will be available within
+      the included <var class="filename">b.inc</var> script.  However, within
+      user-defined functions a local function scope is introduced.  Any
+      variable used inside a function is by default limited to the local
+      function scope.  For example:
+     </p>
+      
+     <div class="informalexample">
+      <div class="example-contents"> 
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">/*&nbsp;global&nbsp;scope&nbsp;*/&nbsp;<br /><br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">test</span><span style="color: #007700">()<br />{&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">/*&nbsp;reference&nbsp;to&nbsp;local&nbsp;scope&nbsp;variable&nbsp;*/&nbsp;<br /></span><span style="color: #007700">}&nbsp;<br /><br /></span><span style="color: #0000BB">test</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+      </div>
+  
+     </div>
+  
+     <p class="simpara">
+      This script will not produce any output because the echo statement
+      refers to a local version of the <var class="varname">$a</var> variable,
+      and it has not been assigned a value within this scope.  You may
+      notice that this is a little bit different from the C language in
+      that global variables in C are automatically available to
+      functions unless specifically overridden by a local definition.
+      This can cause some problems in that people may inadvertently
+      change a global variable.  In PHP global variables must be
+      declared global inside a function if they are going to be used in
+      that function.
+     </p>
+         
+     <div class="sect2" id="language.variables.scope.global">
+      <h3 class="title">The <code class="literal">global</code> keyword</h3>
+      <p class="simpara">
+       First, an example use of <code class="literal">global</code>:
+      </p>
+      <p class="para">
+       <div class="example" id="example-79">
+        <p><strong>Example #1 Using <code class="literal">global</code></strong></p>
+        <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br /><br />function&nbsp;</span><span style="color: #0000BB">Sum</span><span style="color: #007700">()<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;global&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">+&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">;<br />}&nbsp;<br /><br /></span><span style="color: #0000BB">Sum</span><span style="color: #007700">();<br />echo&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+        </div>
+  
+       </div>
+      </p>
+  
+     <p class="simpara">
+      The above script will output <code class="literal">3</code>.  By declaring
+      <var class="varname">$a</var> and <var class="varname">$b</var> global within the
+      function, all references to either variable will refer to the
+      global version.  There is no limit to the number of global
+      variables that can be manipulated by a function.
+     </p>
+  
+     <p class="simpara">
+      A second way to access variables from the global scope is to use
+      the special PHP-defined <var class="varname"><a href="#reserved.variables.globals" class="classname">$GLOBALS</a></var> array.  The
+      previous example can be rewritten as:
+     </p>
+     <p class="para">
+      <div class="example" id="language.types.array.examples.loop">
+       <p><strong>Example #2 Using <var class="varname"><a href="#reserved.variables.globals" class="classname">$GLOBALS</a></var> instead of global</strong></p>
+       <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$b&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">2</span><span style="color: #007700">;<br /><br />function&nbsp;</span><span style="color: #0000BB">Sum</span><span style="color: #007700">()<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$GLOBALS</span><span style="color: #007700">[</span><span style="color: #DD0000">'b'</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">$GLOBALS</span><span style="color: #007700">[</span><span style="color: #DD0000">'a'</span><span style="color: #007700">]&nbsp;+&nbsp;</span><span style="color: #0000BB">$GLOBALS</span><span style="color: #007700">[</span><span style="color: #DD0000">'b'</span><span style="color: #007700">];<br />}&nbsp;<br /><br /></span><span style="color: #0000BB">Sum</span><span style="color: #007700">();<br />echo&nbsp;</span><span style="color: #0000BB">$b</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+      </div>
+     </p>
+  
+     <p class="simpara">
+      The <var class="varname"><a href="#reserved.variables.globals" class="classname">$GLOBALS</a></var> array is an associative array with
+      the name of the global variable being the key and the contents of
+      that variable being the value of the array element.
+      Notice how <var class="varname"><a href="#reserved.variables.globals" class="classname">$GLOBALS</a></var> exists in any scope, this 
+      is because <var class="varname"><a href="#reserved.variables.globals" class="classname">$GLOBALS</a></var> is a <a href="#language.variables.superglobals" class="link">superglobal</a>.
+      Here&#039;s an example demonstrating the power of superglobals: 
+     </p>
+     <p class="para">
+      <div class="example" id="language.types.array.examples.changeloop">
+       <p><strong>Example #3 Example demonstrating superglobals and scope</strong></p>
+       <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">test_superglobal</span><span style="color: #007700">()<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">[</span><span style="color: #DD0000">'name'</span><span style="color: #007700">];<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+      </div>
+     </p>
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <p class="para">
+       Using <code class="literal">global</code> keyword outside a function is not an
+       error. It can be used if the file is included from inside a function.
+      </p>
+     </p></blockquote>
+    </div>
+   
+    <div class="sect2" id="language.variables.scope.static">
+     <h3 class="title">Using <code class="literal">static</code> variables</h3>
+     <p class="simpara">
+      Another important feature of variable scoping is the
+      <em class="emphasis">static</em> variable.  A static variable exists
+      only in a local function scope, but it does not lose its value
+      when program execution leaves this scope.  Consider the following
+      example:
+     </p>
+     <p class="para">
+      <div class="example" id="example-82">
+       <p><strong>Example #4 Example demonstrating need for static variables</strong></p>
+       <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">test</span><span style="color: #007700">()<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">++;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+      </div>
+     </p>
+     <p class="simpara">
+      This function is quite useless since every time it is called it
+      sets <var class="varname">$a</var> to <code class="literal">0</code> and prints
+      <code class="literal">0</code>.  The <var class="varname">$a</var>++ which increments the
+      variable serves no purpose since as soon as the function exits the
+      <var class="varname">$a</var> variable disappears.  To make a useful
+      counting function which will not lose track of the current count,
+      the <var class="varname">$a</var> variable is declared static:
+     </p>
+     <p class="para">
+      <div class="example" id="example-83">
+       <p><strong>Example #5 Example use of static variables</strong></p>
+       <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">test</span><span style="color: #007700">()<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;static&nbsp;</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$a</span><span style="color: #007700">++;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+      </div>
+     </p>
+     <p class="simpara">
+      Now, <var class="varname">$a</var> is initialized only in first call of function
+      and every time the <code class="literal">test()</code> function is called it will print the
+      value of <var class="varname">$a</var> and increment it.
+     </p>
+  
+     <p class="simpara">
+      Static variables also provide one way to deal with recursive
+      functions. A recursive function is one which calls itself.  Care
+      must be taken when writing a recursive function because it is
+      possible to make it recurse indefinitely.  You must make sure you
+      have an adequate way of terminating the recursion.  The following
+      simple function recursively counts to 10, using the static
+      variable <var class="varname">$count</var> to know when to stop:
+     </p>
+     <p class="para">
+      <div class="example" id="example-84">
+       <p><strong>Example #6 Static variables with recursive functions</strong></p>
+       <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">test</span><span style="color: #007700">()<br />{<br />&nbsp;&nbsp;&nbsp;&nbsp;static&nbsp;</span><span style="color: #0000BB">$count&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$count</span><span style="color: #007700">++;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$count</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(</span><span style="color: #0000BB">$count&nbsp;</span><span style="color: #007700">&lt;&nbsp;</span><span style="color: #0000BB">10</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">test</span><span style="color: #007700">();<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$count</span><span style="color: #007700">--;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+      </div>
+     </p>
+  
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <p class="para">
+       Static variables may be declared as seen in the examples above.
+       From PHP 5.6 you can assign values to these variables which are the
+       result of expressions, but you can&#039;t use any function here, what will cause a parse error.
+      </p>
+      <p class="para">
+       <div class="example" id="example-85">
+        <p><strong>Example #7 Declaring static variables</strong></p>
+        <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">(){<br />&nbsp;&nbsp;&nbsp;&nbsp;static&nbsp;</span><span style="color: #0000BB">$int&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">0</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;correct&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">static&nbsp;</span><span style="color: #0000BB">$int&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">+</span><span style="color: #0000BB">2</span><span style="color: #007700">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;correct&nbsp;(as&nbsp;of&nbsp;PHP&nbsp;5.6)<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">static&nbsp;</span><span style="color: #0000BB">$int&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">sqrt</span><span style="color: #007700">(</span><span style="color: #0000BB">121</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;wrong&nbsp;&nbsp;(as&nbsp;it&nbsp;is&nbsp;a&nbsp;function)<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$int</span><span style="color: #007700">++;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$int</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+        </div>
+  
+       </div>
+      </p> 
+     </p></blockquote>
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <p class="para">
+       Static declarations are resolved in compile-time.
+      </p>
+     </p></blockquote>
+    </div>
+  
+    <div class="sect2" id="language.variables.scope.references">
+     <h3 class="title">References with <code class="literal">global</code> and <code class="literal">static</code> variables</h3>
+     <p class="simpara">
+      PHP implements the
+      <a href="#language.variables.scope.static" class="link">static</a> and 
+      <a href="#language.variables.scope.global" class="link">global</a> modifier 
+      for variables in terms of <a href="#language.references" class="link">
+      references</a>. For example, a true global variable
+      imported inside a function scope with the <code class="literal">global</code>
+      statement actually creates a reference to the global variable. This can
+      lead to unexpected behaviour which the following example addresses:
+     </p>
+  
+     <div class="informalexample">
+      <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;</span><span style="color: #0000BB">test_global_ref</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;global&nbsp;</span><span style="color: #0000BB">$obj</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$new&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">stdclass</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$obj&nbsp;</span><span style="color: #007700">=&nbsp;&amp;</span><span style="color: #0000BB">$new</span><span style="color: #007700">;<br />}<br /><br />function&nbsp;</span><span style="color: #0000BB">test_global_noref</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;global&nbsp;</span><span style="color: #0000BB">$obj</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$new&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">stdclass</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$obj&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$new</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">test_global_ref</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">test_global_noref</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+      </div>
+  
+     </div>
+  
+     <p class="para">The above example will output:</p>
+  
+     <div class="example-contents screen">
+  <div class="cdata"><pre>
+  NULL
+  object(stdClass)#1 (0) {
+  }
+  </pre></div>
+     </div>
+  
+     <p class="simpara">
+      A similar behaviour applies to the <code class="literal">static</code> statement.
+      References are not stored statically:
+     </p>
+     
+     <div class="informalexample">
+      <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">function&nbsp;&amp;</span><span style="color: #0000BB">get_instance_ref</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;static&nbsp;</span><span style="color: #0000BB">$obj</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Static&nbsp;object:&nbsp;'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!isset(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$new&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">stdclass</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Assign&nbsp;a&nbsp;reference&nbsp;to&nbsp;the&nbsp;static&nbsp;variable<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$obj&nbsp;</span><span style="color: #007700">=&nbsp;&amp;</span><span style="color: #0000BB">$new</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!isset(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">property</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$obj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">property&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$obj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">property</span><span style="color: #007700">++;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$obj</span><span style="color: #007700">;<br />}<br /><br />function&nbsp;&amp;</span><span style="color: #0000BB">get_instance_noref</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;static&nbsp;</span><span style="color: #0000BB">$obj</span><span style="color: #007700">;<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'Static&nbsp;object:&nbsp;'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">var_dump</span><span style="color: #007700">(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!isset(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$new&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">stdclass</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Assign&nbsp;the&nbsp;object&nbsp;to&nbsp;the&nbsp;static&nbsp;variable<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$obj&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$new</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!isset(</span><span style="color: #0000BB">$obj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">property</span><span style="color: #007700">))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$obj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">property&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$obj</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">property</span><span style="color: #007700">++;<br />&nbsp;&nbsp;&nbsp;&nbsp;}<br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</span><span style="color: #0000BB">$obj</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$obj1&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">get_instance_ref</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$still_obj1&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">get_instance_ref</span><span style="color: #007700">();<br />echo&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$obj2&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">get_instance_noref</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$still_obj2&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">get_instance_noref</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+      </div>
+  
+     </div>
+     <p class="para">The above example will output:</p>
+     <div class="example-contents screen">
+  <div class="cdata"><pre>
+  Static object: NULL
+  Static object: NULL
+  
+  Static object: NULL
+  Static object: object(stdClass)#3 (1) {
+    [&quot;property&quot;]=&gt;
+    int(1)
+  }
+  </pre></div>
+     </div>
+  
+     <p class="simpara">
+      This example demonstrates that when assigning a reference to a static
+      variable, it&#039;s not <em class="emphasis">remembered</em> when you call the
+      <code class="literal">&amp;get_instance_ref()</code> function a second time.
+     </p>
+     </div>
+    </div>
+  <hr />
+  
+  
+    <div id="language.variables.variable" class="sect1"><hr />
+     <h2 class="title">Variable variables</h2>
+  
+     <p class="simpara">
+      Sometimes it is convenient to be able to have variable variable
+      names.  That is, a variable name which can be set and used
+      dynamically.  A normal variable is set with a statement such as:
+     </p>
+  
+     <div class="informalexample">
+      <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br />$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'hello'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+      </div>
+  
+     </div>
+  
+     <p class="simpara">
+      A variable variable takes the value of a variable and treats that
+      as the name of a variable.  In the above example,
+      <em class="emphasis">hello</em>, can be used as the name of a variable
+      by using two dollar signs. i.e.
+     </p>
+  
+     <div class="informalexample">
+      <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">$</span><span style="color: #0000BB">$a&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'world'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+      </div>
+  
+     </div>
+  
+     <p class="simpara">
+      At this point two variables have been defined and stored in the
+      PHP symbol tree: <var class="varname">$a</var> with contents &quot;hello&quot; and
+      <var class="varname">$hello</var> with contents &quot;world&quot;.  Therefore, this
+      statement:
+     </p>
+  
+     <div class="informalexample">
+      <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$a</span><span style="color: #DD0000">&nbsp;</span><span style="color: #007700">${</span><span style="color: #0000BB">$a</span><span style="color: #007700">}</span><span style="color: #DD0000">"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+      </div>
+  
+     </div>
+  
+     <p class="simpara">
+      produces the exact same output as:
+     </p>
+  
+     <div class="informalexample">
+      <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"</span><span style="color: #0000BB">$a</span><span style="color: #DD0000">&nbsp;</span><span style="color: #0000BB">$hello</span><span style="color: #DD0000">"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+      </div>
+  
+     </div>
+  
+     <p class="simpara">
+      i.e. they both produce: <span class="computeroutput">hello world</span>.
+     </p>
+  
+     <p class="simpara">
+      In order to use variable variables with arrays, you have to
+      resolve an ambiguity problem.  That is, if you write
+      <var class="varname">$$a[1]</var> then the parser needs to know if you
+      meant to use <var class="varname">$a[1]</var> as a variable, or if you
+      wanted <var class="varname">$$a</var> as the variable and then the [1]
+      index from that variable.  The syntax for resolving this ambiguity
+      is: <var class="varname">${$a[1]}</var> for the first case and
+      <var class="varname">${$a}[1]</var> for the second. 
+     </p>
+  
+     <p class="simpara">
+      Class properties may also be accessed using variable property names. The
+      variable property name will be resolved within the scope from which the
+      call is made. For instance, if you have an expression such as
+      <var class="varname">$foo->$bar</var>, then the local scope will be examined for
+      <var class="varname">$bar</var> and its value will be used as the name of the
+      property of <var class="varname">$foo</var>. This is also true if
+      <var class="varname">$bar</var> is an array access.
+     </p>
+  
+     <div class="caution"><strong class="caution">Caution</strong>
+      <p class="simpara">
+       Further dereferencing a variable property that is an array has different
+       semantics between PHP 5 and PHP 7. The
+       <a href="#migration70.incompatible.variable-handling.indirect" class="link">PHP 7.0 migration guide</a>
+       includes further details on the types of expressions that have changed,
+       and how to place curly braces to avoid ambiguity.
+      </p>
+     </div>
+  
+     <p class="simpara">
+      Curly braces may also be used, to clearly delimit the property
+      name. They are most useful when accessing values within a property that
+      contains an array, when the property name is made of multiple parts,
+      or when the property name contains characters that are not
+      otherwise valid (e.g. from <span class="function"><a href="#function.json-decode" class="function">json_decode()</a></span>
+      or <a href="#book.simplexml" class="link">SimpleXML</a>).
+     </p>
+  
+     <p class="para">
+      <div class="example" id="example-86">
+       <p><strong>Example #1 Variable property example</strong></p>
+        <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">foo&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;</span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'I&nbsp;am&nbsp;bar.'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;</span><span style="color: #0000BB">$arr&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'I&nbsp;am&nbsp;A.'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'I&nbsp;am&nbsp;B.'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'I&nbsp;am&nbsp;C.'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;</span><span style="color: #0000BB">$r&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'I&nbsp;am&nbsp;r.'</span><span style="color: #007700">;<br />}<br /><br /></span><span style="color: #0000BB">$foo&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">foo</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'bar'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$baz&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'foo'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bar'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'baz'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'quux'</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">$bar&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">-&gt;{</span><span style="color: #0000BB">$baz</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]}&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$start&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'b'</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$end&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'ar'</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">-&gt;{</span><span style="color: #0000BB">$start&nbsp;</span><span style="color: #007700">.&nbsp;</span><span style="color: #0000BB">$end</span><span style="color: #007700">}&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">$arr&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'arr'</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">$foo</span><span style="color: #007700">-&gt;{</span><span style="color: #0000BB">$arr</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">]}&nbsp;.&nbsp;</span><span style="color: #DD0000">"\n"</span><span style="color: #007700">;<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+       <div class="example-contents"><p>The above example will output:</p></div>
+       <div class="example-contents screen"><br />
+  I am bar.<br />
+  I am bar.<br />
+  I am bar.<br />
+  I am r.<br />
+       </div>
+      </div>
+     </p>
+  
+     <div class="warning"><strong class="warning">Warning</strong>
+      <p class="simpara">
+       Please note that variable variables cannot be used with PHP&#039;s 
+       <a href="#language.variables.superglobals" class="link">Superglobal arrays</a>
+       within functions or class methods. The variable <code class="literal">$this</code>
+       is also a special variable that cannot be referenced dynamically.
+      </p>
+     </div>
+    
+    </div>
+  <hr />
+  
+  
+    <div id="language.variables.external" class="sect1"><hr />
+     <h2 class="title">Variables From External Sources</h2>
+     
+     <div class="sect2" id="language.variables.external.form">
+      <h3 class="title">HTML Forms (GET and POST)</h3>
+  
+      <p class="simpara">
+       When a form is submitted to a PHP script, the information from 
+       that form is automatically made available to the script. There 
+       are few ways to access this information, for example:
+      </p>
+  
+      <p class="para">
+       <div class="example" id="example-87">
+        <p><strong>Example #1 A simple HTML form</strong></p>
+        <div class="example-contents">
+  <div class="htmlcode"><pre class="htmlcode">&lt;form action=&quot;foo.php&quot; method=&quot;post&quot;&gt;
+      Name:  &lt;input type=&quot;text&quot; name=&quot;username&quot; /&gt;&lt;br /&gt;
+      Email: &lt;input type=&quot;text&quot; name=&quot;email&quot; /&gt;&lt;br /&gt;
+      &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;Submit me!&quot; /&gt;
+  &lt;/form&gt;</pre>
+  </div>
+        </div>
+  
+       </div>
+      </p>
+  
+      <p class="para">
+       As of PHP 5.4.0, there are only two ways to access data from your HTML forms.
+       Currently available methods are listed below:
+      </p>
+  
+      <p class="para">
+       <div class="example" id="example-88">
+        <p><strong>Example #2 Accessing data from a simple POST HTML form</strong></p>
+        <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">[</span><span style="color: #DD0000">'username'</span><span style="color: #007700">];<br />echo&nbsp;</span><span style="color: #0000BB">$_REQUEST</span><span style="color: #007700">[</span><span style="color: #DD0000">'username'</span><span style="color: #007700">];<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+        </div>
+  
+       </div>
+      </p>
+  
+      <p class="para">
+       There were some other ways of accessing user input in old PHP versions. These
+       are listed below. See changelog at the bottom of the page for more details.
+       <div class="example" id="example-89">
+        <p><strong>Example #3 Old methods of accessing user input</strong></p>
+        <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;WATCH&nbsp;OUT:&nbsp;these&nbsp;methods&nbsp;ARE&nbsp;NOT&nbsp;supported&nbsp;anymore.<br />//&nbsp;Valid&nbsp;ones&nbsp;were&nbsp;described&nbsp;above.<br /><br />//&nbsp;Using&nbsp;import_request_variables()&nbsp;-&nbsp;this&nbsp;function&nbsp;has&nbsp;been&nbsp;removed&nbsp;in&nbsp;PHP&nbsp;5.4.0<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">import_request_variables</span><span style="color: #007700">(</span><span style="color: #DD0000">'p'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'p_'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$p_username</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;These&nbsp;long&nbsp;predefined&nbsp;variables&nbsp;were&nbsp;removed&nbsp;in&nbsp;PHP&nbsp;5.4.0<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$HTTP_POST_VARS</span><span style="color: #007700">[</span><span style="color: #DD0000">'username'</span><span style="color: #007700">];<br /><br /></span><span style="color: #FF8000">//&nbsp;Using&nbsp;register_globals.&nbsp;This&nbsp;feature&nbsp;was&nbsp;removed&nbsp;in&nbsp;PHP&nbsp;5.4.0<br />&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">$username</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+        </div>
+  
+       </div>
+      </p>
+  
+      <p class="para">
+       Using a GET form is similar except you&#039;ll use the appropriate
+       GET predefined variable instead. GET also applies to the
+       <code class="literal">QUERY_STRING</code> (the information after the &#039;?&#039; in a URL).  So,
+       for example, <code class="literal">http://www.example.com/test.php?id=3</code>
+       contains GET data which is accessible with <var class="varname"><a href="#reserved.variables.get" class="classname">$_GET['id']</a></var>.
+       See also <var class="varname"><a href="#reserved.variables.request" class="classname">$_REQUEST</a></var>.
+      </p>
+  
+      <blockquote class="note"><p><strong class="note">Note</strong>: 
+       <p class="para">
+        Dots and spaces in variable names are converted to underscores. For
+        example <code class="literal">&lt;input name=&quot;a.b&quot; /&gt;</code> becomes
+        <code class="literal">$_REQUEST[&quot;a_b&quot;]</code>.
+       </p>
+      </p></blockquote>
+  
+      <p class="simpara">
+       PHP also understands arrays in the context of form variables 
+       (see the <a href="#faq.html" class="link">related faq</a>).  You may, 
+       for example, group related variables together, or use this 
+       feature to retrieve values from a multiple select input.  For 
+       example, let&#039;s post a form to itself and upon submission display 
+       the data:
+      </p>
+  
+      <p class="para">
+       <div class="example" id="example-90">
+        <p><strong>Example #4 More complex form variables</strong></p>
+        <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">)&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'&lt;pre&gt;'</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">htmlspecialchars</span><span style="color: #007700">(</span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">$_POST</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">));<br />&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #DD0000">'&lt;/pre&gt;'</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">?&gt;<br /></span>&lt;form&nbsp;action=""&nbsp;method="post"&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;Name:&nbsp;&nbsp;&lt;input&nbsp;type="text"&nbsp;name="personal[name]"&nbsp;/&gt;&lt;br&nbsp;/&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;Email:&nbsp;&lt;input&nbsp;type="text"&nbsp;name="personal[email]"&nbsp;/&gt;&lt;br&nbsp;/&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;Beer:&nbsp;&lt;br&nbsp;/&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;select&nbsp;multiple&nbsp;name="beer[]"&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option&nbsp;value="warthog"&gt;Warthog&lt;/option&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option&nbsp;value="guinness"&gt;Guinness&lt;/option&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;option&nbsp;value="stuttgarter"&gt;Stuttgarter&nbsp;Schwabenbräu&lt;/option&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;/select&gt;&lt;br&nbsp;/&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type="submit"&nbsp;value="submit&nbsp;me!"&nbsp;/&gt;<br />&lt;/form&gt;</span>
+  </code></div>
+        </div>
+  
+       </div>
+      </p>
+  
+      <blockquote class="note"><p><strong class="note">Note</strong>: 
+       <span class="simpara">
+        If an external variable name begins with a valid array syntax, trailing characters
+        are silently ignored. For example, <code class="literal">&lt;input name=&quot;foo[bar]baz&quot;&gt;</code>
+        becomes <code class="literal">$_REQUEST[&#039;foo&#039;][&#039;bar&#039;]</code>.
+       </span>
+      </p></blockquote>
+   
+      <div class="sect3" id="language.variables.external.form.submit">
+       <h4 class="title">IMAGE SUBMIT variable names</h4>
+  
+       <p class="simpara">
+        When submitting a form, it is possible to use an image instead
+        of the standard submit button with a tag like:
+       </p>
+  
+       <div class="informalexample">
+        <div class="example-contents">
+  <div class="htmlcode"><pre class="htmlcode">&lt;input type=&quot;image&quot; src=&quot;image.gif&quot; name=&quot;sub&quot; /&gt;</pre>
+  </div>
+        </div>
+  
+       </div>
+  
+       <p class="simpara">
+        When the user clicks somewhere on the image, the accompanying
+        form will be transmitted to the server with two additional
+        variables, <var class="varname">sub_x</var> and <var class="varname">sub_y</var>.
+        These contain the coordinates of the
+        user click within the image.  The experienced may note that the
+        actual variable names sent by the browser contains a period
+        rather than an underscore, but PHP converts the period to an
+        underscore automatically.
+       </p>
+      </div>
+  
+     </div>
+  
+     <div class="sect2" id="language.variables.external.cookies">
+      <h3 class="title">HTTP Cookies</h3>
+  
+      <p class="simpara">
+       PHP transparently supports HTTP cookies as defined by <a href="http://www.faqs.org/rfcs/rfc6265" class="link external">&raquo;&nbsp;RFC 6265</a>.  Cookies are a
+       mechanism for storing data in the remote browser and thus
+       tracking or identifying return users.  You can set cookies using
+       the <span class="function"><a href="#function.setcookie" class="function">setcookie()</a></span> function.  Cookies are part of
+       the HTTP header, so the SetCookie function must be called before
+       any output is sent to the browser.  This is the same restriction
+       as for the <span class="function"><a href="#function.header" class="function">header()</a></span> function.  Cookie data 
+       is then available in the appropriate cookie data arrays, such 
+       as <var class="varname"><a href="#reserved.variables.cookies" class="classname">$_COOKIE</a></var> as well as in <var class="varname"><a href="#reserved.variables.request" class="classname">$_REQUEST</a></var>.
+       See the <span class="function"><a href="#function.setcookie" class="function">setcookie()</a></span> manual page for more details and 
+       examples.
+      </p>
+  
+      <p class="simpara">
+       If you wish to assign multiple values to a single cookie variable, you 
+       may assign it as an array.  For example:
+      </p>
+  
+      <div class="informalexample">
+       <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br />&nbsp;&nbsp;setcookie</span><span style="color: #007700">(</span><span style="color: #DD0000">"MyCookie[foo]"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'Testing&nbsp;1'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">time</span><span style="color: #007700">()+</span><span style="color: #0000BB">3600</span><span style="color: #007700">);<br />&nbsp;&nbsp;</span><span style="color: #0000BB">setcookie</span><span style="color: #007700">(</span><span style="color: #DD0000">"MyCookie[bar]"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'Testing&nbsp;2'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">time</span><span style="color: #007700">()+</span><span style="color: #0000BB">3600</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+      </div>
+      
+      <p class="simpara">
+       That will create two separate cookies although <var class="varname">MyCookie</var> will now 
+       be a single array in your script.  If you want to set just one cookie 
+       with multiple values, consider using <span class="function"><a href="#function.serialize" class="function">serialize()</a></span> or 
+       <span class="function"><a href="#function.explode" class="function">explode()</a></span> on the value first.
+      </p>
+  
+      <p class="simpara">
+       Note that a cookie will replace a previous cookie by the same
+       name in your browser unless the path or domain is different.  So,
+       for a shopping cart application you may want to keep a counter
+       and pass this along.  i.e.
+      </p>
+  
+      <div class="example" id="example-91">
+       <p><strong>Example #5 A <span class="function"><a href="#function.setcookie" class="function">setcookie()</a></span> example</strong></p>
+       <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">if&nbsp;(isset(</span><span style="color: #0000BB">$_COOKIE</span><span style="color: #007700">[</span><span style="color: #DD0000">'count'</span><span style="color: #007700">]))&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$count&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$_COOKIE</span><span style="color: #007700">[</span><span style="color: #DD0000">'count'</span><span style="color: #007700">]&nbsp;+&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />}&nbsp;else&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$count&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">;<br />}<br /></span><span style="color: #0000BB">setcookie</span><span style="color: #007700">(</span><span style="color: #DD0000">'count'</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$count</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">time</span><span style="color: #007700">()+</span><span style="color: #0000BB">3600</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">setcookie</span><span style="color: #007700">(</span><span style="color: #DD0000">"Cart[</span><span style="color: #0000BB">$count</span><span style="color: #DD0000">]"</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$item</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">time</span><span style="color: #007700">()+</span><span style="color: #0000BB">3600</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+      </div>
+  
+     </div>
+  
+     <div class="sect2" id="language.variables.external.dot-in-names">
+      <h3 class="title">Dots in incoming variable names</h3>
+  
+      <p class="para">
+       Typically, PHP does not alter the names of variables when they
+       are passed into a script. However, it should be noted that the
+       dot (period, full stop) is not a valid character in a PHP
+       variable name. For the reason, look at it:
+       <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br />$varname</span><span style="color: #007700">.</span><span style="color: #0000BB">ext</span><span style="color: #007700">;&nbsp;&nbsp;</span><span style="color: #FF8000">/*&nbsp;invalid&nbsp;variable&nbsp;name&nbsp;*/<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+       Now, what the parser sees is a variable named
+       <var class="varname">$varname</var>, followed by the string concatenation
+       operator, followed by the barestring (i.e. unquoted string which
+       doesn&#039;t match any known key or reserved words) &#039;ext&#039;. Obviously,
+       this doesn&#039;t have the intended result.
+      </p>
+  
+      <p class="para">
+       For this reason, it is important to note that PHP will
+       automatically replace any dots in incoming variable names with
+       underscores.
+      </p>
+  
+     </div>
+  
+     <div class="sect2" id="language.variables.determining-type-of">
+      <h3 class="title">Determining variable types</h3>
+  
+      <p class="para">
+       Because PHP determines the types of variables and converts them
+       (generally) as needed, it is not always obvious what type a given
+       variable is at any one time.  PHP includes several functions
+       which find out what type a variable is, such as:
+       <span class="function"><a href="#function.gettype" class="function">gettype()</a></span>, <span class="function"><a href="#function.is-array" class="function">is_array()</a></span>,
+       <span class="function"><a href="#function.is-float" class="function">is_float()</a></span>, <span class="function"><a href="#function.is-int" class="function">is_int()</a></span>,
+       <span class="function"><a href="#function.is-object" class="function">is_object()</a></span>, and
+       <span class="function"><a href="#function.is-string" class="function">is_string()</a></span>.  See also the chapter on 
+       <a href="#language.types" class="link">Types</a>.
+      </p>
+      <p class="para">
+       HTTP being a text protocol, most, if not all, content that comes in
+       <a href="#language.variables.superglobals" class="link">Superglobal arrays</a>, 
+       like <var class="varname"><a href="#reserved.variables.post" class="classname">$_POST</a></var> and <var class="varname"><a href="#reserved.variables.get" class="classname">$_GET</a></var> will remain
+       as strings. PHP will not try to convert values to a specific type.
+       In the example below, <var class="varname"><a href="#reserved.variables.get" class="classname">$_GET["var1"]</a></var> will contain the
+       string &quot;null&quot; and <var class="varname"><a href="#reserved.variables.get" class="classname">$_GET["var2"]</a></var>, the string &quot;123&quot;.
+       <div class="example-contents">
+  <div class="cdata"><pre>
+  /index.php?var1=null&amp;var2=123
+  </pre></div>
+        </div>
+  
+      </p>
+     </div>
+  
+     <div class="sect2" id="language.variables.external.changelog">
+      <h3 class="title">Changelog</h3>
+  
+      <p class="para">
+       <table class="doctable informaltable">
+        
+         <thead>
+          <tr>
+           <th>Version</th>
+           <th>Description</th>
+          </tr>
+  
+         </thead>
+  
+         <tbody class="tbody">
+          <tr>
+           <td>5.4.0</td>
+           <td>
+            <a href="#security.globals" class="link">Register Globals</a>, 
+            <a href="#security.magicquotes" class="link">Magic Quotes</a> and
+            <a href="#ini.register-long-arrays" class="link">register_long_arrays</a>
+            has been removed
+           </td>
+          </tr>
+  
+          <tr>
+           <td>5.3.0</td>
+           <td>
+            <a href="#security.globals" class="link">Register Globals</a>, 
+            <a href="#security.magicquotes" class="link">Magic Quotes</a> and
+            <a href="#ini.register-long-arrays" class="link">register_long_arrays</a>
+            became deprecated
+           </td>
+          </tr>
+  
+         </tbody>
+        
+       </table>
+  
+      </p>
+     </div>
+  
+    </div>
+  <hr />
+  
+  
+   </div>
+  
+  <hr />
+  
+   
+  
+  
+    
+  
+   <div id="language.constants" class="chapter"><hr />
+    <h1>Constants</h1>
+  <h2>Table of Contents</h2><ul class="chunklist chunklist_chapter"><li><a href="#language.constants.syntax">Syntax</a></li><li><a href="#language.constants.predefined">Magic constants</a></li></ul>
+  
+  
+    <p class="simpara">
+     A constant is an identifier (name) for a simple value. As the name
+     suggests, that value cannot change during the execution of the
+     script (except for <a href="#language.constants.predefined" class="link">
+     magic constants</a>, which aren&#039;t actually constants).
+     A constant is case-sensitive by default. By convention, constant 
+     identifiers are always uppercase.
+    </p>
+    <p class="para">
+     The name of a constant follows the same rules as any label in PHP. A 
+     valid constant name starts with a letter or underscore, followed
+     by any number of letters, numbers, or underscores. As a regular
+     expression, it would be expressed thusly:
+     <code class="code">^[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$</code>
+    </p>
+    <p class="para">
+     It is possible to <span class="function"><a href="#function.define" class="function">define()</a></span> constants with reserved or even
+     invalid names, whose value can (only) be retrieved with
+     <span class="function"><a href="#function.constant" class="function">constant()</a></span>. However, doing so is not recommended.
+    </p>
+    <div class="tip"><strong class="tip">Tip</strong><p class="simpara">See also the
+  <a href="#userlandnaming" class="xref">Userland Naming Guide</a>.</p></div>
+    <p class="para">
+     <div class="example" id="example-92">
+      <p><strong>Example #1 Valid and invalid constant names</strong></p>
+      <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /><br /></span><span style="color: #FF8000">//&nbsp;Valid&nbsp;constant&nbsp;names<br /></span><span style="color: #0000BB">define</span><span style="color: #007700">(</span><span style="color: #DD0000">"FOO"</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"something"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">define</span><span style="color: #007700">(</span><span style="color: #DD0000">"FOO2"</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"something&nbsp;else"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">define</span><span style="color: #007700">(</span><span style="color: #DD0000">"FOO_BAR"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"something&nbsp;more"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;Invalid&nbsp;constant&nbsp;names<br /></span><span style="color: #0000BB">define</span><span style="color: #007700">(</span><span style="color: #DD0000">"2FOO"</span><span style="color: #007700">,&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">"something"</span><span style="color: #007700">);<br /><br /></span><span style="color: #FF8000">//&nbsp;This&nbsp;is&nbsp;valid,&nbsp;but&nbsp;should&nbsp;be&nbsp;avoided:<br />//&nbsp;PHP&nbsp;may&nbsp;one&nbsp;day&nbsp;provide&nbsp;a&nbsp;magical&nbsp;constant<br />//&nbsp;that&nbsp;will&nbsp;break&nbsp;your&nbsp;script<br /></span><span style="color: #0000BB">define</span><span style="color: #007700">(</span><span style="color: #DD0000">"__FOO__"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"something"</span><span style="color: #007700">);&nbsp;<br /><br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+      </div>
+  
+     </div>
+    </p>
+    <blockquote class="note"><p><strong class="note">Note</strong>: 
+     <span class="simpara">
+      For our purposes here, a letter is a-z, A-Z, and the ASCII
+      characters from 128 through 255 (0x80-0xff).
+     </span>
+    </p></blockquote>
+  
+    <p class="simpara">
+     Like <a href="#language.variables.predefined" class="link">superglobals</a>, the scope of a constant is global.  You 
+     can access constants anywhere in your script without regard to scope.  
+     For more information on scope, read the manual section on
+     <a href="#language.variables.scope" class="link">variable scope</a>.
+    </p>
+  
+    <div id="language.constants.syntax" class="sect1"><hr />
+     <h2 class="title">Syntax</h2>
+     <p class="simpara">
+      You can define a constant by using the 
+      <span class="function"><a href="#function.define" class="function">define()</a></span>-function or by using the 
+      <code class="literal">const</code> keyword outside a class definition as 
+      of PHP 5.3.0. While <span class="function"><a href="#function.define" class="function">define()</a></span> allows a constant to be
+      defined to an arbitrary expression, the <code class="literal">const</code> keyword has
+      restrictions as outlined in the next paragraph.
+      Once a constant is defined, it can never be
+      changed or undefined.
+     </p>
+     <p class="simpara">
+      When using the <code class="literal">const</code> keyword,
+      only scalar data (<span class="type"><a href="#language.types.boolean" class="type boolean">boolean</a></span>, <span class="type"><a href="#language.types.integer" class="type integer">integer</a></span>,
+      <span class="type"><a href="#language.types.float" class="type float">float</a></span> and <span class="type"><a href="#language.types.string" class="type string">string</a></span>) can be contained 
+      in constants prior to PHP 5.6. From PHP 5.6 onwards, it is possible to 
+      define a constant as a scalar expression, and it is also possible
+      to define an <span class="type"><a href="#language.types.array" class="type array">array</a></span> constant. It is possible to define
+      constants as a <span class="type"><a href="#language.types.resource" class="type resource">resource</a></span>, but it should be avoided, as it can
+      cause unexpected results.
+     </p>
+     <p class="simpara">
+      You can get the value of a constant by simply specifying its name.
+      Unlike with variables, you should <em class="emphasis">not</em> prepend
+      a constant with a <code class="literal">$</code>.
+      You can also use the function <span class="function"><a href="#function.constant" class="function">constant()</a></span> to
+      read a constant&#039;s value if you wish to obtain the constant&#039;s name
+      dynamically. 
+      Use <span class="function"><a href="#function.get-defined-constants" class="function">get_defined_constants()</a></span> to get a list of 
+      all defined constants.
+     </p>
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <span class="simpara">
+       Constants and (global) variables are in a different namespace. 
+       This implies that for example <strong><code>TRUE</code></strong> and 
+       <var class="varname">$TRUE</var> are generally different.
+      </span>
+     </p></blockquote>
+     <p class="simpara">
+      If you use an undefined constant, PHP assumes that you mean
+      the name of the constant itself, just as if you called it as
+      a <span class="type"><a href="#language.types.string" class="type string">string</a></span> (CONSTANT vs &quot;CONSTANT&quot;). 
+      This fallback is deprecated as of PHP 7.2.0, and an error of level
+      <strong><code>E_WARNING</code></strong> is issued when it happens
+      (previously, an error of level
+      <a href="#ref.errorfunc" class="link">E_NOTICE</a> has been issued instead.)
+      See also the manual entry on why 
+      <a href="#language.types.array.foo-bar" class="link">$foo[bar]</a> is
+      wrong (unless you first <span class="function"><a href="#function.define" class="function">define()</a></span>
+      <code class="literal">bar</code> as a constant). This does not apply to <a href="#language.namespaces.rules" class="link">(fully) qualified constants</a>,
+      which will raise a fatal error if undefined. If you simply want to check if a
+      constant is set, use the <span class="function"><a href="#function.defined" class="function">defined()</a></span> function.
+     </p>
+     <p class="para">
+      These are the differences between constants and variables:
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <span class="simpara">
+         Constants do not have a dollar sign (<code class="literal">$</code>)
+         before them;
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         Prior to PHP 5.3, Constants may only be defined using the
+         <span class="function"><a href="#function.define" class="function">define()</a></span> function, not by simple assignment;
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         Constants may be defined and accessed anywhere without regard
+         to variable scoping rules;
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         Constants may not be redefined or undefined once they have been
+         set; and
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         Constants may only evaluate to scalar values. As of PHP 5.6 it is possible
+         to define array constant using <code class="literal">const</code> keywords and as of
+         PHP 7 array constants can also be defined using <span class="function"><a href="#function.define" class="function">define()</a></span>
+         You may use arrays in constant scalar expressions
+         (for example, <code class="literal">const FOO = array(1,2,3)[0];</code>),
+         but the end result must be a value of allowed type.
+         </span>
+       </li>
+      </ul>
+     </p>
+  
+     <p class="para">
+      <div class="example" id="example-93">
+       <p><strong>Example #1 Defining Constants</strong></p>
+       <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br />define</span><span style="color: #007700">(</span><span style="color: #DD0000">"CONSTANT"</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"Hello&nbsp;world."</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">CONSTANT</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;outputs&nbsp;"Hello&nbsp;world."<br /></span><span style="color: #007700">echo&nbsp;</span><span style="color: #0000BB">Constant</span><span style="color: #007700">;&nbsp;</span><span style="color: #FF8000">//&nbsp;outputs&nbsp;"Constant"&nbsp;and&nbsp;issues&nbsp;a&nbsp;notice.<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+      </div>
+     </p>
+  
+     <p class="para">
+      <div class="example" id="example-94">
+       <p><strong>Example #2 Defining Constants using the <code class="literal">const</code> keyword</strong></p>
+       <div class="example-contents">
+  <div class="phpcode"><code><span style="color: #000000">
+  <span style="color: #0000BB">&lt;?php<br /></span><span style="color: #FF8000">//&nbsp;Works&nbsp;as&nbsp;of&nbsp;PHP&nbsp;5.3.0<br /></span><span style="color: #007700">const&nbsp;</span><span style="color: #0000BB">CONSTANT&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'Hello&nbsp;World'</span><span style="color: #007700">;<br /><br />echo&nbsp;</span><span style="color: #0000BB">CONSTANT</span><span style="color: #007700">;<br /><br /></span><span style="color: #FF8000">//&nbsp;Works&nbsp;as&nbsp;of&nbsp;PHP&nbsp;5.6.0<br /></span><span style="color: #007700">const&nbsp;</span><span style="color: #0000BB">ANOTHER_CONST&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">CONSTANT</span><span style="color: #007700">.</span><span style="color: #DD0000">';&nbsp;Goodbye&nbsp;World'</span><span style="color: #007700">;<br />echo&nbsp;</span><span style="color: #0000BB">ANOTHER_CONST</span><span style="color: #007700">;<br /><br />const&nbsp;</span><span style="color: #0000BB">ANIMALS&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">'dog'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'cat'</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'bird'</span><span style="color: #007700">);<br />echo&nbsp;</span><span style="color: #0000BB">ANIMALS</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">];&nbsp;</span><span style="color: #FF8000">//&nbsp;outputs&nbsp;"cat"<br /><br />//&nbsp;Works&nbsp;as&nbsp;of&nbsp;PHP&nbsp;7<br /></span><span style="color: #0000BB">define</span><span style="color: #007700">(</span><span style="color: #DD0000">'ANIMALS'</span><span style="color: #007700">,&nbsp;array(<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'dog'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'cat'</span><span style="color: #007700">,<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'bird'<br /></span><span style="color: #007700">));<br />echo&nbsp;</span><span style="color: #0000BB">ANIMALS</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">];&nbsp;</span><span style="color: #FF8000">//&nbsp;outputs&nbsp;"cat"<br /></span><span style="color: #0000BB">?&gt;</span>
+  </span>
+  </code></div>
+       </div>
+  
+      </div>
+     </p>
+  
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <p class="para">
+       As opposed to defining constants using <span class="function"><a href="#function.define" class="function">define()</a></span>,
+       constants defined using the <code class="literal">const</code> keyword must be
+       declared at the top-level scope because they are defined at compile-time.
+       This means that they cannot be declared inside functions, loops,
+       <code class="literal">if</code> statements or <code class="literal">try</code>/
+       <code class="literal">catch</code> blocks.
+      </p>
+     </p></blockquote>
+  
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <p class="para">
+       Constants defined using the <code class="literal">const</code> keyword are always
+       case-sensitive, while constants defined using <span class="function"><a href="#function.define" class="function">define()</a></span>
+       may be case-insensitive.
+      </p>
+     </p></blockquote>
+  
+     <p class="simpara">
+      See also <a href="#language.oop5.constants" class="link">Class Constants</a>.
+     </p>
+    </div>
+  <hr />
+  
+    
+    <div id="language.constants.predefined" class="sect1"><hr />
+     <h2 class="title">Magic constants</h2>
+  
+     <p class="simpara">
+      PHP provides a large number of <a href="#reserved.constants" class="link">predefined constants</a> to any script
+      which it runs. Many of these constants, however, are created by
+      various extensions, and will only be present when those extensions
+      are available, either via dynamic loading or because they have
+      been compiled in.
+     </p>
+     
+     <p class="para">
+      There are nine magical constants that change depending on
+      where they are used.  For example, the value of
+      <strong><code>__LINE__</code></strong> depends on the line that it&#039;s
+      used on in your script. All these &quot;magical&quot; constants are resolved 
+      at compile time, unlike regular constants, which are resolved at runtime. 
+      These special constants are case-insensitive and are as follows:
+     </p>
+     <p class="para">
+      <table class="doctable table">
+       <caption><strong>A few &quot;magical&quot; PHP constants</strong></caption>
+       
+        <thead>
+         <tr>
+          <th>Name</th>
+          <th>Description</th>
+         </tr>
+  
+        </thead>
+  
+        <tbody class="tbody">
+         <tr id="constant.line">
+          <td><strong><code>__LINE__</code></strong></td>
+          <td>
+           The current line number of the file.
+          </td>
+         </tr>
+  
+         <tr id="constant.file">
+          <td><strong><code>__FILE__</code></strong></td>
+          <td>
+           The full path and filename of the file with symlinks resolved. If used inside an include,
+           the name of the included file is returned.
+          </td>
+         </tr>
+  
+         <tr id="constant.dir">
+          <td><strong><code>__DIR__</code></strong></td>
+          <td>
+           The directory of the file.  If used inside an include,
+           the directory of the included file is returned. This is equivalent
+           to <code class="literal">dirname(__FILE__)</code>. This directory name
+           does not have a trailing slash unless it is the root directory.
+          </td>
+         </tr>
+  
+         <tr id="constant.function">
+          <td><strong><code>__FUNCTION__</code></strong></td>
+          <td>
+           The function name, or <code class="literal">{closure}</code> for anonymous functions.
+          </td>
+         </tr>
+  
+         <tr id="constant.class">
+          <td><strong><code>__CLASS__</code></strong></td>
+          <td>
+           The class name. The class name includes the namespace
+           it was declared in (e.g. <code class="literal">Foo\Bar</code>).
+           Note that as of PHP 5.4 __CLASS__ works also in traits. When used
+           in a trait method, __CLASS__ is the name of the class the trait
+           is used in.
+          </td>
+         </tr>
+  
+         <tr id="constant.trait">
+          <td><strong><code>__TRAIT__</code></strong></td>
+          <td>
+           The trait name. The trait name includes the namespace
+           it was declared in (e.g. <code class="literal">Foo\Bar</code>).
+          </td>
+         </tr>
+  
+         <tr id="constant.method">
+          <td><strong><code>__METHOD__</code></strong></td>
+          <td>
+           The class method name.
+          </td>
+         </tr>
+  
+         <tr id="constant.namespace">
+          <td><strong><code>__NAMESPACE__</code></strong></td>
+          <td>
+           The name of the current namespace.
+          </td>
+         </tr>
+  
+         <tr id="constant.coloncolonclass">
+          <td><strong><code>ClassName::class</code></strong></td>
+          <td>
+           The fully qualified class name. See also 
+           <a href="#language.oop5.basic.class.class" class="link">::class</a>.
+          </td>
+         </tr>
+  
+        </tbody>
+       
+      </table>
+  
+     </p>
+  
+     <p class="para">
+      See also 
+      <span class="function"><a href="#function.get-class" class="function">get_class()</a></span>,
+      <span class="function"><a href="#function.get-object-vars" class="function">get_object_vars()</a></span>,
+      <span class="function"><a href="#function.file-exists" class="function">file_exists()</a></span> and
+      <span class="function"><a href="#function.function-exists" class="function">function_exists()</a></span>.
+     </p>
+     
+     <div class="sect2" id="language.constants.predefined.changelog">
+      <h3 class="title">Changelog</h3>
+  
+      <p class="para">
+       <table class="doctable informaltable">
+        
+         <thead>
+          <tr>
+           <th>Version</th>
+           <th>Description</th>
+          </tr>
+  
+         </thead>
+  
+         <tbody class="tbody">
+          <tr>
+           <td>5.5.0</td>
+           <td>
+            Added <strong><code>::class</code></strong> magic constant
+           </td>
+          </tr>
+  
+          <tr>
+           <td>5.4.0</td>
+           <td>
+            Added <strong><code>__TRAIT__</code></strong> constant
+           </td>
+          </tr>
+  
+          <tr>
+           <td>5.3.0</td>
+           <td>
+            Added <strong><code>__DIR__</code></strong> and <strong><code>__NAMESPACE__</code></strong> constants
+           </td>
+          </tr>
+  
+         </tbody>
+        
+       </table>
+  
+      </p>
+     </div>
+    </div>
+  <hr />
+  
+   </div>
+  
+  <hr />
+  
+   
+  

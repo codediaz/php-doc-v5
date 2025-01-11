@@ -1,0 +1,2357 @@
+
+ 
+
+<div id="install.cloud" class="chapter"><hr />
+    <h1>Installation on Cloud Computing platforms</h1>
+   <h2>Table of Contents</h2><ul class="chunklist chunklist_chapter"><li><a href="#install.cloud.azure">Azure App Services</a></li><li><a href="#install.cloud.ec2">Amazon EC2</a></li></ul>
+   
+    <p class="para">
+     PHP installs on the cloud. To the PHP cloud!
+    </p>
+    
+   
+   <div id="install.cloud.azure" class="sect1"><hr />
+     <h2 class="title">Azure App Services</h2>
+     <p class="para">
+       PHP is frequently used on Azure App Services (aka Microsoft Azure, Windows Azure, Azure Web Apps).
+     </p>
+     <p class="para">Azure App Services manages pools of Windows Web Servers to host your web application, as an alternative to managing your own web server on your own Azure Compute VMs or other servers.
+     </p>
+     <p class="para">PHP is already enabled for your Azure App Services web site automatically. In the Azure Portal, select your web site, and you can choose which version of PHP to use. You may want to choose a newer version than the default.
+     </p>
+   
+     <p class="para">As such, PHP and extensions will run on Azure App Services just as it will on other Windows servers.
+   
+     Much of the knowledgebase is also portable, so see the <a href="#install.windows.troubleshooting" class="link">Windows Troubleshooting Page</a> too.
+   
+     However, the management interface for Azure App Services is different:
+     </p>
+   
+     <ul class="itemizedlist">
+       <li class="listitem">
+         <p class="para">Azure portal: create, edit settings and delete web sites. <a href="https://portal.azure.com/" class="link external">&raquo;&nbsp;Azure Portal</a>
+         </p>
+       </li>
+       <li class="listitem">
+         <p class="para">Kudu Dashboard: [your web site name].azurewebsites.net Then, the Kudu dashboard is <a href="https://your_web_site_name.scm.azurewebsites.net/" class="link external">&raquo;&nbsp;https://[your web site name].scm.azurewebsites.net/</a>. The Dashboard gives you access to some debugging capabilities, file management and site extensions. Site extensions are an Azure mechanism to add extra programs, like PHP preview builds, to your web site.
+         </p>
+       </li>
+       <li class="listitem">
+         <p class="para">You can not use IIS Manager, Server Manager, or RDP.</p>
+       </li>
+     </ul>
+   
+     <p class="para">There is also a PHP SDK for programmatically using many Azure Services from your PHP code. See <a href="https://github.com/Azure/azure-sdk-for-php" class="link external">&raquo;&nbsp;Azure SDK for PHP</a>.
+     </p>
+     
+     <p class="para">For more information, see <a href="https://azure.microsoft.com/en-us/develop/php/" class="link external">&raquo;&nbsp;Azure PHP Developer Center</a>
+     </p>
+   
+     <div class="sect2">
+       <h3 class="title">WinCache</h3>
+     <p class="para">WinCache is enabled by default on Azure App Services and it is recommended that you leave it enabled.
+   
+     If you install your own build of PHP, you should enable WinCache on that too.
+     </p>
+     </div>
+   
+     <div class="sect2">
+       <h3 class="title">Custom PHP Build</h3>
+     <p class="para">You may upload your own PHP build to your D:\Home (C:\ is NOT writable). Then in the Azure Portal, set SCRIPT_PROCESSOR for .php to the absolute path to php-cgi.exe file in your build.
+     </p>
+     </div>
+   
+   </div>
+   <hr />
+   
+   
+   
+    
+   
+    <div id="install.cloud.ec2" class="sect1"><hr />
+     <h2 class="title">Amazon EC2</h2>
+     <p class="para">
+      PHP installs on the <a href="http://aws.amazon.com/ec2/" class="link external">&raquo;&nbsp;EC2 cloud platform</a>.
+     </p>
+     <p class="para">
+      See also the <a href="http://aws.amazon.com/sdkforphp/" class="link external">&raquo;&nbsp;AWS SDK for PHP</a>.
+     </p>
+    </div>
+   <hr />
+   
+   
+   
+   
+   </div>
+   
+   <hr />
+   
+   
+   
+   
+     
+   
+     <div id="install.fpm" class="chapter"><hr />
+      <h1>FastCGI Process Manager (FPM)</h1>
+   <h2>Table of Contents</h2><ul class="chunklist chunklist_chapter"><li><a href="#install.fpm.install">Installation</a></li><li><a href="#install.fpm.configuration">Configuration</a></li></ul>
+   
+      <p class="para">
+       FPM (FastCGI Process Manager) is an alternative PHP FastCGI implementation 
+       with some additional features (mostly) useful for heavy-loaded sites.
+      </p>
+      <p class="para">
+       These features include:
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <p class="para">
+          advanced process management with graceful stop/start;
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          ability to start workers with different uid/gid/chroot/environment, 
+          listening on different ports and using different php.ini (replaces safe_mode);
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          stdout and stderr logging;
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          emergency restart in case of accidental opcode cache destruction;
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          accelerated upload support;
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          &quot;slowlog&quot; - logging scripts (not just their names, but their PHP backtraces too, 
+          using ptrace and similar things to read remote process&#039; execute_data) that are executed unusually slow;
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          <span class="function"><a href="#function.fastcgi-finish-request" class="function">fastcgi_finish_request()</a></span> - special function to finish request and flush all data while 
+          continuing to do something time-consuming (video converting, stats processing etc.);
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          dynamic/static child spawning;
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          basic SAPI status info (similar to Apache mod_status);
+         </p>
+        </li>
+        <li class="listitem">
+         <p class="para">
+          php.ini-based config file. 
+         </p>
+        </li>
+       </ul>
+      </p>
+      
+      
+   
+     <div id="install.fpm.install" class="sect1"><hr />
+      <h2 class="title">Installation</h2>
+       <div class="sect2" id="install.fpm.install.compiling">
+        <h3 class="title">Compiling from sources</h3>
+        <p class="para">
+         In order to enable FPM in your PHP build you need to add <code class="literal">--enable-fpm</code>
+         to your configure line.
+        </p>
+        <p class="para">
+         There are several other FPM-specific configure options (all of them optional):
+        </p>
+        <ul class="itemizedlist">
+         <li class="listitem">
+          <p class="para">
+           <code class="literal">--with-fpm-user</code> - set FPM user (default - nobody).
+          </p>
+         </li>
+         <li class="listitem">
+          <p class="para">
+           <code class="literal">--with-fpm-group</code> - set FPM group (default - nobody).
+          </p>
+         </li>
+         <li class="listitem">
+          <p class="para">
+           <code class="literal">--with-fpm-systemd</code> - Activate systemd integration (default - no).
+          </p>
+         </li>
+         <li class="listitem">
+          <p class="para">
+           <code class="literal">--with-fpm-acl</code> - Use POSIX Access Control Lists (default - no). Since PHP 5.6.5.
+          </p>
+         </li>
+        </ul>
+       </div>
+     </div>
+   <hr />
+   
+   
+   
+   
+      
+   
+     <div id="install.fpm.configuration" class="sect1"><hr />
+      <h2 class="title">Configuration</h2>
+      <p class="para">
+       FPM uses <var class="filename">php.ini</var> syntax for its configuration file - <var class="filename">php-fpm.conf</var>, and pool configuration files.
+      </p>
+   
+      <div class="sect2">
+       <h3 class="title">List of global <var class="filename">php-fpm.conf</var> directives</h3>
+       <dl>
+   
+        
+         <dt id="pid">
+          <code class="parameter">pid</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Path to PID file. Default value: none.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="error-log">
+          <code class="parameter">error_log</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Path to error log file. Default value:
+           <code class="literal">#INSTALL_PREFIX#/log/php-fpm.log</code>.
+           If it&#039;s set to &quot;syslog&quot;, log is sent to syslogd instead of being written in a local file.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="log-level">
+          <code class="parameter">log_level</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Error log level. Possible values: alert, error, warning, notice,
+           debug. Default value: notice.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="log-limit">
+          <code class="parameter">log_limit</code>
+          <span class="type"><a href="#language.types.integer" class="type integer">integer</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Log limit for the logged lines which allows to log messages longer than
+           1024 characters without wrapping.
+           Default value: 1024.
+           Available as of PHP 7.3.0.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="log-buffering">
+          <code class="parameter">log_buffering</code>
+          <span class="type"><a href="#language.types.boolean" class="type boolean">boolean</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Experimental logging without extra buffering.
+           Default value: yes.
+           Available as of PHP 7.3.0.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="syslog-facility">
+          <code class="parameter">syslog.facility</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           used to specify what type of program is logging the message.
+           Default value: daemon.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="syslog-ident">
+          <code class="parameter">syslog.ident</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Prepended to every message.
+           If you have multiple FPM instances running on the same server,
+           you can change the default value which must suit common needs.
+           Default value: php-fpm.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="emergency-restart-threshold">
+          <code class="parameter">emergency_restart_threshold</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           If this number of child processes exit with SIGSEGV or SIGBUS within
+           the time interval set by <code class="literal">emergency_restart_interval</code>,
+           then FPM will restart. A value of 0 means &#039;Off&#039;. Default value: 0 (Off).
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="emergency-restart-interval">
+          <code class="parameter">emergency_restart_interval</code>
+          <span class="type"><a href="#language.types.mixed" class="type mixed">mixed</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Interval of time used by <code class="literal">emergency_restart_interval</code> to determine when
+           a graceful restart will be initiated. This can be useful to work around
+           accidental corruptions in an accelerator&#039;s shared memory.
+           Available Units: s(econds), m(inutes), h(ours), or d(ays).
+           Default Unit: seconds. Default value: 0 (Off).
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="process-control-timeout">
+          <code class="parameter">process_control_timeout</code>
+          <span class="type"><a href="#language.types.mixed" class="type mixed">mixed</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Time limit for child processes to wait for a reaction on signals from
+           master. Available units: s(econds), m(inutes), h(ours), or d(ays)
+           Default Unit: seconds. Default value: 0.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="process-max">
+          <code class="parameter">process.max</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The maximum number of processes FPM will fork. This has been design
+           to control the global number of processes when using dynamic PM
+           within a lot of pools. Use it with caution.
+           Default value: 0.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="process-priority">
+          <code class="parameter">process.priority</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Specify the nice(2) priority to apply to the master process (only if set).
+           The value can vary from -19 (highest priority) to 20 (lower priority).
+           Default value: not set.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="daemonize">
+          <code class="parameter">daemonize</code>
+          <span class="type"><a href="#language.types.boolean" class="type boolean">boolean</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Send FPM to background. Set to &#039;no&#039; to keep FPM in foreground for
+           debugging. Default value: yes.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="rlimit-files-master">
+          <code class="parameter">rlimit_files</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Set open file descriptor rlimit for the master process.
+           Default value: Set open file descriptor rlimit for the master process.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="rlimit-core-master">
+          <code class="parameter">rlimit_core</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Set max core size rlimit for the master process.
+           Default value: 0.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="events-mechanism">
+          <code class="parameter">events.mechanism</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Specify the event mechanism FPM will use.
+           The following is available: select, pool, epoll, kqueue (*BSD), port (Solaris).
+           Default value: not set (auto detection).
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="systemd-interval">
+          <code class="parameter">systemd_interval</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           When FPM is build with systemd integration, specify the interval,
+           in second, between health report notification to systemd.
+           Set to 0 to disable.
+           Default value: 10.
+          </p>
+         </dd>
+   
+        
+       </dl>
+   
+   
+      </div>
+   
+      <div class="sect2">
+       <h3 class="title">List of pool directives</h3>
+       <p class="para">
+        With FPM you can run several pools of processes with different setting.
+        These are settings that can be tweaked per pool.
+       </p>
+       <dl>
+   
+        
+         <dt id="listen">
+          <code class="parameter">listen</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The address on which to accept FastCGI requests. Valid syntaxes are:
+           &#039;ip.add.re.ss:port&#039;, &#039;port&#039;, &#039;/path/to/unix/socket&#039;. This option is
+           mandatory for each pool.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="listen-backlog">
+          <code class="parameter">listen.backlog</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Set listen(2) backlog. A value of &#039;-1&#039; means unlimited. Default value:
+           -1.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="listen-allowed-clients">
+          <code class="parameter">listen.allowed_clients</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           List of IPv4 addresses of FastCGI clients which are allowed to
+           connect. Equivalent to the FCGI_WEB_SERVER_ADDRS environment variable in the
+           original PHP FastCGI (5.2.2+). Makes sense only with a tcp listening socket.
+           Each address must be separated by a comma. If this value is left blank,
+           connections will be accepted from any ip address. Default value: any.
+           IPv6 addresses are allowed since PHP 5.5.20 and 5.6.4.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="listen-owner">
+          <code class="parameter">listen.owner</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Set permissions for unix socket, if one is used. In Linux, read/write
+           permissions must be set in order to allow connections from a web
+           server. Many BSD-derived systems allow connections regardless of permissions.
+           Default values: user and group are set as the running user, mode is set to 0660.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="listen-group">
+          <code class="parameter">listen.group</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           See <code class="literal">listen.owner</code>.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="listen-mode">
+          <code class="parameter">listen.mode</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           See <code class="literal">listen.owner</code>.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="listen-acl-users">
+          <code class="parameter">listen.acl_users</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           When POSIX Access Control Lists are supported you can set them using this option.
+           When set, <code class="literal">listen.owner</code> and <code class="literal">listen.group</code>
+           are ignored. Value is a comma separated list of user names. Since PHP 5.6.5.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="listen-acl-groups">
+          <code class="parameter">listen.acl_groups</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           See <code class="literal">listen.acl_users</code>.
+           Value is a comma separated list of group names. Since PHP 5.6.5.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="user">
+          <code class="parameter">user</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Unix user of FPM processes. This option is mandatory.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="group">
+          <code class="parameter">group</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Unix group of FPM processes. If not set, the default user&#039;s group is
+           used.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="pm">
+          <code class="parameter">pm</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Choose how the process manager will control the number of child
+           processes. Possible values: <code class="literal">static</code>, <code class="literal">ondemand</code>,
+           <code class="literal">dynamic</code>.
+           This option is mandatory.
+          </p>
+          <p class="para">
+           <code class="literal">static</code> - the number of child processes is fixed (<code class="literal">pm.max_children</code>).
+          </p>
+          <p class="para">
+           <code class="literal">ondemand</code> - the processes spawn on demand (when requested,
+           as opposed to dynamic, where <code class="literal">pm.start_servers</code> are started
+           when the service is started.
+          </p>
+          <p class="para">
+           <code class="literal">dynamic</code> - the number of child processes is set dynamically based on the
+           following directives: <code class="literal">pm.max_children</code>, <code class="literal">pm.start_servers</code>,
+           <code class="literal">pm.min_spare_servers</code>, <code class="literal">pm.max_spare_servers</code>.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="pm.max-children">
+          <code class="parameter">pm.max_children</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The number of child processes to be created when <code class="literal">pm</code> is set to
+           <code class="literal">static</code> and the maximum number of child processes to be created
+           when <code class="literal">pm</code> is set to <code class="literal">dynamic</code>. This
+           option is mandatory.
+          </p>
+          <p class="para">
+           This option sets the limit on the number of simultaneous requests that
+           will be served. Equivalent to the ApacheMaxClients directive with
+           mpm_prefork and to the <var class="varname">PHP_FCGI_CHILDREN</var> environment variable in the
+           original PHP FastCGI.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="pm.start-servers">
+          <code class="parameter">pm.start_servers</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The number of child processes created on startup.
+           Used only when <code class="literal">pm</code> is set to <code class="literal">dynamic</code>.
+           Default Value: min_spare_servers + (max_spare_servers -
+           min_spare_servers) / 2.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="pm.min-spare-servers">
+          <code class="parameter">pm.min_spare_servers</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The desired minimum number of idle server processes. Used only when
+           <code class="literal">pm</code> is set to <code class="literal">dynamic</code>. Also
+           mandatory in this case.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="pm.max-spare-servers">
+          <code class="parameter">pm.max_spare_servers</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The desired maximum number of idle server processes. Used only when
+           <code class="literal">pm</code> is set to <code class="literal">dynamic</code>. Also
+           mandatory in this case.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="pm.process-idle-timeout">
+          <code class="parameter">pm.process_idle_timeout</code>
+          <span class="type"><a href="#language.types.mixed" class="type mixed">mixed</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The number of seconds after which an idle process will be killed. 
+           Used only when <code class="literal">pm</code> is set to <code class="literal">ondemand</code>.
+           Available units: s(econds)(default), m(inutes), h(ours), or d(ays).
+           Default value: 10s.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="pm.max-requests">
+          <code class="parameter">pm.max_requests</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The number of requests each child process should execute before
+           respawning. This can be useful to work around memory leaks in 3rd party
+           libraries. For endless request processing specify &#039;0&#039;. Equivalent to
+           <var class="varname">PHP_FCGI_MAX_REQUESTS</var>. Default value: 0.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="pm.status-path">
+          <code class="parameter">pm.status_path</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The URI to view the FPM status page. If this value is not set, no URI
+           will be recognized as a status page. Default value: none.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="ping.path">
+          <code class="parameter">ping.path</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The ping URI to call the monitoring page of FPM. If this value is not
+           set, no URI will be recognized as a ping page. This could be used to test
+           from outside that FPM is alive and responding. Please note that the value must
+           start with a leading slash (/).
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="ping.response">
+          <code class="parameter">ping.response</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           This directive may be used to customize the response to a ping
+           request. The response is formatted as text/plain with a 200 response code.
+           Default value: pong.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="worker-process-priority">
+          <code class="parameter">process.priority</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Specify the nice(2) priority to apply to the worker process (only if set).
+           The value can vary from -19 (highest priority) to 20 (lower priority).
+           Default value: not set.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="process-dumpable">
+          <code class="parameter">process.dumpable</code>
+          <span class="type"><a href="#language.types.boolean" class="type boolean">boolean</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Set the process dumpable flag (PR_SET_DUMPABLE prctl) even if the process user
+           or group is different than the master process user. It allows to create process
+           core dump and ptrace the process for the pool user.
+           Default Value: no. Since PHP 7.0.29, 7.1.17 and 7.2.5.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="prefix">
+          <code class="parameter">prefix</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Specify prefix for path evaluation
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="request-terminate-timeout">
+          <code class="parameter">request_terminate_timeout</code>
+          <span class="type"><a href="#language.types.mixed" class="type mixed">mixed</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The timeout for serving a single request after which the worker
+           process will be killed. This option should be used when the &#039;max_execution_time&#039;
+           ini option does not stop script execution for some reason. A value of &#039;0&#039; means
+           &#039;Off&#039;. Available units: s(econds)(default), m(inutes), h(ours), or d(ays).
+           Default value: 0.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="request-slowlog-timeout">
+          <code class="parameter">request_slowlog_timeout</code>
+          <span class="type"><a href="#language.types.mixed" class="type mixed">mixed</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The timeout for serving a single request after which a PHP backtrace
+           will be dumped to the &#039;slowlog&#039; file. A value of &#039;0&#039; means &#039;Off&#039;.
+           Available units: s(econds)(default), m(inutes), h(ours), or d(ays).
+           Default value: 0.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="slowlog">
+          <code class="parameter">slowlog</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The log file for slow requests. Default value:
+           <code class="literal">#INSTALL_PREFIX#/log/php-fpm.log.slow</code>.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="rlimit-files">
+          <code class="parameter">rlimit_files</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Set open file descriptor rlimit for child processes in this pool. Default value: system defined value.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="rlimit-core">
+          <code class="parameter">rlimit_core</code>
+          <span class="type"><a href="#language.types.integer" class="type int">int</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Set max core size rlimit for child processes in this pool. Possible Values: &#039;unlimited&#039; or an integer greater or equal to 0.
+           Default value: system defined value.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="chroot">
+          <code class="parameter">chroot</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Chroot to this directory at the start. This value must be defined as
+           an absolute path. When this value is not set, chroot is not used.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="chdir">
+          <code class="parameter">chdir</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Chdir to this directory at the start. This value must be an absolute
+           path. Default value: current directory or / when chroot.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="catch-workers-output">
+          <code class="parameter">catch_workers_output</code>
+          <span class="type"><a href="#language.types.boolean" class="type boolean">boolean</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Redirect worker stdout and stderr into main error log. If not set,
+           stdout and stderr will be redirected to /dev/null according to FastCGI specs.
+           Default value: no.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="decorate-workers-output">
+          <code class="parameter">decorate_workers_output</code>
+          <span class="type"><a href="#language.types.boolean" class="type boolean">boolean</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Enable the output decoration for workers output when <a href="#catch-workers-output" class="link">catch_workers_output</a> is enabled.
+           Default value: yes.
+           Available as of PHP 7.3.0.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="clear-env">
+          <code class="parameter">clear_env</code>
+          <span class="type"><a href="#language.types.boolean" class="type boolean">boolean</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Clear environment in FPM workers.
+           Prevents arbitrary environment variables from reaching FPM worker processes
+           by clearing the environment in workers before env vars specified in this
+           pool configuration are added. Since PHP 5.4.27, 5.5.11, and 5.6.0.
+           Default value: Yes.
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="security-limit-extensions">
+          <code class="parameter">security.limit_extensions</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Limits the extensions of the main script FPM will allow to parse.
+           This can prevent configuration mistakes on the web server side.
+           You should only limit FPM to .php extensions to prevent malicious
+           users to use other extensions to execute php code.
+           Default value: .php .phar
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="access-log">
+          <code class="parameter">access.log</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The access log file.
+           Default value: not set
+          </p>
+         </dd>
+   
+        
+        
+         <dt id="access-format">
+          <code class="parameter">access.format</code>
+          <span class="type"><a href="#language.types.string" class="type string">string</a></span>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           The access log format.
+           Default value: &quot;%R - %u %t \&quot;%m %r\&quot; %s&quot;
+          </p>
+         </dd>
+   
+        
+       </dl>
+   
+       <p class="para">
+        It&#039;s possible to pass additional environment variables and update PHP settings of a certain pool.
+        To do this, you need to add the following options to the pool configuration file.
+        <div class="example" id="example-33">
+         <p><strong>Example #1 Passing environment variables and PHP settings to a pool</strong></p>
+         <div class="example-contents">
+   <div class="inicode"><pre class="inicode">env[HOSTNAME] = $HOSTNAME
+   env[PATH] = /usr/local/bin:/usr/bin:/bin
+   env[TMP] = /tmp
+   env[TMPDIR] = /tmp
+   env[TEMP] = /tmp
+   
+   php_admin_value[sendmail_path] = /usr/sbin/sendmail -t -i -f www@my.domain.com
+   php_flag[display_errors] = off
+   php_admin_value[error_log] = /var/log/fpm-php.www.log
+   php_admin_flag[log_errors] = on
+   php_admin_value[memory_limit] = 32M</pre>
+   </div>
+         </div>
+   
+        </div>
+        PHP settings passed with <code class="literal">php_value</code> or
+        <code class="literal">php_flag</code> will overwrite their previous value.
+        Please note that defining
+        <a href="#ini.disable-functions" class="link">disable_functions</a> or
+        <a href="#ini.disable-classes" class="link">disable_classes</a> will
+        not overwrite previously defined <var class="filename">php.ini</var> values,
+        but will append the new value instead.
+       </p>
+       <p class="para">
+        Settings defined with <code class="literal">php_admin_value</code> and <code class="literal">php_admin_flag</code>
+        cannot be overridden with <span class="function"><a href="#function.ini-set" class="function">ini_set()</a></span>.
+       </p>
+       <p class="para">
+        As of 5.3.3, PHP settings are also possible to be set in webserver.
+        <div class="example" id="example-34">
+         <p><strong>Example #2 set PHP settings in nginx.conf</strong></p>
+         <div class="example-contents">
+          <div class="inicode"><pre class="inicode">set $php_value &quot;pcre.backtrack_limit=424242&quot;;
+   set $php_value &quot;$php_value \n pcre.recursion_limit=99999&quot;;
+   fastcgi_param  PHP_VALUE $php_value;
+   
+   fastcgi_param  PHP_ADMIN_VALUE &quot;open_basedir=/var/www/htdocs&quot;;</pre>
+   </div>
+         </div>
+   
+        </div>
+        <div class="caution"><strong class="caution">Caution</strong>
+         <p class="para">
+          Because these settings are passed to php-fpm as fastcgi headers,
+          php-fpm should not be bound to a worldwide accessible address.
+          Otherwise, anyone could alter the PHP configuration options.
+          See also
+          <a href="#listen-allowed-clients" class="link">listen.allowed_clients</a>.
+         </p>
+        </div>
+       </p>
+      </div>
+   
+     </div>
+   <hr />
+   
+   
+   
+   
+     </div>
+   
+   <hr />
+   
+   
+   
+   
+     
+   
+   
+   <div id="install.pecl" class="chapter"><hr />
+    <h1>Installation of PECL extensions</h1>
+   <h2>Table of Contents</h2><ul class="chunklist chunklist_chapter"><li><a href="#install.pecl.intro">Introduction to PECL Installations</a></li><li><a href="#install.pecl.downloads">Downloading PECL extensions</a></li><li><a href="#install.pecl.windows">Installing a PHP extension on Windows</a></li><li><a href="#install.pecl.pear">Compiling shared PECL extensions with the pecl command</a></li><li><a href="#install.pecl.phpize">Compiling shared PECL extensions with phpize</a></li><li><a href="#install.pecl.php-config">php-config</a></li><li><a href="#install.pecl.static">Compiling PECL extensions statically into PHP</a></li></ul>
+   
+   
+    <div id="install.pecl.intro" class="sect1"><hr />
+     <h2 class="title">Introduction to PECL Installations</h2>
+     <p class="simpara">
+      <a href="https://pecl.php.net/" class="link external">&raquo;&nbsp;PECL</a> is a repository of PHP extensions that
+      are made available to you via the <a href="https://pear.php.net/" class="link external">&raquo;&nbsp;PEAR</a>
+      packaging system.  This section of the manual is intended to demonstrate
+      how to obtain and install PECL extensions.
+     </p>
+     <p class="simpara">
+      These instructions assume <code class="literal">/your/phpsrcdir/</code> is the path
+      to the PHP source distribution, and that <code class="literal">extname</code> is the name of the
+      PECL extension.  Adjust accordingly.  These instructions also assume a 
+      familiarity with the <a href="https://pear.php.net/manual/en/guide.users.commandline.cli.php" class="link external">&raquo;&nbsp;pear command</a>.
+      The information in the PEAR manual for the <code class="literal">pear</code> command also
+      applies to the <code class="literal">pecl</code> command.
+     </p>
+     <p class="simpara">
+      To be useful, a shared extension must be built, installed, and loaded.  The
+      methods described below provide you with various instructions on how to
+      build and install the extensions, but they do not automatically load them.
+      Extensions can be loaded by adding an <a href="#ini.extension" class="link">extension</a> directive to the <var class="filename">php.ini</var>
+      file, or through the use of the <span class="function"><a href="#function.dl" class="function">dl()</a></span> function.
+     </p>
+     <p class="simpara">
+      When building PHP modules, it&#039;s important to have known-good versions 
+      of the required tools (autoconf, automake, libtool, etc.) See the 
+      <a href="https://www.php.net/git.php" class="link external">&raquo;&nbsp;Anonymous Git Instructions</a> for 
+      details on the required tools, and required versions.
+     </p>
+    </div>
+   <hr />
+   
+   
+    <div id="install.pecl.downloads" class="sect1"><hr />
+     <h2 class="title">Downloading PECL extensions</h2>
+     <p class="simpara">
+      There are several options for downloading PECL extensions, such as:
+     </p>
+     <ul class="itemizedlist">
+      <li class="listitem">
+       <span class="simpara">
+        The <code class="literal">pecl install extname</code> command downloads the
+        extensions code automatically, so in this case there is no need
+        for a separate download.
+       </span>
+      </li>
+      <li class="listitem">
+       <span class="simpara">
+        <a href="https://pecl.php.net/" class="link external">&raquo;&nbsp;https://pecl.php.net/</a>
+       </span>
+       <span class="simpara">
+        The PECL web site contains information about the different extensions
+        that are offered by the PHP Development Team.  The information available
+        here includes: ChangeLog, release notes, requirements and other similar
+        details.
+       </span>
+      </li>
+      <li class="listitem">
+       <span class="simpara">
+        <code class="literal">pecl download extname</code>
+       </span>
+       <span class="simpara">
+        PECL extensions that have releases listed on the PECL web site are
+        available for download and installation using the <a href="https://pear.php.net/manual/en/guide.users.commandline.cli.php" class="link external">&raquo;&nbsp;pecl command</a>.
+        Specific revisions may also be specified.
+       </span>
+      </li>
+      <li class="listitem">
+       <span class="simpara">
+        <acronym>SVN</acronym>
+       </span>
+       <span class="simpara">
+        Most PECL extensions also reside in <acronym>SVN</acronym>.  A web-based view may
+        be seen at <a href="https://svn.php.net/viewvc/pecl/" class="link external">&raquo;&nbsp;https://svn.php.net/viewvc/pecl/</a>.  
+        To download straight from <acronym>SVN</acronym>, the following 
+        sequence of commands may be used:
+       </span>
+       <p class="para">
+        <div class="example-contents screen"><br />
+   $ svn checkout http://svn.php.net/repository/pecl/extname/trunk extname<br />
+        </div>
+       </p>
+      </li>
+      <li class="listitem">
+       <span class="simpara">
+        Windows downloads
+       </span>
+       <span class="simpara">
+        The PHP project compiles and offers Windows DLLs for most
+        PECL extensions on the respective package page.
+       </span>
+      </li>
+     </ul>
+    </div>
+   <hr />
+   
+   
+    <div id="install.pecl.windows" class="sect1"><hr />
+     <h2 class="title">Installing a PHP extension on Windows</h2>
+     <p class="para">
+      On Windows, you have two ways to load a PHP extension: either compile it into PHP, or 
+      load the DLL. Loading a pre-compiled extension is the easiest and preferred way.
+     </p>
+     <p class="para">
+      To load an extension, you need to have it available as a &quot;.dll&quot; file on your system. 
+      All the extensions are automatically and periodically compiled by the PHP Group 
+      (see next section for the download).
+     </p>
+     <p class="para">
+      To compile an extension into PHP, please refer to <a href="#install.windows.legacy.building" class="link">
+      building from source</a> documentation.
+     </p>
+     <p class="para">
+      To compile a standalone extension (aka a DLL file), please refer to <a href="#install.windows.legacy.building" class="link">
+      building from source</a> documentation. If the DLL file is available neither with your 
+      PHP distribution nor in PECL, you may have to compile it before you can start using the 
+      extension.
+     </p>
+   
+     <div class="sect2" id="install.pecl.windows.find">
+      <h3 class="title">Where to find an extension?</h3>
+      <p class="para">
+       PHP extensions are usually called &quot;php_*.dll&quot; (where the star represents the name of 
+       the extension) and  they are located under the &quot;PHP\ext&quot; folder.
+      </p>
+      <p class="para">
+       PHP ships with the extensions most useful to the majority of developers. They are 
+       called &quot;core&quot; extensions.
+      </p>
+      <p class="para">
+       However, if you need functionality not provided by any core extension, you may still be 
+       able to find one in <a href="https://pecl.php.net/" class="link external">&raquo;&nbsp;PECL</a>. The PHP Extension Community Library (PECL) is a repository for 
+       PHP Extensions, providing a directory of all known extensions and hosting facilities for 
+       downloading and development of PHP extensions.
+      </p>
+      <p class="para">
+       If you have developed an extension for your own uses, you might want to think about hosting 
+       it on PECL so that others with the same needs can benefit from your time. A nice side effect 
+       is that you give them a good chance to give you feedback, (hopefully) thanks, bug reports 
+       and even fixes/patches. Before you submit your extension for hosting on PECL, please read 
+       <a href="https://pecl.php.net/package-new.php" class="link external">&raquo;&nbsp;PECL submit</a>.
+      </p>
+     </div>
+   
+     <div class="sect2" id="install.pecl.windows.which">
+      <h3 class="title">Which extension to download?</h3>
+      <p class="para">
+       <em class="emphasis">Many times, you will find several versions of each DLL:</em>
+       <ul class="itemizedlist">
+        <li class="listitem">
+         <span class="simpara">
+          Different version numbers (at least the first two numbers should match)
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          Different thread safety settings
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          Different processor architecture (x86, x64, ...)
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          Different debugging settings
+         </span>
+        </li>
+        <li class="listitem">
+         <span class="simpara">
+          <code class="literal">etc.</code>
+         </span>
+        </li>
+       </ul>
+      </p>
+      <p class="para">
+       You should keep in mind that your extension settings should match all the 
+       settings of the PHP executable you are using. The following PHP script will 
+       tell you <em class="emphasis">all</em> about your PHP settings:
+      </p>
+      <p class="para">
+       <div class="example" id="example-35">
+        <p><strong>Example #1 <span class="function"><a href="#function.phpinfo" class="function">phpinfo()</a></span> call</strong></p>
+        <div class="example-contents">
+   <div class="phpcode"><code><span style="color: #000000">
+   <span style="color: #0000BB">&lt;?php<br />phpinfo</span><span style="color: #007700">();<br /></span><span style="color: #0000BB">?&gt;</span>
+   </span>
+   </code></div>
+        </div>
+   
+       </div>
+      </p>
+      <p class="para">
+       Or from the command line, run:
+       <div class="example-contents screen">
+   <div class="cdata"><pre>
+   drive:\\path\to\php\executable\php.exe -i
+   </pre></div>
+       </div>
+      </p>
+     </div>
+   
+     <div class="sect2" id="install.pecl.windows.loading">
+      <h3 class="title">Loading an extension</h3>
+      <p class="para">
+       The most common way to load a PHP extension is to include it in your <var class="filename">php.ini</var> 
+       configuration file. Please note that many extensions are already present in your 
+       <var class="filename">php.ini</var> and that you only need to remove the semicolon to activate them.
+      </p>
+      <p class="para">
+       Note that, on PHP version 7.2.0 and up, the extension name may be used instead of the extension&#039;s file name. As this is OS-independent and easier, especially for newcomers, it becomes the recommended way of specifying extensions to load. File names remain supported for compatibility with prior versions.
+      </p>
+       <div class="example-contents screen">
+   <div class="cdata"><pre>
+   ;extension=php_extname.dll
+   </pre></div>
+       </div>
+       <div class="example-contents screen">
+   <div class="cdata"><pre>
+   extension=php_extname.dll
+   </pre></div>
+       </div>
+       <div class="example-contents screen">
+   <div class="cdata"><pre>
+   ; On PHP version 7.2 and up, prefer :
+   extension=extname
+   zend_extension=another_extension
+   </pre></div>
+       </div>
+      <p class="para">
+       However, some web servers are confusing because they do not use the <var class="filename">php.ini</var> located alongside 
+       your PHP executable. To find out where your actual <var class="filename">php.ini</var> resides, look 
+       for its path in <span class="function"><a href="#function.phpinfo" class="function">phpinfo()</a></span>:
+      </p>
+       <div class="example-contents screen">
+   <div class="cdata"><pre>
+   Configuration File (php.ini) Path  C:\WINDOWS
+   </pre></div>
+       </div>
+       <div class="example-contents screen">
+   <div class="cdata"><pre>
+   Loaded Configuration File   C:\Program Files\PHP\5.2\php.ini
+   </pre></div>
+       </div>
+      <p class="para">
+       After activating an extension, save <var class="filename">php.ini</var>, restart the web server and check 
+       <span class="function"><a href="#function.phpinfo" class="function">phpinfo()</a></span> again. The new extension should now have its own section.
+      </p>
+     </div>
+   
+     <div class="sect2" id="install.pecl.windows.problemsolving">
+      <h3 class="title">Resolving problems</h3>
+      <p class="para">
+       If the extension does not appear in <span class="function"><a href="#function.phpinfo" class="function">phpinfo()</a></span>, you should check your logs to 
+       learn where the problem comes from.
+      </p>
+      <p class="para">
+       If you are using PHP from the command line (CLI), the extension loading error can be read 
+       directly on screen.
+      </p>
+      <p class="para">
+       If you are using PHP with a web server, the location and format of the logs vary depending on 
+       your software. Please read your web server documentation to locate the logs, as it does not 
+       have anything to do with PHP itself.
+      </p>
+      <p class="para">
+       Common problems are the location of the DLL, the value of the &quot;<a href="#ini.extension-dir" class="link">
+       extension_dir</a>&quot; setting inside <var class="filename">php.ini</var> and compile-time setting mismatches.
+      </p>
+      <p class="para">
+       If the problem lies in a compile-time setting mismatch, you probably didn&#039;t download the right DLL. 
+       Try downloading again the extension with the right settings. Again, <span class="function"><a href="#function.phpinfo" class="function">phpinfo()</a></span> 
+       can be of great help.
+      </p>
+     </div>
+   
+    </div>
+   <hr />
+   
+    
+    <div id="install.pecl.pear" class="sect1"><hr />
+     <h2 class="title">Compiling shared PECL extensions with the pecl command</h2>
+     <p class="simpara">
+      PECL makes it easy to create shared PHP extensions. Using the 
+      <a href="https://pear.php.net/manual/en/guide.users.commandline.cli.php" class="link external">&raquo;&nbsp;pecl command</a>, do the following:
+     </p>
+     <p class="para">
+      <div class="example-contents screen"><br />
+   $ pecl install extname<br />
+      </div>
+     </p>
+     <p class="simpara">
+      This will download the source for <em class="emphasis">extname</em>, 
+      compile, and install <var class="filename">extname.so</var> into your <a href="#ini.extension-dir" class="link">extension_dir</a>.  
+      <var class="filename">extname.so</var> may then be loaded via <var class="filename">php.ini</var>
+     </p>
+     <p class="simpara">
+      By default, the <code class="literal">pecl</code> command will not install
+      packages that are marked with the <code class="literal">alpha</code> or
+      <code class="literal">beta</code> state.  If no <code class="literal">stable</code> packages
+      are available, you may install a <code class="literal">beta</code> package using the
+      following command:
+     </p>
+     <p class="para">
+      <div class="example-contents screen"><br />
+   $ pecl install extname-beta<br />
+      </div>
+     </p>
+     <p class="para">
+      You may also install a specific version using this variant:
+     </p>
+     <p class="para">
+      <div class="example-contents screen"><br />
+   $ pecl install extname-0.1<br />
+      </div>
+     </p>
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <p class="para">
+       After enabling the extension in <var class="filename">php.ini</var>, restarting the web service is
+       required for the changes to be picked up.
+      </p>
+     </p></blockquote>
+    </div>
+   <hr />
+   
+   
+    <div id="install.pecl.phpize" class="sect1"><hr />
+     <h2 class="title">Compiling shared PECL extensions with phpize</h2>
+     <p class="simpara">
+      Sometimes, using the <code class="literal">pecl</code> installer is not an option.
+      This could be because you&#039;re behind a firewall, or it could be because the
+      extension you want to install is not available as a PECL compatible
+      package, such as unreleased extensions from SVN.  If you need to build such
+      an extension, you can use the lower-level build tools to perform the build
+      manually.
+     </p>
+     <p class="simpara">
+      The <code class="literal">phpize</code> command is used to prepare the build
+      environment for a PHP extension.  In the following sample, the sources for
+      an extension are in a directory named <var class="filename">extname</var>:
+     </p>
+     <p class="para">
+      <div class="example-contents screen">
+   <div class="cdata"><pre>
+   $ cd extname
+   $ phpize
+   $ ./configure
+   $ make
+   # make install
+   </pre></div>
+      </div>
+     </p>
+     <p class="simpara">
+      A successful install will have created <var class="filename">extname.so</var> and put it 
+      into the PHP 
+      <a href="#ini.extension-dir" class="link">extensions directory</a>.  You&#039;ll need
+      to and adjust <var class="filename">php.ini</var> and add an <code class="literal">extension=extname.so</code>
+      line before you can use the extension.
+     </p>
+     <p class="simpara">
+      If the system is missing the <code class="literal">phpize</code> command, and precompiled
+      packages (like RPM&#039;s) are used, be sure to also install the appropriate 
+      devel version of the PHP package as they often include the 
+      <code class="literal">phpize</code> command along with the appropriate header files to 
+      build PHP and its extensions.
+     </p>
+     <p class="simpara">
+      Execute <strong class="command">phpize --help</strong> to display additional usage information.
+     </p>
+    </div>
+   <hr />
+   
+    
+    <div id="install.pecl.php-config" class="sect1"><hr />
+     <h2 class="title">php-config</h2>
+     
+     <p class="para">
+      php-config is a simple shell script for obtaining information about the
+      installed PHP configuration.
+     </p>
+     
+     <p class="para">
+      When compiling extensions, if you have multiple PHP versions installed, you
+      may specify for which installation you&#039;d like to build by using the
+      <code class="literal">--with-php-config</code> option during configuration, specifying
+      the path of the respective php-config script.
+     </p>
+     
+     <p class="para">
+      The list of command line options provided by the php-config script can be queried
+      anytime by running php-config with the <strong class="option unknown">-h</strong> switch:
+      <div class="example-contents screen">
+   <div class="cdata"><pre>
+   Usage: /usr/local/bin/php-config [OPTION]
+   Options:
+     --prefix            [...]
+     --includes          [...]
+     --ldflags           [...]
+     --libs              [...]
+     --extension-dir     [...]
+     --include-dir       [...]
+     --php-binary        [...]
+     --php-sapis         [...]
+     --configure-options [...]
+     --version           [...]
+     --vernum            [...]
+   </pre></div>
+      </div>
+     </p>
+     
+     <p class="para">
+      <table class="doctable table">
+       <caption><strong>Command line options</strong></caption>
+       
+        <thead>
+         <tr>
+          <th>Option</th>
+          <th>Description</th>
+         </tr>
+   
+        </thead>
+   
+        <tbody class="tbody">
+         <tr>
+          <td>--prefix</td>
+          <td>Directory prefix where PHP is installed, e.g. /usr/local</td>
+         </tr>
+   
+         <tr>
+          <td>--includes</td>
+          <td>List of -I options with all include files</td>
+         </tr>
+   
+         <tr>
+          <td>--ldflags</td>
+          <td>LD Flags which PHP was compiled with</td>
+         </tr>
+   
+         <tr>
+          <td>--libs</td>
+          <td>Extra libraries which PHP was compiled with</td>
+         </tr>
+   
+         <tr>
+          <td>--extension-dir</td>
+          <td>Directory where extensions are searched by default</td>
+         </tr>
+   
+         <tr>
+          <td>--include-dir</td>
+          <td>Directory prefix where header files are installed by default</td>
+         </tr>
+   
+         <tr>
+          <td>--php-binary</td>
+          <td>Full path to php CLI or CGI binary</td>
+         </tr>
+   
+         <tr>
+          <td>--php-sapis</td>
+          <td>Show all SAPI modules available</td>
+         </tr>
+   
+         <tr>
+          <td>--configure-options</td>
+          <td>Configure options to recreate configuration of current PHP installation</td>
+         </tr>
+   
+         <tr>
+          <td>--version</td>
+          <td>PHP version</td>
+         </tr>
+   
+         <tr>
+          <td>--vernum</td>
+          <td>PHP version as integer</td>
+         </tr>
+   
+        </tbody>
+       
+      </table>
+   
+     </p>
+    </div>
+   <hr />
+   
+   
+    <div id="install.pecl.static" class="sect1"><hr />
+     <h2 class="title">Compiling PECL extensions statically into PHP</h2>
+     <p class="simpara">
+      You might find that you need to build a PECL extension statically into your
+      PHP binary.  To do this, you&#039;ll need to place the extension source under
+      the <var class="filename">/your/phpsrcdir/ext/</var> directory and tell the PHP build
+      system to regenerate its configure script.
+     </p>
+     <p class="para">
+      <div class="example-contents screen">
+   <div class="cdata"><pre>
+   $ cd /your/phpsrcdir/ext
+   $ pecl download extname
+   $ gzip -d &lt; extname.tgz | tar -xvf -
+   $ mv extname-x.x.x extname
+   </pre></div>
+      </div>
+     </p>
+     <p class="simpara">
+      This will result in the following directory:
+     </p>
+     <p class="para">
+      <div class="example-contents screen"><br />
+       /your/phpsrcdir/ext/extname<br />
+      </div>
+     </p>
+     <p class="simpara">
+      From here, force PHP to rebuild the configure script, and then build PHP as normal:
+     </p>
+     <p class="para">
+      <div class="example-contents screen"><br />
+   $ cd /your/phpsrcdir <br />
+   $ rm configure<br />
+   $ ./buildconf --force<br />
+   $ ./configure --help<br />
+   $ ./configure --with-extname --enable-someotherext --with-foobar<br />
+   $ make<br />
+   $ make install<br />
+      </div>
+     </p>
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <span class="simpara">
+       To run the &#039;buildconf&#039; script you need autoconf 2.13 and automake 1.4+
+       (newer versions of autoconf may work, but are not supported).
+      </span>
+     </p></blockquote>
+     <p class="simpara">
+      Whether <code class="literal">--enable-extname</code> or <code class="literal">--with-extname
+      </code> is used depends on the extension.  Typically an extension that 
+      does not require external libraries uses <code class="literal">--enable</code>.  To be
+      sure, run the following after buildconf:
+     </p>
+     <p class="para">
+      <div class="example-contents screen"><br />
+   $ ./configure --help | grep extname<br />
+      </div>
+     </p>
+    </div>
+   <hr />
+   
+   </div>
+   
+   <hr />
+      
+   
+   
+   
+     
+   
+   
+     <div id="install.problems" class="chapter"><hr />
+      <h1>Problems?</h1>
+   <h2>Table of Contents</h2><ul class="chunklist chunklist_chapter"><li><a href="#install.problems.faq">Read the FAQ</a></li><li><a href="#install.problems.support">Other problems</a></li><li><a href="#install.problems.bugs">Bug reports</a></li></ul>
+   
+   
+      <div id="install.problems.faq" class="sect1"><hr />
+       <h2 class="title">Read the FAQ</h2>
+       <p class="simpara">
+        Some problems are more common than others. The most
+        common ones are listed in the <a href="#faq" class="link">PHP
+        FAQ</a>, part of this manual.
+       </p>
+      </div>
+   <hr />
+   
+   
+      <div id="install.problems.support" class="sect1"><hr />
+       <h2 class="title">Other problems</h2>
+   
+       <p class="simpara">
+        If you are still stuck, someone on the PHP installation mailing list may be
+        able to help you. You should check out the archive first, in case
+        someone already answered someone else who had the same problem as
+        you. The archives are available from the support page on <a href="https://www.php.net/support.php" class="link external">&raquo;&nbsp;https://www.php.net/support.php</a>. To subscribe to the PHP installation
+        mailing list, send an empty mail to <a href="mailto:php-install-subscribe@lists.php.net" class="link external">&raquo;&nbsp;php-install-subscribe@lists.php.net</a>.
+        The mailing list address is <a href="mailto:php-install@lists.php.net" class="link external">&raquo;&nbsp;php-install@lists.php.net</a>.
+       </p>
+       <p class="simpara">
+        If you want to get help on the mailing list, please try to be
+        precise and give the necessary details about your environment
+        (which operating system, what PHP version, what web server, if
+        you are running PHP as CGI or a server module, <a href="#ini.safe-mode" class="link">safe mode</a>, etc.), and
+        preferably enough code to make others able to reproduce and test
+        your problem.
+       </p>
+      </div>
+   <hr />
+   
+   
+      <div id="install.problems.bugs" class="sect1"><hr />
+       <h2 class="title">Bug reports</h2>
+       <p class="simpara">
+        If you think you have found a bug in PHP, please report it.  The
+        PHP developers probably don&#039;t know about it, and unless you
+        report it, chances are it won&#039;t be fixed. You can report bugs
+        using the bug-tracking system at <a href="https://bugs.php.net/" class="link external">&raquo;&nbsp;https://bugs.php.net/</a>. Please do not
+        send bug reports in mailing list or personal letters. The
+        bug system is also suitable to submit feature requests.
+       </p>
+       <p class="simpara">
+        Read the <a href="https://bugs.php.net/how-to-report.php" class="link external">&raquo;&nbsp;How to report a bug</a> 
+        document before submitting any bug reports!
+       </p>
+      </div>
+   <hr />
+   
+     </div>
+   
+   <hr />
+   
+   
+   
+   
+     
+   
+   <div id="configuration" class="chapter"><hr />
+    <h1>Runtime Configuration</h1>
+   <h2>Table of Contents</h2><ul class="chunklist chunklist_chapter"><li><a href="#configuration.file">The configuration file</a></li><li><a href="#configuration.file.per-user">.user.ini files</a></li><li><a href="#configuration.changes.modes">Where a configuration setting may be set</a></li><li><a href="#configuration.changes">How to change configuration settings</a></li></ul>
+   
+    
+    <div id="configuration.file" class="sect1"><hr />
+     <h2 class="title">The configuration file</h2>
+     
+     <p class="simpara">
+      The configuration file (<var class="filename">php.ini</var>)
+      is read when PHP starts up. For the server module versions of PHP,
+      this happens only once when the web server is started. For the
+      <acronym title="Common Gateway Interface">CGI</acronym> and <acronym title="Command Line Interpreter/Interface">CLI</acronym> versions, it happens on
+      every invocation.
+     </p>
+     <p class="para">
+      <var class="filename">php.ini</var> is searched for in these locations (in order):
+      <ul class="itemizedlist">
+       <li class="listitem">
+        <span class="simpara">
+         SAPI module specific location (<code class="literal">PHPIniDir</code> directive
+         in Apache 2, <code class="literal">-c</code> command line option in CGI and CLI,
+         <code class="literal">php_ini</code> parameter in NSAPI,
+         <code class="literal">PHP_INI_PATH</code> environment variable in THTTPD)
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         The <var class="varname">PHPRC</var> environment variable. Before PHP 5.2.0,
+         this was checked after the registry key mentioned below.
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         As of PHP 5.2.0, the location of the <code class="literal">php.ini</code> file
+         can be set for different versions of PHP. The root of the registry keys depends on 32- or 64-bitness of the installed OS and PHP.
+         For 32-bit PHP on a 32-bit OS or a 64-bit PHP on a 64-bit OS use <code class="literal">[(HKEY_LOCAL_MACHINE\SOFTWARE\PHP]</code> for 32-bit version of PHP on a 64-bit OS use <code class="literal">[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\PHP]</code>] instead.
+         For same bitness installation the following registry keys
+         are examined in order:
+         <code class="literal">[HKEY_LOCAL_MACHINE\SOFTWARE\PHP\x.y.z]</code>,
+         <code class="literal">[HKEY_LOCAL_MACHINE\SOFTWARE\PHP\x.y]</code> and
+         <code class="literal">[HKEY_LOCAL_MACHINE\SOFTWARE\PHP\x]</code>, where
+         x, y and z mean the PHP major, minor and release versions.
+         For 32 bit versions of PHP on a 64 bit OS the following registry keys are examined in order:
+         <code class="literal">[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6421Node\PHP\x.y.z]</code>,
+         <code class="literal">[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6421Node\PHP\x.y]</code> and
+         <code class="literal">[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6421Node\PHP\x]</code>, where
+         x, y and z mean the PHP major, minor and release versions.
+         If there is a
+         value for <code class="literal">IniFilePath</code> in any of these keys, the first
+         one found will be used as the location of the <code class="literal">php.ini</code>
+         (Windows only).
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         <code class="literal">[HKEY_LOCAL_MACHINE\SOFTWARE\PHP]</code> or
+         <code class="literal">[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\PHP]</code>, value of
+         <code class="literal">IniFilePath</code> (Windows only).
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         Current working directory (except CLI).
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         The web server&#039;s directory (for SAPI modules), or directory of PHP
+         (otherwise in Windows).
+        </span>
+       </li>
+       <li class="listitem">
+        <span class="simpara">
+         Windows directory (<var class="filename">C:\windows</var>
+         or <var class="filename">C:\winnt</var>) (for Windows), or
+         <code class="literal">--with-config-file-path</code> compile time option.
+        </span>
+       </li>
+      </ul>
+     </p>
+     <p class="para">
+      If <var class="filename">php-SAPI.ini</var> exists (where SAPI is the SAPI in use,
+      so, for example, <var class="filename">php-cli.ini</var> or
+      <var class="filename">php-apache.ini</var>), it is used instead of <var class="filename">php.ini</var>.
+      The SAPI name can be determined with <span class="function"><a href="#function.php-sapi-name" class="function">php_sapi_name()</a></span>.
+     </p>
+     <blockquote class="note"><p><strong class="note">Note</strong>: 
+      <p class="para">
+       The Apache web server changes the directory to root at startup, causing
+       PHP to attempt to read <var class="filename">php.ini</var> from the root filesystem if it exists.
+      </p>
+     </p></blockquote>
+     <p class="para">
+      Using environment variables can be used in <var class="filename">php.ini</var> as shown below.
+     </p>
+     <p class="para">
+      <div class="example" id="example-36">
+       <p><strong>Example #1 <var class="filename">php.ini</var> Environment Variables</strong></p>
+        <div class="example-contents">
+   <div class="inicode"><pre class="inicode">; PHP_MEMORY_LIMIT is taken from environment
+   memory_limit = ${PHP_MEMORY_LIMIT}</pre>
+   </div>
+        </div>
+   
+       </div>
+     </p>
+     <p class="para">
+      The <var class="filename">php.ini</var> directives handled by extensions are documented
+      on the respective pages of the extensions themselves. A <a href="#ini" class="link">list of
+      the core directives</a> is available in the appendix. Not all
+      PHP directives are necessarily documented in this manual: for a complete list
+      of directives available in your PHP version, please read your well commented
+      <var class="filename">php.ini</var> file. Alternatively, you may find
+      <a href="https://git.php.net/?p=php-src.git;a=blob;f=php.ini-production;hb=HEAD" class="link external">&raquo;&nbsp;the latest <var class="filename">php.ini</var></a> from Git
+      helpful too.
+     </p>
+     <p class="para">
+      <div class="example" id="example-37">
+       <p><strong>Example #2 <var class="filename">php.ini</var> example</strong></p>
+       <div class="example-contents">
+   <div class="inicode"><pre class="inicode">; any text on a line after an unquoted semicolon (;) is ignored
+   [php] ; section markers (text within square brackets) are also ignored
+   ; Boolean values can be set to either:
+   ;    true, on, yes
+   ; or false, off, no, none
+   register_globals = off
+   track_errors = yes
+   
+   ; you can enclose strings in double-quotes
+   include_path = &quot;.:/usr/local/lib/php&quot;
+   
+   ; backslashes are treated the same as any other character
+   include_path = &quot;.;c:\php\lib&quot;</pre>
+   </div>
+       </div>
+   
+       
+      </div>
+     </p>
+     <p class="para">
+      Since PHP 5.1.0, it is possible to refer to existing .ini variables from
+      within .ini files. Example: <code class="literal">open_basedir = ${open_basedir}
+      &quot;:/new/dir&quot;</code>.
+     </p>
+     <div class="sect2" id="configuration.file.scan">
+      <h3 class="title">Scan directories</h3>
+   
+      <p class="para">
+       It is possible to configure PHP to scan for .ini files in a directory
+       after reading <var class="filename">php.ini</var>. This can be done at compile time by setting the
+       <strong class="option configure">--with-config-file-scan-dir</strong> option. In
+       PHP 5.2.0 and later, the scan directory can then be overridden at run time
+       by setting the <var class="varname">PHP_INI_SCAN_DIR</var> environment variable.
+      </p>
+   
+      <p class="para">
+       It is possible to scan multiple directories by separating them with the
+       platform-specific path separator (<code class="literal">;</code> on Windows, NetWare
+       and RISC OS; <code class="literal">:</code> on all other platforms; the value PHP is
+       using is available as the <strong><code>PATH_SEPARATOR</code></strong> constant).
+       If a blank directory is given in <var class="varname">PHP_INI_SCAN_DIR</var>, PHP
+       will also scan the directory given at compile time via
+       <strong class="option configure">--with-config-file-scan-dir</strong>.
+      </p>
+   
+      <p class="para">
+       Within each directory, PHP will scan all files ending in
+       <code class="literal">.ini</code> in alphabetical order. A list of the files that
+       were loaded, and in what order, is available by calling
+       <span class="function"><a href="#function.php-ini-scanned-files" class="function">php_ini_scanned_files()</a></span>, or by running PHP with the
+       <strong class="option unknown">--ini</strong> option.
+      </p>
+   
+      <div class="informalexample">
+       <div class="example-contents screen">
+   <div class="cdata"><pre>
+   Assuming PHP is configured with --with-config-file-scan-dir=/etc/php.d,
+   and that the path separator is :...
+   
+   $ php
+     PHP will load all files in /etc/php.d/*.ini as configuration files.
+   
+   $ PHP_INI_SCAN_DIR=/usr/local/etc/php.d php
+     PHP will load all files in /usr/local/etc/php.d/*.ini as
+     configuration files.
+   
+   $ PHP_INI_SCAN_DIR=:/usr/local/etc/php.d php
+     PHP will load all files in /etc/php.d/*.ini, then
+     /usr/local/etc/php.d/*.ini as configuration files.
+   
+   $ PHP_INI_SCAN_DIR=/usr/local/etc/php.d: php
+     PHP will load all files in /usr/local/etc/php.d/*.ini, then
+     /etc/php.d/*.ini as configuration files.
+   </pre></div>
+       </div>
+      </div>
+     </div>
+     <div class="sect2" id="configuration.file.changelog">
+      <h3 class="title">Changelog</h3>
+   
+      <p class="para">
+       <table class="doctable informaltable">
+        
+         <thead>
+          <tr>
+           <th>Version</th>
+           <th>Description</th>
+          </tr>
+   
+         </thead>
+   
+         <tbody class="tbody">
+          <tr>
+           <td>7.0.0</td>
+           <td>
+            Hash marks (<code class="literal">#</code>) are no longer recognized as comments.
+           </td>
+          </tr>
+   
+          <tr>
+           <td>5.3.0</td>
+           <td>
+            Hash marks (<code class="literal">#</code>) should no longer be used as comments
+            and will throw a deprecation warning if used.
+           </td>
+          </tr>
+   
+          <tr>
+           <td>5.2.0</td>
+           <td>
+            The <var class="varname">PHP_INI_SCAN_DIR</var> environment variable can be
+            set to override the scan directory set via the configure script.
+           </td>
+          </tr>
+   
+          <tr>
+           <td>5.1.0</td>
+           <td>
+            It is possible to refer to existing .ini variables from within .ini files.
+           </td>
+          </tr>
+   
+         </tbody>
+        
+       </table>
+   
+      </p>
+     </div>
+    </div>
+   <hr />
+   
+    
+    <div id="configuration.file.per-user" class="sect1"><hr />
+     <h2 class="title">.user.ini files</h2>
+     
+     <p class="simpara">
+      Since PHP 5.3.0, PHP includes support for configuration INI files on a
+      per-directory basis. These files are processed <em class="emphasis">only</em> by
+      the CGI/FastCGI SAPI. This functionality obsoletes the PECL htscanner
+      extension. If you are running PHP as Apache module, use <var class="filename">.htaccess</var> files for the same
+      effect.
+     </p>
+     
+     <p class="simpara">
+      In addition to the main <var class="filename">php.ini</var> file, PHP scans for INI files in each
+      directory, starting with the directory of the requested PHP file, and
+      working its way up to the current document root (as set in
+      <var class="varname"><a href="#reserved.variables.server" class="classname">$_SERVER['DOCUMENT_ROOT']</a></var>). In case the PHP file is
+      outside the document root, only its directory is scanned.
+     </p>
+     <p class="simpara">
+      Only INI settings with the
+      modes <strong><code>PHP_INI_PERDIR</code></strong> and
+      <strong><code>PHP_INI_USER</code></strong> will be recognized in .user.ini-style INI
+      files.
+     </p>
+     
+     <p class="simpara">
+      Two new INI directives,
+      <a href="#ini.user-ini.filename" class="link">user_ini.filename</a> and
+      <a href="#ini.user-ini.cache-ttl" class="link">user_ini.cache_ttl</a>
+      control the use of user INI files.
+     </p>
+     
+     <p class="simpara">
+      <a href="#ini.user-ini.filename" class="link">user_ini.filename</a> sets the name of the file PHP looks for
+      in each directory; if set to an empty string, PHP doesn&#039;t scan at all. The
+      default is <code class="literal">.user.ini</code>.
+     </p>
+     
+     <p class="simpara">
+      <a href="#ini.user-ini.cache-ttl" class="link">user_ini.cache_ttl</a> controls how often user INI files are
+      re-read. The default is 300 seconds (5 minutes).
+     </p>
+    </div>
+   <hr />
+   
+    
+    <div id="configuration.changes.modes" class="sect1"><hr />
+     <h2 class="title">Where a configuration setting may be set</h2>
+     
+     <p class="para">
+      These modes determine when and where a PHP directive may or may not
+      be set, and each directive within the manual refers to one of these
+      modes. For example, some settings may be set within a PHP script
+      using <span class="function"><a href="#function.ini-set" class="function">ini_set()</a></span>, whereas others may require
+      <var class="filename">php.ini</var> or <var class="filename">httpd.conf</var>.
+     </p>
+     
+     <p class="para">
+      For example, the
+      <a href="#ini.output-buffering" class="link">output_buffering</a> setting
+      is <code class="literal">PHP_INI_PERDIR</code> therefore it may not be set using
+      <span class="function"><a href="#function.ini-set" class="function">ini_set()</a></span>. However, the
+      <a href="#ini.display-errors" class="link">display_errors</a> directive is
+      <code class="literal">PHP_INI_ALL</code> therefore it may be set anywhere,
+      including with <span class="function"><a href="#function.ini-set" class="function">ini_set()</a></span>.
+     </p>
+     
+     <p class="para">
+      <table class="doctable table">
+       <caption><strong>Definition of PHP_INI_* modes</strong></caption>
+       
+        <thead>
+         <tr>
+          <th>Mode</th>
+          <th>Meaning</th>
+         </tr>
+   
+        </thead>
+   
+        <tbody class="tbody">
+         <tr>
+          <td><code class="literal">PHP_INI_USER</code></td>
+          <td>
+           Entry can be set in user scripts (like with <span class="function"><a href="#function.ini-set" class="function">ini_set()</a></span>)
+           or in the <a href="#configuration.changes.windows" class="link">Windows registry</a>.
+           Since PHP 5.3, entry can be set in <var class="filename">.user.ini</var>
+          </td>
+         </tr>
+   
+         <tr>
+          <td><code class="literal">PHP_INI_PERDIR</code></td>
+          <td>
+           Entry can be set in <var class="filename">php.ini</var>, <var class="filename">.htaccess</var>, <var class="filename">httpd.conf</var> or <var class="filename">.user.ini</var>
+           (since PHP 5.3)
+          </td>
+         </tr>
+   
+         <tr>
+          <td><code class="literal">PHP_INI_SYSTEM</code></td>
+          <td>Entry can be set in <var class="filename">php.ini</var> or <var class="filename">httpd.conf</var></td>
+         </tr>
+   
+         <tr>
+          <td><code class="literal">PHP_INI_ALL</code></td>
+          <td>Entry can be set anywhere</td>
+         </tr>
+   
+        </tbody>
+       
+      </table>
+   
+     </p>
+    </div>
+   <hr />
+   
+    
+    <div id="configuration.changes" class="sect1"><hr />
+     <h2 class="title">How to change configuration settings</h2>
+     
+     <div class="sect2" id="configuration.changes.apache">
+      <h3 class="title">Running PHP as an Apache module</h3>
+      <p class="simpara">
+       When using PHP as an Apache module, you can also change the
+       configuration settings using directives in Apache configuration
+       files (e.g. <var class="filename">httpd.conf</var>) and <var class="filename">.htaccess</var> files. You will need
+       &quot;AllowOverride Options&quot; or &quot;AllowOverride All&quot; privileges to do so.
+      </p>
+      
+      <p class="para">
+       There are several Apache directives that allow you
+       to change the PHP configuration from within the Apache configuration
+       files.  For a listing of which directives are
+       <strong><code>PHP_INI_ALL</code></strong>, <strong><code>PHP_INI_PERDIR</code></strong>,
+       or <strong><code>PHP_INI_SYSTEM</code></strong>, have a look at the
+       <a href="#ini.list" class="link">List of php.ini directives</a> appendix.
+      </p>
+      
+      <p class="para">
+       <dl>
+   
+        
+         <dt>
+   
+          <code class="systemitem systemitem">php_value</code>
+          <code class="parameter">name</code>
+          <code class="parameter">value</code>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Sets the value of the specified directive.
+           Can be used only with <strong><code>PHP_INI_ALL</code></strong> and <strong><code>PHP_INI_PERDIR</code></strong> type directives.
+           To clear a previously set value use <code class="literal">none</code> as the value.
+          </p>
+          <blockquote class="note"><p><strong class="note">Note</strong>: 
+           <span class="simpara">
+            Don&#039;t use <code class="systemitem systemitem">php_value</code> to set boolean values.
+            <code class="systemitem systemitem">php_flag</code> (see below) should be used instead.
+           </span>
+          </p></blockquote>
+         </dd>
+   
+        
+        
+         <dt>
+   
+          <code class="systemitem systemitem">php_flag</code>
+          <code class="parameter">name</code>
+          <code class="parameter">on|off</code>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Used to set a boolean configuration directive.
+           Can be used only with <strong><code>PHP_INI_ALL</code></strong> and
+           <strong><code>PHP_INI_PERDIR</code></strong> type directives.
+          </p>
+         </dd>
+   
+        
+        
+         <dt>
+   
+          <code class="systemitem systemitem">php_admin_value</code>
+          <code class="parameter">name</code>
+          <code class="parameter">value</code>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Sets the value of the specified directive.
+           This <em class="emphasis">can not be used</em> in <var class="filename">.htaccess</var> files.
+           Any directive type set with <code class="systemitem systemitem">php_admin_value</code>
+           can not be overridden by <var class="filename">.htaccess</var> or <span class="function"><a href="#function.ini-set" class="function">ini_set()</a></span>.
+           To clear a previously set value use <code class="literal">none</code> as the value.
+          </p>
+         </dd>
+   
+        
+        
+         <dt>
+   
+          <code class="systemitem systemitem">php_admin_flag</code>
+          <code class="parameter">name</code>
+          <code class="parameter">on|off</code>
+         </dt>
+   
+         <dd>
+   
+          <p class="para">
+           Used to set a boolean configuration directive.
+           This <em class="emphasis">can not be used</em> in <var class="filename">.htaccess</var> files.
+           Any directive type set with <code class="systemitem systemitem">php_admin_flag</code>
+           can not be overridden by <var class="filename">.htaccess</var> or <span class="function"><a href="#function.ini-set" class="function">ini_set()</a></span>.
+          </p>
+         </dd>
+   
+        
+       </dl>
+   
+      </p>
+      <p class="para">
+       <div class="example" id="example-38">
+        <p><strong>Example #1 Apache configuration example</strong></p>
+        <div class="example-contents">
+   <div class="inicode"><pre class="inicode">&lt;IfModule mod_php5.c&gt;
+     php_value include_path &quot;.:/usr/local/lib/php&quot;
+     php_admin_flag engine on
+   &lt;/IfModule&gt;
+   &lt;IfModule mod_php4.c&gt;
+     php_value include_path &quot;.:/usr/local/lib/php&quot;
+     php_admin_flag engine on
+   &lt;/IfModule&gt;</pre>
+   </div>
+        </div>
+   
+       </div>
+      </p>
+      <div class="caution"><strong class="caution">Caution</strong>
+       <p class="para">
+        PHP constants do not exist outside of PHP. For example, in
+        <var class="filename">httpd.conf</var> you can not use PHP constants
+        such as <strong><code>E_ALL</code></strong> or <strong><code>E_NOTICE</code></strong>
+        to set the <a href="#ini.error-reporting" class="link">error_reporting</a>
+        directive as they will have no meaning and will evaluate to
+        <em class="emphasis">0</em>. Use the associated bitmask values instead.
+        These constants can be used in <var class="filename">php.ini</var>
+       </p>
+      </div>
+     </div>
+     
+     <div class="sect2" id="configuration.changes.windows">
+      <h3 class="title">Changing PHP configuration via the Windows registry</h3>
+      <p class="simpara">
+       When running PHP on Windows, the configuration values can be
+       modified on a per-directory basis using the Windows registry. The
+       configuration values are stored in the registry key
+       <code class="literal">HKLM\SOFTWARE\PHP\Per Directory Values</code>,
+       in the sub-keys corresponding to the path names. For example, configuration
+       values for the directory <code class="literal">c:\inetpub\wwwroot</code> would
+       be stored in the key <code class="literal">HKLM\SOFTWARE\PHP\Per Directory
+       Values\c\inetpub\wwwroot</code>. The settings for the
+       directory would be active for any script running from this
+       directory or any subdirectory of it. The values under the key
+       should have the name of the PHP configuration directive and the
+       string value. PHP constants in the values are not parsed.
+       However, only configuration values changeable in
+       <strong><code>PHP_INI_USER</code></strong> can be set
+       this way, <strong><code>PHP_INI_PERDIR</code></strong> values can not,
+       because these configuration values are re-read for each request.
+      </p>
+     </div>
+     
+     <div class="sect2" id="configuration.changes.other">
+      <h3 class="title">Other interfaces to PHP</h3>
+      <p class="para">
+       Regardless of how you run PHP, you can change certain values at runtime
+       of your scripts through <span class="function"><a href="#function.ini-set" class="function">ini_set()</a></span>. See the documentation
+       on the <span class="function"><a href="#function.ini-set" class="function">ini_set()</a></span> page for more information.
+      </p>
+      <p class="para">
+       If you are interested in a complete list of configuration settings
+       on your system with their current values, you can execute the
+       <span class="function"><a href="#function.phpinfo" class="function">phpinfo()</a></span> function, and review the resulting
+       page. You can also access the values of individual configuration
+       directives at runtime using <span class="function"><a href="#function.ini-get" class="function">ini_get()</a></span> or
+       <span class="function"><a href="#function.get-cfg-var" class="function">get_cfg_var()</a></span>.
+      </p>
+     </div>
+    </div>
+   <hr />
+   
+    
+   </div>
+   
+   <hr />
+   
+   
+   
+   
+    <ul class="chunklist chunklist_book"><li><a href="#install.general">General Installation Considerations</a></li><li><a href="#install.unix">Installation on Unix systems</a><ul class="chunklist chunklist_book chunklist_children"><li><a href="#install.unix.apache">Apache 1.3.x on Unix systems</a></li><li><a href="#install.unix.apache2">Apache 2.x on Unix systems</a></li><li><a href="#install.unix.nginx">Nginx 1.4.x on Unix systems</a></li><li><a href="#install.unix.lighttpd-14">Lighttpd 1.4 on Unix systems</a></li><li><a href="#install.unix.sun">Sun, iPlanet and Netscape servers on Sun Solaris</a></li><li><a href="#install.unix.litespeed">LiteSpeed Web Server/OpenLiteSpeed Web Server on Unix systems</a></li><li><a href="#install.unix.commandline">CGI and command line setups</a></li><li><a href="#install.unix.hpux">HP-UX specific installation notes</a></li><li><a href="#install.unix.openbsd">OpenBSD installation notes</a></li><li><a href="#install.unix.solaris">Solaris specific installation tips</a></li><li><a href="#install.unix.debian">Debian GNU/Linux installation notes</a></li></ul></li><li><a href="#install.macosx">Installation on macOS</a><ul class="chunklist chunklist_book chunklist_children"><li><a href="#install.macosx.packages">Using Packages</a></li><li><a href="#install.macosx.bundled">Using the bundled PHP</a></li><li><a href="#install.macosx.compile">Compiling PHP on macOS</a></li></ul></li><li><a href="#install.windows">Installation on Windows systems</a><ul class="chunklist chunklist_book chunklist_children"><li><a href="#install.windows.requirements">Install Requirements</a></li><li><a href="#install.windows.pecl">PECL</a></li><li><a href="#install.windows.tools">PHP Installer Tools on Windows</a></li><li><a href="#install.windows.recommended">Recommended Configuration on Windows systems</a></li><li><a href="#install.windows.manual">Manual PHP Installation on Windows</a></li><li><a href="#install.windows.troubleshooting">Troubleshooting PHP on Windows</a></li><li><a href="#install.windows.legacy.index">Installation on old Windows systems</a></li></ul></li><li><a href="#install.cloud">Installation on Cloud Computing platforms</a><ul class="chunklist chunklist_book chunklist_children"><li><a href="#install.cloud.azure">Azure App Services</a></li><li><a href="#install.cloud.ec2">Amazon EC2</a></li></ul></li><li><a href="#install.fpm">FastCGI Process Manager (FPM)</a><ul class="chunklist chunklist_book chunklist_children"><li><a href="#install.fpm.install">Installation</a></li><li><a href="#install.fpm.configuration">Configuration</a></li></ul></li><li><a href="#install.pecl">Installation of PECL extensions</a><ul class="chunklist chunklist_book chunklist_children"><li><a href="#install.pecl.intro">Introduction to PECL Installations</a></li><li><a href="#install.pecl.downloads">Downloading PECL extensions</a></li><li><a href="#install.pecl.windows">Installing a PHP extension on Windows</a></li><li><a href="#install.pecl.pear">Compiling shared PECL extensions with the pecl command</a></li><li><a href="#install.pecl.phpize">Compiling shared PECL extensions with phpize</a></li><li><a href="#install.pecl.php-config">php-config</a></li><li><a href="#install.pecl.static">Compiling PECL extensions statically into PHP</a></li></ul></li><li><a href="#install.problems">Problems?</a><ul class="chunklist chunklist_book chunklist_children"><li><a href="#install.problems.faq">Read the FAQ</a></li><li><a href="#install.problems.support">Other problems</a></li><li><a href="#install.problems.bugs">Bug reports</a></li></ul></li><li><a href="#configuration">Runtime Configuration</a><ul class="chunklist chunklist_book chunklist_children"><li><a href="#configuration.file">The configuration file</a></li><li><a href="#configuration.file.per-user">.user.ini files</a></li><li><a href="#configuration.changes.modes">Where a configuration setting may be set</a></li><li><a href="#configuration.changes">How to change configuration settings</a></li></ul></li></ul></div>
+   <hr />
+   
+   
+   
